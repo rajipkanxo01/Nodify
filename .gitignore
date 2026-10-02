@@ -1,0 +1,71 @@
+# Unity-generated folders
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Pp]rofilerCaptures/
+/[Rr]ecordings/
+
+# Build output
+/[Bb]uild/
+/[Bb]uilds/
+/*.apk
+/*.aab
+/*.app
+/*.exe
+
+# Unity-generated IDE files
+/*.csproj
+/*.sln
+/*.suo
+/*.user
+/*.userprefs
+/*.pidb
+/*.booproj
+/*.svd
+/*.pdb
+/*.mdb
+/*.opendb
+/*.VC.db
+
+# IDE and editor state
+/.idea/
+/.vs/
+/.vscode/
+*.tmp
+*.swp
+*.swo
+
+# vTools per-user/generated editor data
+/Assets/**/vInspector Data.asset
+/Assets/**/vInspector Data.asset.meta
+/Assets/**/vHierarchy Data.asset
+/Assets/**/vHierarchy Data.asset.meta
+/Assets/**/vHierarchy Palette.asset
+/Assets/**/vHierarchy Palette.asset.meta
+/Assets/**/vFolders Data.asset
+/Assets/**/vFolders Data.asset.meta
+/Assets/**/vFolders Palette.asset
+/Assets/**/vFolders Palette.asset.meta
+/Assets/**/vFavorites Data.asset
+/Assets/**/vFavorites Data.asset.meta
+/Assets/**/vTabs Data.asset
+/Assets/**/vTabs Data.asset.meta
+
+# Operating-system metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Unity crash reports and temporary artifacts
+sysinfo.txt
+crashlytics-build.properties
+
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+/[Aa]ssets/[Ss]treamingAssets/aa.meta
+/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Optional local package output
+/*.unitypackage
