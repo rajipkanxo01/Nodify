@@ -54,6 +54,10 @@
 /Assets/**/vTabs Data.asset
 /Assets/**/vTabs Data.asset.meta
 
+# Yarn Spinner generated command/function discovery files
+/ProjectSettings/Packages/dev.yarnspinner/generated.ysls.json
+/ProjectSettings/Packages/dev.yarnspinner/*-generated.ysls.json
+
 # Operating-system metadata
 .DS_Store
 Thumbs.db
