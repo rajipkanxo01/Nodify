@@ -9,7 +9,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
     {
         public abstract DialogueEditorTabId id { get; }
         public abstract string label { get; }
-        protected abstract string description { get; }
         protected virtual bool requiresProject => true;
 
         public VisualElement CreateContent(DialogueEditorTabContext context)
@@ -22,10 +21,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
 
             var panel = new VisualElement();
             panel.AddToClassList(DialogueEditorStyleClasses.Panel);
-
-            var contentDescription = new Label(description);
-            contentDescription.AddToClassList(DialogueEditorStyleClasses.PanelDescription);
-            panel.Add(contentDescription);
 
             if (requiresProject && context.selectedProject == null)
             {

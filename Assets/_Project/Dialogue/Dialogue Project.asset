@@ -17,7 +17,9 @@ MonoBehaviour:
     _value: d1ecb6d4ebb649e3adcaddd1c8e7bdbb
   _displayName: Dialogue Project
   _yarnProject: {fileID: 7545569452688597077, guid: 952e27655f7942249ab65740e4ef8a5e, type: 3}
-  _characters: []
+  _characters:
+  - {fileID: 11400000, guid: 1ae73e9af4f98d543805ecc102d52678, type: 2}
+  - {fileID: 11400000, guid: e8eb4b4ab3e38af4cb3ba921d9048d38, type: 2}
   _conversations: []
   _variables: []
   _generation:

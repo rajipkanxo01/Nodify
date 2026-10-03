@@ -9,7 +9,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
     {
         public override DialogueEditorTabId id => DialogueEditorTabId.Validation;
         public override string label => "Validation";
-        protected override string description => "Find broken references and generation problems before compiling Yarn.";
 
         protected override void BuildContent(
             VisualElement container,

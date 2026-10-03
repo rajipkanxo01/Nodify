@@ -9,9 +9,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
     {
         public override DialogueEditorTabId id => DialogueEditorTabId.Variables;
         public override string label => "Variables";
-        protected override string description =>
-            "Define project and conversation state used by branching dialogue.";
-
         protected override void BuildContent(
             VisualElement container,
             DialogueEditorTabContext context)

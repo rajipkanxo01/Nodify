@@ -9,8 +9,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
     {
         public override DialogueEditorTabId id => DialogueEditorTabId.Conversations;
         public override string label => "Conversations";
-        protected override string description =>
-            "Create conversation files and edit their passage graphs.";
 
         protected override void BuildContent(
             VisualElement container,

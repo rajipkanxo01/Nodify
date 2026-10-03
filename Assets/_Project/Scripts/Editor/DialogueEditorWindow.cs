@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using ToolForDialogue._Project.Dialogue.Runtime.Assets;
 using ToolForDialogue.Editor._Project.Scripts.Editor.Services;
 using ToolForDialogue.Editor._Project.Scripts.Editor.Tabs;
@@ -257,7 +258,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
             }
 
             var selectedTab = FindTab(_selectedTabId) ?? _tabs[0];
-            var context = new DialogueEditorTabContext(_selectedProject);
+            var context = new DialogueEditorTabContext(_selectedProject, SelectTab);
 
             _content.Clear();
             _content.Add(selectedTab.CreateContent(context));
@@ -265,15 +266,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
 
         private IDialogueEditorTab FindTab(DialogueEditorTabId tabId)
         {
-            foreach (var tab in _tabs)
-            {
-                if (tab.id == tabId)
-                {
-                    return tab;
-                }
-            }
-
-            return null;
+            return _tabs.FirstOrDefault(tab => tab.id == tabId);
         }
     }
 }

@@ -9,8 +9,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
     {
         public override DialogueEditorTabId id => DialogueEditorTabId.Settings;
         public override string label => "Settings";
-        protected override string description =>
-            "Configure generated Yarn output and editor behavior.";
         protected override bool requiresProject => false;
 
         protected override void BuildContent(
