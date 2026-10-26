@@ -1,9 +1,0 @@
-title: Variables_a87195c2e5c8450aa627c652db95be9a
----
-// TestBoolena
-// variable-id: 301ef20df612415b88e3678d314bbaa7
-<<declare $TestBoolena = false>>
-// Test
-// variable-id: ef0022dc31834a4290bce991fe769697
-<<declare $Test = 0>>
-===

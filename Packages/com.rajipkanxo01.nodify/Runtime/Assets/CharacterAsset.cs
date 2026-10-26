@@ -8,7 +8,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
     /// <summary>
     /// Defines a reusable dialogue character and the portrait expressions available to it.
     /// </summary>
-    [CreateAssetMenu(fileName = "Character", menuName = "Dialogue/Character", order = 2)]
+    [CreateAssetMenu(fileName = "Character", menuName = "Nodify/Character", order = 2)]
     public sealed class CharacterAsset : DialogueAsset
     {
         [SerializeField] private string _displayName = "Character";

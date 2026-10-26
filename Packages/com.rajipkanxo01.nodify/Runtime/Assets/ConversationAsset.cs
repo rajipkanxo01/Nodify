@@ -8,7 +8,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
     /// <summary>
     /// Stores one independently versionable conversation graph and its local variables.
     /// </summary>
-    [CreateAssetMenu(fileName = "Conversation", menuName = "Dialogue/Conversation", order = 1)]
+    [CreateAssetMenu(fileName = "Conversation", menuName = "Nodify/Conversation", order = 1)]
     public sealed class ConversationAsset : DialogueAsset
     {
         [SerializeField] private string _displayName = "Conversation";

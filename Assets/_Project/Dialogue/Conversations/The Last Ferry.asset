@@ -33,7 +33,7 @@ MonoBehaviour:
   - _id:
       _value: 2aacfd54c9ec4ca686d5b7a71ac14f4b
     _title: Dock Choices
-    _graphPosition: {x: 535.2726, y: 473.45456}
+    _graphPosition: {x: 559.2726, y: 389.81818}
     _elements:
     - rid: 4120000000000000011
     - rid: 4120000000000000012

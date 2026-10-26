@@ -1,41 +1,33 @@
-# Dialogue Editor
+# Nodify
 
 A visual dialogue editor for Yarn Spinner.
 
-This repository is a Unity Package Manager package.
+## Develop or preview
 
-Open the editor in Unity from **Window > Dialogue Editor**.
+Open this repository in Unity, wait for compilation, then choose **Window > Nodify**.
+The editor is an embedded package in `Packages/com.rajipkanxo01.nodify/`.
+Edit its `Editor/` and `Runtime/` sources directly. No setup is needed for a fresh checkout.
+The development project's scenes, assets and third-party tools stay outside the distributable package.
 
-## Preview in this Unity project (Windows)
+If you previously ran the junction-based preview setup, run `./Tools/Enable-LocalPreview.ps1`
+once in PowerShell to remove the old preview links before opening Unity.
 
-Run `./Tools/Enable-LocalPreview.ps1` in PowerShell once per checkout. This links
-the root `Editor/` and `Runtime/` folders into `Assets/_Project/Scripts/`, so this
-Unity project compiles the package sources directly. The links are local and
-ignored by Git; edits through either path update the same files.
+## Install in another project
 
-Open this folder in Unity, refresh Assets, and wait for compilation. Then choose
-**Window > Dialogue Editor**. Yarn Spinner is already listed in this project's
-`Packages/manifest.json`.
-
-## Installation
-
-In Unity, open **Window > Package Manager**, choose **Add package from git URL**, and use:
+First install Yarn Spinner v3.2.8 using **Window > Package Manager > Add package from git URL**:
 
 ```text
-https://github.com/rajipkanxo01/DialogueToolUnity.git
+https://github.com/YarnSpinnerTool/YarnSpinner-Unity.git#v3.2.8
 ```
 
-The package source is kept in the repository root:
+Then add Nodify using this package subfolder URL:
 
 ```text
-Runtime/
-Editor/
-package.json
+https://github.com/rajipkanxo01/DialogueToolUnity.git?path=/Packages/com.rajipkanxo01.nodify
 ```
 
-Yarn Spinner v3.2.8 must be installed in the consuming Unity project's
-`Packages/manifest.json`:
+The subfolder URL requires this layout to be committed and pushed to the repository.
+For a local install, choose **Add package from disk** and select
+`Packages/com.rajipkanxo01.nodify/package.json` from this checkout.
 
-```json
-"dev.yarnspinner.unity": "https://github.com/YarnSpinnerTool/YarnSpinner-Unity.git#v3.2.8"
-```
+See the [package README](Packages/com.rajipkanxo01.nodify/README.md) for usage and requirements.

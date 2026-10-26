@@ -121,25 +121,38 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
             var directory = Path.GetDirectoryName(yarnProjectPath) ?? "Assets";
             var path = Path.Combine(directory, "Dialogue Variables.yarn").Replace('\\', '/');
             var legacyPath = Path.Combine(directory, "DialogueVariables_" + project.id.value + ".yarn").Replace('\\', '/');
+            var legacySource = File.Exists(legacyPath) ? File.ReadAllText(legacyPath) : string.Empty;
+            var generatedLegacy = legacySource.StartsWith("title: Variables_" + project.id.value + "\n", StringComparison.Ordinal)
+                || legacySource.StartsWith("title: Variables_" + project.id.value + "\r\n", StringComparison.Ordinal);
+            generatedLegacy = generatedLegacy && legacySource.Split('\n').All(line =>
+            {
+                var text = line.Trim();
+                return text.Length == 0 || text == "title: Variables_" + project.id.value
+                    || text == "---" || text == "===" || text.StartsWith("//", StringComparison.Ordinal)
+                    || Regex.IsMatch(text, @"^<<declare \$[A-Za-z_][A-Za-z0-9_]* = (true|false|-?\d+)>>$");
+            });
+            if (File.Exists(legacyPath) && !generatedLegacy)
+                throw new IOException("The legacy variables file contains unrecognized content. Move it out of the Yarn project before syncing: " + legacyPath);
             if (!File.Exists(path) && File.Exists(legacyPath))
             {
                 var moveError = AssetDatabase.MoveAsset(legacyPath, path);
                 if (!string.IsNullOrEmpty(moveError)) throw new IOException(moveError);
             }
             var source = BuildDeclarations(project);
-            if (File.Exists(path) && File.ReadAllText(path) == source) return;
             var previous = File.Exists(path) ? File.ReadAllText(path) : string.Empty;
             var replacements = new Dictionary<string, string>();
             foreach (var variable in project.variables.Where(IsSupported))
             {
                 var symbol = Symbol(project, variable);
                 replacements["$v_" + project.id.value + "_" + variable.id.value] = symbol;
-                var match = Regex.Match(previous, @"(?m)^// variable-id: " + variable.id.value
+                var matches = Regex.Matches(previous + "\n" + legacySource, @"(?m)^// variable-id: " + Regex.Escape(variable.id.value)
                     + @"\r?\n<<declare (?<symbol>\$[A-Za-z_][A-Za-z0-9_]*)");
-                if (match.Success && match.Groups["symbol"].Value != symbol)
-                    replacements[match.Groups["symbol"].Value] = symbol;
+                foreach (Match match in matches)
+                    if (match.Groups["symbol"].Value != symbol)
+                        replacements[match.Groups["symbol"].Value] = symbol;
             }
-            File.WriteAllText(path, source, new UTF8Encoding(false));
+            var declarationsChanged = previous != source;
+            if (declarationsChanged) File.WriteAllText(path, source, new UTF8Encoding(false));
             var updatedFiles = new List<string>();
             foreach (var conversation in project.conversations.Where(item => item != null))
             {
@@ -156,7 +169,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
                 File.WriteAllText(conversationPath, updated, new UTF8Encoding(false));
                 updatedFiles.Add(conversationPath.Replace('\\', '/'));
             }
-            AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+            // Retire duplicate declarations even when the canonical file was already up to date.
+            if (File.Exists(legacyPath) && !AssetDatabase.DeleteAsset(legacyPath))
+                throw new IOException("Could not remove the duplicate variables file: " + legacyPath);
+            if (declarationsChanged || legacySource.Length > 0)
+                AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
             foreach (var updated in updatedFiles) AssetDatabase.ImportAsset(updated, ImportAssetOptions.ForceUpdate);
         }
 

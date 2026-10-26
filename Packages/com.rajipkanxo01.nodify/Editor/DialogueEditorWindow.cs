@@ -17,7 +17,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
     /// </summary>
     public sealed class DialogueEditorWindow : EditorWindow
     {
-        private const string windowTitle = "Dialogue Editor";
+        private const string windowTitle = "Nodify";
         private const string styleSheetGuid = "ac5ff64b979ee334b920d45239f5a4b6";
 
         [SerializeField] private DialogueProjectAsset _selectedProject;
@@ -30,7 +30,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
         private ObjectField _projectField;
         private Button _saveButton;
 
-        [MenuItem("Window/Dialogue Editor")]
+        [MenuItem("Window/Nodify")]
         public static void Open()
         {
             var window = GetWindow<DialogueEditorWindow>();
@@ -41,6 +41,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
 
         public void CreateGUI()
         {
+            titleContent = new GUIContent(windowTitle);
             _tabs = CreateTabs();
             rootVisualElement.Clear();
 
@@ -127,7 +128,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
                 return;
             }
 
-            Debug.LogError($"Unable to load the dialogue editor stylesheet with GUID '{styleSheetGuid}'.", this);
+            Debug.LogError($"Unable to load the Nodify stylesheet with GUID '{styleSheetGuid}'.", this);
         }
 
         private void BuildHeader(VisualElement root)

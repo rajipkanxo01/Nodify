@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Dialogue Editor
+  productName: Nodify
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -857,7 +857,7 @@ PlayerSettings:
   editorAssembliesCompatibilityLevel: 1
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: Dialogue Editor
+  metroPackageName: Nodify
   metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
@@ -938,7 +938,7 @@ PlayerSettings:
   cloudProjectId: 9d5ac068-5c49-44a0-aaa1-40c303d00c4f
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: Tool for Dialogue
+  projectName: Nodify
   organizationId: pdlrajip12
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0

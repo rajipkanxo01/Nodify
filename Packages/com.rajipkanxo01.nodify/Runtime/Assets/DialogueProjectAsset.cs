@@ -8,7 +8,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
     /// <summary>
     /// Acts as the root asset that collects conversations, characters, variables, and generation settings.
     /// </summary>
-    [CreateAssetMenu(fileName = "Dialogue Project", menuName = "Dialogue/Project", order = 0)]
+    [CreateAssetMenu(fileName = "Dialogue Project", menuName = "Nodify/Project", order = 0)]
     public sealed class DialogueProjectAsset : DialogueAsset
     {
         [SerializeField] private string _displayName = "Dialogue Project";

@@ -245,7 +245,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
         {
             var temporaryPath = Path.Combine(
                 Path.GetTempPath(),
-                $"ToolForDialogue_{Guid.NewGuid():N}.yarn");
+                $"Nodify_{Guid.NewGuid():N}.yarn");
             try
             {
                 File.WriteAllText(temporaryPath, source, new UTF8Encoding(false));
