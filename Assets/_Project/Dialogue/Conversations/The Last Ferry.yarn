@@ -1,0 +1,73 @@
+title: The_Last_Ferry_Arrival
+---
+Jorgen: Last ferry. Three coins, or show me a pass. #demo
+Knud: Two coins and an impressive talent for bargaining. That is my offer.
+<<set $Test = 2>>
+<<set $TestBoolena = false>>
+Knud: Surely one of those is useful.
+<<jump The_Last_Ferry_Dock_Choices>>
+===
+
+title: The_Last_Ferry_Dock_Choices
+---
+-> Help tie the boat. (+2 coins) <<if $Test < 3>>
+    <<jump The_Last_Ferry_Earn_Fare>>
+-> Ask about a ferry pass. <<if not $TestBoolena>>
+    <<jump The_Last_Ferry_Get_Pass>>
+-> Pay three coins. <<if $Test >= 3>>
+    <<jump The_Last_Ferry_Pay_Fare>>
+-> Show your ferry pass. <<if $TestBoolena>>
+    <<jump The_Last_Ferry_Show_Pass>>
+-> Leave the dock.
+    <<jump The_Last_Ferry_Walk_Away>>
+<<stop>>
+===
+
+title: The_Last_Ferry_Earn_Fare
+---
+Knud: There. A knot so good it deserves an audience. #expression_Amused
+Jorgen: It deserves two coins. Please spare me the audience. #reward #expression_Stern
+<<set $Test = $Test + (2)>>
+<<jump The_Last_Ferry_Dock_Choices>>
+===
+
+title: The_Last_Ferry_Get_Pass
+---
+Jorgen: You found my missing oar yesterday. Take this pass. #expression_Amused
+<<set $TestBoolena = true>>
+Knud: Finally, a reward that floats. #expression_Amused
+<<jump The_Last_Ferry_Dock_Choices>>
+===
+
+title: The_Last_Ferry_Pay_Fare
+---
+Knud: Three coins. Try not to spend them all on pebbles.
+<<set $Test = $Test - (3)>>
+Jorgen: A pleasure. Mind the gap. #expression_Amused
+<<jump The_Last_Ferry_Sail_Away>>
+===
+
+title: The_Last_Ferry_Show_Pass
+---
+Knud: One ferry pass. I knew keeping this would pay off. #expression_Amused
+<<set $TestBoolena = false>>
+Jorgen: Valid. Unlike your knots. #expression_Stern
+<<jump The_Last_Ferry_Sail_Away>>
+===
+
+title: The_Last_Ferry_Sail_Away
+---
+Jorgen: All aboard. The tide waits for nobody.
+Knud: Then let us stop arguing with it. #ending #sailed #expression_Amused
+Knud: Next stop: somewhere dry. #ending #sailed #expression_Amused
+<<stop>>
+===
+
+title: The_Last_Ferry_Walk_Away
+---
+Knud: I will take the scenic route.
+Jorgen: It is a river. #expression_Stern
+Knud: Then it will be very scenic. #ending #walked #expression_Amused
+<<stop>>
+===
+

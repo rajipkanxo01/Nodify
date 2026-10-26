@@ -1,0 +1,20 @@
+{
+  "name": "ToolForDialogue.Editor",
+  "rootNamespace": "ToolForDialogue.Editor",
+  "references": [
+    "ToolForDialogue.Runtime",
+    "YarnSpinner.Unity",
+    "YarnSpinner.Unity.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
