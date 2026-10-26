@@ -73,3 +73,9 @@ crashlytics-build.properties
 
 # Optional local package output
 /*.unitypackage
+
+# Local development junctions (source of truth is /Editor and /Runtime)
+/Assets/_Project/Scripts/Editor
+/Assets/_Project/Scripts/Editor.meta
+/Assets/_Project/Scripts/Runtime
+/Assets/_Project/Scripts/Runtime.meta

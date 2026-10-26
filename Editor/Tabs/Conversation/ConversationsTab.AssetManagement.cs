@@ -112,13 +112,14 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             return id;
         }
 
-        private void AssignDefaultSpeaker(SerializedProperty lineElement)
+        private void AssignDefaultSpeaker(SerializedProperty lineElement, CharacterAsset previousSpeaker = null)
         {
-            var character = _project.characters.FirstOrDefault(candidate => candidate != null);
-            if (character == null)
+            var characters = _project.characters.Where(candidate => candidate != null).Distinct().ToList();
+            if (characters.Count == 0)
             {
                 return;
             }
+            var character = characters[(characters.IndexOf(previousSpeaker) + 1) % characters.Count];
             lineElement.FindPropertyRelative("_speaker").objectReferenceValue = character;
             SetGuidValue(
                 lineElement.FindPropertyRelative("_expressionId"),
@@ -301,13 +302,14 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             var index = FindPassageIndex(_selectedPassageId);
             if (index < 0 || !EditorUtility.DisplayDialog(
                     "Delete Passage",
-                    "Delete this passage? Existing jumps to it will become invalid.",
+                    "Delete this passage and the choice options that lead to it? Existing jumps to it will become invalid.",
                     "Delete",
                     "Cancel")) return;
             var serialized = new SerializedObject(_selectedConversation);
             var passages = serialized.FindProperty("_passages");
             var deletedId = _selectedPassageId;
             Undo.RecordObject(_selectedConversation, "Delete Dialogue Passage");
+            RemoveChoicesToPassage(passages, deletedId);
             passages.DeleteArrayElementAtIndex(index);
             if (GetGuidValue(serialized.FindProperty("_startPassageId")) == deletedId)
             {
@@ -321,6 +323,42 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             RebuildConversationList();
             RebuildGraph();
             RebuildInspector();
+        }
+
+        private static void RemoveChoicesToPassage(SerializedProperty passages, string destinationId)
+        {
+            for (var passageIndex = 0; passageIndex < passages.arraySize; passageIndex++)
+            {
+                var passage = passages.GetArrayElementAtIndex(passageIndex);
+                if (GetGuidValue(passage.FindPropertyRelative("_id")) == destinationId) continue;
+                var elements = passage.FindPropertyRelative("_elements");
+                for (var elementIndex = elements.arraySize - 1; elementIndex >= 0; elementIndex--)
+                {
+                    var element = elements.GetArrayElementAtIndex(elementIndex);
+                    if (!(element.managedReferenceValue is ChoiceElement)) continue;
+                    var options = element.FindPropertyRelative("_options");
+                    var removedOption = false;
+                    for (var optionIndex = options.arraySize - 1; optionIndex >= 0; optionIndex--)
+                    {
+                        var option = options.GetArrayElementAtIndex(optionIndex);
+                        if (GetGuidValue(option.FindPropertyRelative("_destinationPassageId")) != destinationId) continue;
+                        options.DeleteArrayElementAtIndex(optionIndex);
+                        removedOption = true;
+                    }
+                    if (removedOption && options.arraySize == 0)
+                    {
+                        elements.DeleteArrayElementAtIndex(elementIndex);
+                    }
+                }
+            }
+        }
+
+        private void DeletePassage(string passageId)
+        {
+            if (FindPassageIndex(passageId) < 0) return;
+            _selectedPassageId = passageId;
+            DeleteSelectedPassage();
+            _graph?.Focus();
         }
 
         private void DeleteConversation()

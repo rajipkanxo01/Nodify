@@ -23,7 +23,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
         private VisualElement _conversationList;
         private VisualElement _graphHost;
         private VisualElement _inspector;
+        private bool _inspectorVisible;
+        private Button _inspectorToggle;
         private ConversationGraph _graph;
+        private ConversationAsset _graphConversation;
         private bool _terminalRefreshScheduled;
         private HelpBox _passageWarning;
         private readonly Dictionary<ConversationAsset, Label> _conversationWarningBadges =
@@ -39,6 +42,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
         public override DialogueEditorTabId id => DialogueEditorTabId.Conversations;
         public override string label => "Conversations";
+        protected override bool isWritingWorkspace => true;
 
         protected override void BuildContent(VisualElement container, DialogueEditorTabContext context)
         {
@@ -54,10 +58,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             }
             ConversationYarnGenerator.ScheduleAll(_project);
 
-            var description = new Label("Create conversations and edit their passage graphs.");
-            description.AddToClassList(DialogueEditorStyleClasses.PanelDescription);
-            container.Add(description);
-
             var workspace = new VisualElement();
             workspace.AddToClassList(DialogueEditorStyleClasses.ConversationWorkspace);
             workspace.Add(CreateConversationSidebar());
@@ -68,12 +68,23 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
             _inspector = new ScrollView(ScrollViewMode.Vertical);
             _inspector.AddToClassList(DialogueEditorStyleClasses.ConversationInspector);
+            _inspector.style.display = _inspectorVisible ? DisplayStyle.Flex : DisplayStyle.None;
             workspace.Add(_inspector);
             container.Add(workspace);
 
             RebuildConversationList();
             RebuildGraph();
             RebuildInspector();
+        }
+
+        private void SetInspectorVisible(bool visible)
+        {
+            _inspectorVisible = visible;
+            _inspector.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_inspectorToggle != null)
+            {
+                _inspectorToggle.text = visible ? "Hide Details" : "Details";
+            }
         }
 
         private VisualElement CreateConversationSidebar()
@@ -126,7 +137,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             if (conversations.Count == 0)
             {
                 var empty = new Label(string.IsNullOrWhiteSpace(_searchQuery)
-                    ? "No conversations yet."
+                    ? "Who speaks first?\nUse + to start a conversation."
                     : "No conversations match this search.");
                 empty.AddToClassList(DialogueEditorStyleClasses.CharacterListEmpty);
                 _conversationList.Add(empty);
@@ -242,7 +253,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
         private void RebuildGraph()
         {
-            var preserveView = _graph != null;
+            var preserveView = _graph != null && _graphConversation == _selectedConversation;
             var previousViewPosition = Vector3.zero;
             var previousViewScale = Vector3.one;
             if (preserveView)
@@ -293,6 +304,12 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             actions.Add(new Button(AddPassage) { text = "+ Passage" });
             actions.Add(new Button(() => _graph?.FrameEverything()) { text = "Frame All" });
             actions.Add(new Button(() => _graph?.SelectPassage(_selectedConversation.startPassageId.value)) { text = "Start" });
+            _inspectorToggle = new Button(() => SetInspectorVisible(!_inspectorVisible))
+            {
+                text = _inspectorVisible ? "Hide Details" : "Details",
+                tooltip = "Show or hide details for the selected passage"
+            };
+            actions.Add(_inspectorToggle);
             actions.Add(new Button(ShowConversationMenu) { text = "•••", tooltip = "Conversation actions" });
             toolbar.Add(actions);
 
@@ -302,6 +319,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 _project,
                 _selectedConversation,
                 SelectPassage,
+                DeletePassage,
                 MovePassage,
                 RenameInlinePassage,
                 ChangeInlineSpeaker,
@@ -322,10 +340,15 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
             _graph.AddToClassList(DialogueEditorStyleClasses.ConversationGraph);
             _graphHost.Add(_graph);
+            _graphConversation = _selectedConversation;
 
             if (preserveView)
             {
                 _graph.UpdateViewTransform(previousViewPosition, previousViewScale);
+            }
+            else
+            {
+                _graph.SelectPassage(_selectedPassageId);
             }
         }
     }

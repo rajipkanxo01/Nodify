@@ -7,6 +7,13 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
     {
         public const string EditorRoot = "dialogue-editor";
         public const string Header = "dialogue-header";
+        public const string HeaderMark = "dialogue-header-mark";
+        public const string ConversationInlineMenu = "dialogue-conversation-inline-menu";
+        public const string ConversationInlineLineContinuation = "dialogue-conversation-inline-line--continuation";
+        public const string ConversationInlineTextRow = "dialogue-conversation-inline-text-row";
+        public const string ConversationInlineSpeakerGutter = "dialogue-conversation-inline-speaker-gutter";
+        public const string ConversationGraphGrid = "dialogue-conversation-graph-grid";
+        public const string WritingWorkspace = "dialogue-writing-workspace";
         public const string TitleGroup = "dialogue-title-group";
         public const string Title = "dialogue-title";
         public const string Subtitle = "dialogue-subtitle";

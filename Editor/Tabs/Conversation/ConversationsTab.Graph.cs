@@ -4,6 +4,7 @@ using System.Linq;
 using ToolForDialogue._Project.Dialogue.Runtime.Assets;
 using ToolForDialogue._Project.Dialogue.Runtime.Types;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -59,16 +60,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 titleContainer.AddToClassList(DialogueEditorStyleClasses.ConversationInlineHeader);
                 extensionContainer.AddToClassList(DialogueEditorStyleClasses.ConversationInlineContent);
 
-                if (isStart)
-                {
-                    var startBadge = new Label("★ START");
-                    startBadge.AddToClassList(DialogueEditorStyleClasses.ConversationInlineStartBadge);
-                    titleContainer.Add(startBadge);
-                }
                 _warningBadge = new Label("!") { tooltip = "This passage has validation warnings" };
                 _warningBadge.AddToClassList(DialogueEditorStyleClasses.ConversationInlineWarningBadge);
                 _warningBadge.style.display = hasWarning ? DisplayStyle.Flex : DisplayStyle.None;
-                titleContainer.Add(_warningBadge);
 
                 var titleField = new TextField { isDelayed = true };
                 titleField.SetValueWithoutNotify(passage.title);
@@ -76,9 +70,17 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 titleField.AddToClassList(DialogueEditorStyleClasses.ConversationInlineTitle);
                 titleField.RegisterValueChangedCallback(evt => renamePassage(passageId, evt.newValue));
                 titleContainer.Add(titleField);
+                if (isStart)
+                {
+                    var startBadge = new Label("●") { tooltip = "Conversation starts here" };
+                    startBadge.AddToClassList(DialogueEditorStyleClasses.ConversationInlineStartBadge);
+                    titleContainer.Add(startBadge);
+                }
+                titleContainer.Add(_warningBadge);
 
                 input = Port.Create<Edge>(Orientation.Horizontal, Direction.Input, Port.Capacity.Multi, typeof(bool));
                 input.portName = string.Empty;
+                input.portColor = new Color32(149, 136, 114, 255);
                 input.userData = passageId;
                 input.AddToClassList(DialogueEditorStyleClasses.ConversationInlineInput);
                 titleContainer.Insert(0, input);
@@ -89,6 +91,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     && terminalIndex > 0
                     && passage.elements[terminalIndex - 1] is ChoiceElement;
                 var endsConversation = terminalElement is EndElement && !choiceTerminatesPassage;
+                var passageMenu = CreateActionsMenu("Passage actions");
+                AppendAction(passageMenu, "Add choice", () => addChoice(passageId));
+                AppendAction(passageMenu, "End conversation", () => endConversation(passageId), !endsConversation);
+                titleContainer.Add(passageMenu);
                 if (!choiceTerminatesPassage && !(terminalElement is ChoiceElement))
                 {
                     var continuationBinding = new PortBinding
@@ -116,16 +122,27 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     var element = passage.elements[elementIndex];
                     if (element is LineElement line)
                     {
+                        var previousLine = elementIndex > 0 ? passage.elements[elementIndex - 1] as LineElement : null;
+                        // An expression change starts a new group so its portrait remains visible.
+                        var continuesSpeaker = line.speaker != null && previousLine?.speaker == line.speaker
+                            && previousLine.expressionId == line.expressionId;
                         var lineCard = new VisualElement();
                         lineCard.AddToClassList(DialogueEditorStyleClasses.ConversationInlineLine);
+                        lineCard.EnableInClassList(DialogueEditorStyleClasses.ConversationInlineLineContinuation, continuesSpeaker);
                         lineCard.RegisterCallback<FocusInEvent>(_ =>
                             lineCard.AddToClassList(DialogueEditorStyleClasses.ConversationInlineLineActive));
                         lineCard.RegisterCallback<FocusOutEvent>(_ =>
                             lineCard.RemoveFromClassList(DialogueEditorStyleClasses.ConversationInlineLineActive));
 
                         var portrait = GetPortrait(line);
+                        var speakerColor = GetSpeakerColor(line.speaker);
                         var avatar = new VisualElement();
                         avatar.AddToClassList(DialogueEditorStyleClasses.ConversationInlineAvatar);
+                        avatar.tooltip = line.speaker == null ? "Choose a speaker" : line.speaker.displayName;
+                        avatar.style.borderLeftColor = speakerColor;
+                        avatar.style.borderRightColor = speakerColor;
+                        avatar.style.borderTopColor = speakerColor;
+                        avatar.style.borderBottomColor = speakerColor;
                         if (portrait != null)
                         {
                             avatar.style.backgroundImage = new StyleBackground(portrait);
@@ -135,36 +152,33 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                             var initial = string.IsNullOrWhiteSpace(line.speaker?.displayName)
                                 ? "?"
                                 : line.speaker.displayName.Substring(0, 1).ToUpperInvariant();
-                            avatar.Add(new Label(initial));
+                            var initialLabel = new Label(initial);
+                            initialLabel.style.color = speakerColor;
+                            avatar.Add(initialLabel);
                         }
-                        lineCard.Add(avatar);
+                        if (!continuesSpeaker) lineCard.Add(avatar);
 
                         var lineBody = new VisualElement();
                         lineBody.AddToClassList(DialogueEditorStyleClasses.ConversationInlineBody);
                         var speakerRow = new VisualElement();
                         speakerRow.AddToClassList(DialogueEditorStyleClasses.ConversationInlineSpeakerRow);
 
-                        var speakerNames = new List<string> { "Select speaker" };
-                        foreach (var character in characters)
-                        {
-                            speakerNames.Add(CreateUniqueChoiceName(speakerNames, character.displayName));
-                        }
-                        var speakerIndex = line.speaker == null
-                            ? 0
-                            : Math.Max(0, characters.IndexOf(line.speaker) + 1);
-                        var speaker = new PopupField<string>(speakerNames, speakerIndex);
-                        speaker.tooltip = line.speaker == null ? "Speaker is required" : "Speaker";
+                        var speaker = CreateSpeakerPicker(characters, line.speaker,
+                            character => changeSpeaker(passageId, capturedElement, character));
                         speaker.AddToClassList(DialogueEditorStyleClasses.ConversationInlineSpeaker);
-                        speaker.SetEnabled(characters.Count > 0);
-                        speaker.RegisterValueChangedCallback(evt =>
+                        speaker.style.color = speakerColor;
+                        if (continuesSpeaker)
                         {
-                            var index = speakerNames.IndexOf(evt.newValue) - 1;
-                            if (index >= 0 && index < characters.Count)
-                            {
-                                changeSpeaker(passageId, capturedElement, characters[index]);
-                            }
-                        });
-                        speakerRow.Add(speaker);
+                            speaker.text = string.IsNullOrWhiteSpace(line.speaker.displayName)
+                                ? "?" : line.speaker.displayName.Trim().Substring(0, 1).ToUpperInvariant();
+                            speaker.AddToClassList(DialogueEditorStyleClasses.ConversationInlineSpeakerGutter);
+                            lineCard.Add(speaker);
+                        }
+                        else
+                        {
+                            speakerRow.Add(speaker);
+                            lineBody.Add(speakerRow);
+                        }
 
                         var expressionNames = new List<string> { "Default" };
                         var expressionIds = new List<string> { string.Empty };
@@ -179,65 +193,45 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                         var currentExpression = line.expressionId == line.speaker?.defaultExpressionId
                             ? 0
                             : Math.Max(0, expressionIds.IndexOf(line.expressionId.value));
-                        var expressionPopup = new PopupField<string>(expressionNames, currentExpression);
-                        expressionPopup.tooltip = "Portrait expression (optional)";
-                        expressionPopup.AddToClassList(DialogueEditorStyleClasses.ConversationInlineExpression);
-                        expressionPopup.SetEnabled(line.speaker != null && expressionNames.Count > 1);
-                        expressionPopup.style.display = DisplayStyle.None;
-                        var expressionToggle = new Button
+                        var lineActions = CreateActionsMenu("Line actions and portrait expression");
+                        for (var expressionIndex = 0; expressionIndex < expressionNames.Count; expressionIndex++)
                         {
-                            text = currentExpression == 0 ? "☺" : expressionNames[currentExpression],
-                            tooltip = "Choose an optional portrait expression"
-                        };
-                        expressionToggle.AddToClassList(DialogueEditorStyleClasses.ConversationInlineExpressionToggle);
-                        expressionToggle.SetEnabled(line.speaker != null && expressionNames.Count > 1);
-                        expressionToggle.clicked += () =>
-                        {
-                            expressionPopup.style.display = expressionPopup.style.display == DisplayStyle.None
-                                ? DisplayStyle.Flex
-                                : DisplayStyle.None;
-                        };
-                        expressionPopup.RegisterValueChangedCallback(evt =>
-                        {
-                            var index = Math.Max(0, expressionNames.IndexOf(evt.newValue));
-                            expressionToggle.text = index == 0 ? "☺" : expressionNames[index];
-                            expressionPopup.style.display = DisplayStyle.None;
-                            changeExpression(passageId, capturedElement, expressionIds[index]);
-                        });
-                        var expressionGroup = new VisualElement();
-                        expressionGroup.AddToClassList(DialogueEditorStyleClasses.ConversationInlineExpressionGroup);
-                        expressionGroup.Add(expressionToggle);
-                        expressionGroup.Add(expressionPopup);
-                        speakerRow.Add(expressionGroup);
-
-                        var lineActions = new VisualElement();
-                        lineActions.AddToClassList(DialogueEditorStyleClasses.ConversationInlineLineActions);
-                        var moveUp = new Button(() => moveElement(passageId, capturedElement, capturedElement - 1))
-                            { text = "↑", tooltip = "Move line up" };
-                        moveUp.SetEnabled(capturedElement > 0
-                            && passage.elements[capturedElement - 1] is LineElement);
-                        lineActions.Add(moveUp);
-                        var moveDown = new Button(() => moveElement(passageId, capturedElement, capturedElement + 1))
-                            { text = "↓", tooltip = "Move line down" };
-                        moveDown.SetEnabled(capturedElement + 1 < passage.elements.Count
-                            && passage.elements[capturedElement + 1] is LineElement);
-                        lineActions.Add(moveDown);
-                        lineActions.Add(new Button(() => duplicateElement(passageId, capturedElement))
-                            { text = "⧉", tooltip = "Duplicate line" });
-                        lineActions.Add(new Button(() => deleteElement(passageId, capturedElement))
-                            { text = "×", tooltip = "Delete line" });
-                        speakerRow.Add(lineActions);
-                        lineBody.Add(speakerRow);
-
+                            var capturedExpression = expressionIndex;
+                            lineActions.menu.AppendAction("Expression/" + expressionNames[expressionIndex], _ =>
+                            {
+                                currentExpression = capturedExpression;
+                                changeExpression(passageId, capturedElement, expressionIds[capturedExpression]);
+                            }, _ => line.speaker == null
+                                ? DropdownMenuAction.Status.Disabled
+                                : capturedExpression == currentExpression
+                                    ? DropdownMenuAction.Status.Checked
+                                    : DropdownMenuAction.Status.Normal);
+                        }
+                        lineActions.menu.AppendSeparator();
+                        AppendAction(lineActions, "Move up", () => moveElement(passageId, capturedElement, capturedElement - 1),
+                            capturedElement > 0 && passage.elements[capturedElement - 1] is LineElement);
+                        AppendAction(lineActions, "Move down", () => moveElement(passageId, capturedElement, capturedElement + 1),
+                            capturedElement + 1 < passage.elements.Count && passage.elements[capturedElement + 1] is LineElement);
+                        AppendAction(lineActions, "Duplicate line", () => duplicateElement(passageId, capturedElement));
+                        lineActions.menu.AppendSeparator();
+                        AppendAction(lineActions, "Delete line", () => deleteElement(passageId, capturedElement));
                         var text = new TextField { multiline = true };
                         text.SetValueWithoutNotify(line.text);
                         text.AddToClassList(DialogueEditorStyleClasses.ConversationInlineText);
                         text.textEdition.placeholder = "Write dialogue…";
                         text.style.height = GetDialogueFieldHeight(line.text);
                         text.tooltip = "Dialogue text";
-                        text.RegisterValueChangedCallback(evt => changeLineText(passageId, capturedElement, evt.newValue));
+                        text.RegisterValueChangedCallback(evt =>
+                        {
+                            text.style.height = GetDialogueFieldHeight(evt.newValue);
+                            changeLineText(passageId, capturedElement, evt.newValue);
+                        });
                         _lineEditors[capturedElement] = text;
-                        lineBody.Add(text);
+                        var textRow = new VisualElement();
+                        textRow.AddToClassList(DialogueEditorStyleClasses.ConversationInlineTextRow);
+                        textRow.Add(text);
+                        textRow.Add(lineActions);
+                        lineBody.Add(textRow);
                         lineCard.Add(lineBody);
                         extensionContainer.Add(lineCard);
                     }
@@ -273,21 +267,14 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                             var createButton = new Button(() => createTarget(binding))
                                 { text = "+", tooltip = "Create and connect a new passage" };
                             row.Add(createButton);
-                            var choiceActions = new VisualElement();
-                            choiceActions.AddToClassList(DialogueEditorStyleClasses.ConversationInlineChoiceActions);
-                            var moveUp = new Button(() =>
-                                moveChoiceOption(passageId, capturedElement, capturedOption, capturedOption - 1))
-                                { text = "↑", tooltip = "Move choice up" };
-                            moveUp.SetEnabled(capturedOption > 0);
-                            choiceActions.Add(moveUp);
-                            var moveDown = new Button(() =>
-                                moveChoiceOption(passageId, capturedElement, capturedOption, capturedOption + 1))
-                                { text = "↓", tooltip = "Move choice down" };
-                            moveDown.SetEnabled(capturedOption < choice.options.Count - 1);
-                            choiceActions.Add(moveDown);
-                            choiceActions.Add(new Button(() =>
-                                deleteChoiceOption(passageId, capturedElement, capturedOption))
-                                { text = "×", tooltip = "Delete choice" });
+                            var choiceActions = CreateActionsMenu("Choice actions");
+                            AppendAction(choiceActions, "Move up", () =>
+                                moveChoiceOption(passageId, capturedElement, capturedOption, capturedOption - 1), capturedOption > 0);
+                            AppendAction(choiceActions, "Move down", () =>
+                                moveChoiceOption(passageId, capturedElement, capturedOption, capturedOption + 1),
+                                capturedOption < choice.options.Count - 1);
+                            AppendAction(choiceActions, "Delete choice", () =>
+                                deleteChoiceOption(passageId, capturedElement, capturedOption));
                             row.Add(choiceActions);
                             var port = CreateOutputPort(binding);
                             row.Add(port);
@@ -300,16 +287,12 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
                 var addRow = new VisualElement();
                 addRow.AddToClassList(DialogueEditorStyleClasses.ConversationInlineActions);
-                var endButton = new Button(() => endConversation(passageId))
+                if (endsConversation)
                 {
-                    text = endsConversation ? "✓ Ends Here" : "End Conversation",
-                    tooltip = endsConversation
-                        ? "This passage ends the conversation"
-                        : "Replace the passage's outgoing route with an End element"
-                };
-                endButton.AddToClassList(DialogueEditorStyleClasses.ConversationInlineEndAction);
-                endButton.SetEnabled(!endsConversation);
-                addRow.Add(endButton);
+                    var ending = new Label("End of conversation");
+                    ending.AddToClassList(DialogueEditorStyleClasses.ConversationInlineEndAction);
+                    addRow.Add(ending);
+                }
                 var actionSpacer = new VisualElement();
                 actionSpacer.style.flexGrow = 1f;
                 addRow.Add(actionSpacer);
@@ -324,6 +307,43 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             }
 
             public string passageId { get; }
+
+            private static ToolbarMenu CreateActionsMenu(string tooltip)
+            {
+                var menu = new ToolbarMenu { text = "···", tooltip = tooltip };
+                menu.AddToClassList(DialogueEditorStyleClasses.ConversationInlineMenu);
+                return menu;
+            }
+
+            private static ToolbarMenu CreateSpeakerPicker(
+                IReadOnlyList<CharacterAsset> characters, CharacterAsset selected, Action<CharacterAsset> changeSpeaker)
+            {
+                var picker = new ToolbarMenu
+                {
+                    text = selected == null ? "Choose a speaker" : selected.displayName,
+                    tooltip = characters.Count == 0
+                        ? "Create a character in the Characters tab first"
+                        : $"{selected?.displayName ?? "Choose a speaker"}: change the speaker for this line"
+                };
+                picker.SetEnabled(characters.Count > 0);
+                var names = new List<string>();
+                foreach (var character in characters)
+                {
+                    var captured = character;
+                    var name = CreateUniqueChoiceName(names, character.displayName);
+                    names.Add(name);
+                    picker.menu.AppendAction(name, _ => changeSpeaker(captured), _ => captured == selected
+                        ? DropdownMenuAction.Status.Checked : DropdownMenuAction.Status.Normal);
+                }
+                return picker;
+            }
+
+            private static void AppendAction(ToolbarMenu menu, string label, Action action, bool enabled = true)
+            {
+                menu.menu.AppendAction(label, _ => action(), _ => enabled
+                    ? DropdownMenuAction.Status.Normal
+                    : DropdownMenuAction.Status.Disabled);
+            }
             public void SetWarnings(IReadOnlyList<string> warnings)
             {
                 _warningBadge.tooltip = string.Join("\n", warnings);
@@ -342,6 +362,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             {
                 var port = Port.Create<Edge>(Orientation.Horizontal, Direction.Output, Port.Capacity.Single, typeof(bool));
                 port.portName = string.Empty;
+                port.portColor = new Color32(149, 136, 114, 255);
                 port.userData = binding;
                 return port;
             }
@@ -357,12 +378,33 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 return fallback?.portrait;
             }
 
+            private static Color GetSpeakerColor(CharacterAsset speaker)
+            {
+                if (speaker == null) return new Color32(177, 168, 153, 255);
+
+                // Use the persistent asset identity so colours survive renaming and reordering.
+                uint hash = 2166136261;
+                foreach (var character in speaker.id.value)
+                {
+                    hash = unchecked((hash ^ character) * 16777619);
+                }
+
+                switch (hash % 5)
+                {
+                    case 0: return new Color32(216, 177, 121, 255);
+                    case 1: return new Color32(148, 190, 170, 255);
+                    case 2: return new Color32(185, 166, 205, 255);
+                    case 3: return new Color32(216, 158, 139, 255);
+                    default: return new Color32(148, 184, 206, 255);
+                }
+            }
+
             private static float GetDialogueFieldHeight(string value)
             {
                 var source = value ?? string.Empty;
                 var explicitLines = source.Count(character => character == '\n') + 1;
-                var wrappedLines = Math.Max(1, (int)Math.Ceiling(source.Length / 52f));
-                return 17f + Math.Min(5, Math.Max(explicitLines, wrappedLines)) * 15f;
+                var wrappedLines = Math.Max(1, (int)Math.Ceiling(source.Length / 44f));
+                return 26f + Math.Min(5, Math.Max(explicitLines, wrappedLines)) * 18f;
             }
 
             public override void OnSelected()
@@ -390,6 +432,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             }
 
             private readonly Dictionary<string, PassageNode> _nodes = new Dictionary<string, PassageNode>();
+            private readonly Action<string> _deletePassage;
             private bool _spaceHeld;
             private bool _spacePanning;
             private int _panPointerId = -1;
@@ -401,6 +444,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 DialogueProjectAsset project,
                 ConversationAsset conversation,
                 Action<string> selectPassage,
+                Action<string> deletePassage,
                 Action<string, Vector2> movePassage,
                 Action<string, string> renamePassage,
                 Action<string, int, CharacterAsset> changeSpeaker,
@@ -419,12 +463,13 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 Action<PortBinding, string> connect,
                 Action<PortBinding> disconnect)
             {
+                _deletePassage = deletePassage;
                 focusable = true;
                 this.AddManipulator(new ContentZoomer());
                 this.AddManipulator(new ContentDragger());
                 this.AddManipulator(new SelectionDragger());
                 this.AddManipulator(new RectangleSelector());
-                RegisterCallback<KeyDownEvent>(OnGraphKeyDown);
+                RegisterCallback<KeyDownEvent>(OnGraphKeyDown, TrickleDown.TrickleDown);
                 RegisterCallback<KeyUpEvent>(OnGraphKeyUp);
                 RegisterCallback<PointerDownEvent>(OnGraphPointerDown, TrickleDown.TrickleDown);
                 RegisterCallback<PointerMoveEvent>(OnGraphPointerMove, TrickleDown.TrickleDown);
@@ -436,6 +481,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     StopSpacePan();
                 });
                 var grid = new GridBackground();
+                grid.AddToClassList(DialogueEditorStyleClasses.ConversationGraphGrid);
                 Insert(0, grid);
                 grid.StretchToParentSize();
 
@@ -494,7 +540,16 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
             private void OnGraphKeyDown(KeyDownEvent evt)
             {
-                if (evt.keyCode != KeyCode.Space || IsTextInput(evt.target)) return;
+                if (IsTextInput(evt.target)) return;
+                if (evt.keyCode == KeyCode.Delete && !evt.altKey && !evt.ctrlKey && !evt.commandKey && !evt.shiftKey)
+                {
+                    var selectedPassage = selection.OfType<PassageNode>().LastOrDefault();
+                    if (selectedPassage == null) return;
+                    evt.StopImmediatePropagation();
+                    _deletePassage?.Invoke(selectedPassage.passageId);
+                    return;
+                }
+                if (evt.keyCode != KeyCode.Space) return;
                 _spaceHeld = true;
                 evt.StopImmediatePropagation();
             }
@@ -513,7 +568,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     if (evt.button == 0
                         && (ReferenceEquals(evt.target, this)
                             || ReferenceEquals(evt.target, contentViewContainer)
-                            || evt.target is GridBackground))
+                            || evt.target is GridBackground
+                            || (!IsTextInput(evt.target) && evt.target is VisualElement target
+                                && (target is PassageNode || target.GetFirstAncestorOfType<PassageNode>() != null))))
                     {
                         Focus();
                     }
@@ -577,8 +634,32 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 if (_nodes.TryGetValue(passageId ?? string.Empty, out var node))
                 {
                     AddToSelection(node);
-                    FrameSelection();
+                    if (node.layout.width > 0f && node.layout.height > 0f && contentRect.width > 0f)
+                    {
+                        CenterPassage(node);
+                    }
+                    else
+                    {
+                        EventCallback<GeometryChangedEvent> onLayout = null;
+                        onLayout = _ =>
+                        {
+                            if (node.layout.width <= 0f || contentRect.width <= 0f) return;
+                            node.UnregisterCallback(onLayout);
+                            CenterPassage(node);
+                        };
+                        node.RegisterCallback(onLayout);
+                    }
                 }
+            }
+
+            private void CenterPassage(PassageNode node)
+            {
+                var bounds = node.GetPosition();
+                var zoom = Mathf.Clamp((contentRect.width - 96f) / bounds.width, 0.85f, 1.1f);
+                var offset = new Vector3(
+                    (contentRect.width - bounds.width * zoom) * 0.5f,
+                    Mathf.Max(32f, (contentRect.height - bounds.height * zoom) * 0.5f), 0f);
+                UpdateViewTransform(offset - new Vector3(bounds.x, bounds.y, 0f) * zoom, Vector3.one * zoom);
             }
 
             public void FocusLine(string passageId, int elementIndex)

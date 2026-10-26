@@ -30,7 +30,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
         private ObjectField _projectField;
         private Button _saveButton;
 
-        [MenuItem("Window/Tool for Dialogue/Dialogue Editor")]
+        [MenuItem("Window/Dialogue Editor")]
         public static void Open()
         {
             var window = GetWindow<DialogueEditorWindow>();
@@ -86,6 +86,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
 
             var card = new VisualElement();
             card.AddToClassList(DialogueEditorStyleClasses.FirstRunCard);
+
+            var title = new Label("Who speaks first?");
+            title.AddToClassList(DialogueEditorStyleClasses.FirstRunTitle);
+            card.Add(title);
             
             var description = new Label("Create a Yarn Spinner project to start writing dialogue.");
             description.AddToClassList(DialogueEditorStyleClasses.FirstRunDescription);
@@ -130,16 +134,16 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
             var header = new VisualElement();
             header.AddToClassList(DialogueEditorStyleClasses.Header);
 
+            var mark = new Label("“") { pickingMode = PickingMode.Ignore };
+            mark.AddToClassList(DialogueEditorStyleClasses.HeaderMark);
+            header.Add(mark);
+
             var titleGroup = new VisualElement();
             titleGroup.AddToClassList(DialogueEditorStyleClasses.TitleGroup);
 
-            var title = new Label("Tool for Dialogue");
+            var title = new Label(windowTitle);
             title.AddToClassList(DialogueEditorStyleClasses.Title);
             titleGroup.Add(title);
-
-            var subtitle = new Label("Visual Yarn Spinner authoring");
-            subtitle.AddToClassList(DialogueEditorStyleClasses.Subtitle);
-            titleGroup.Add(subtitle);
 
             header.Add(titleGroup);
             header.Add(CreateProjectControls());

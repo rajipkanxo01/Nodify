@@ -37,7 +37,16 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             newElement.managedReferenceValue = instance;
             if (instance is LineElement)
             {
-                AssignDefaultSpeaker(newElement);
+                CharacterAsset previousSpeaker = null;
+                for (var index = insertionIndex - 1; index >= 0; index--)
+                {
+                    if (elements.GetArrayElementAtIndex(index).managedReferenceValue is LineElement previousLine)
+                    {
+                        previousSpeaker = previousLine.speaker;
+                        break;
+                    }
+                }
+                AssignDefaultSpeaker(newElement, previousSpeaker);
             }
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
@@ -74,6 +83,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             SetGuidValue(element.FindPropertyRelative("_expressionId"), expressionId);
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
+            RebuildGraph();
+            if (_selectedPassageId == passageId) RebuildInspector();
         }
 
         private void ChangeInlineLineText(string passageId, int elementIndex, string value)

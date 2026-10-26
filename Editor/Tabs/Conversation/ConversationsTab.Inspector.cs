@@ -36,10 +36,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
             var header = new VisualElement();
             header.AddToClassList(DialogueEditorStyleClasses.ConversationInspectorHeader);
-            var heading = new Label("Passage Inspector");
+            var heading = new Label("Passage Details");
             heading.AddToClassList(DialogueEditorStyleClasses.SectionTitle);
             header.Add(heading);
             header.Add(new Button(ShowPassageMenu) { text = "•••", tooltip = "Passage actions" });
+            header.Add(new Button(() => SetInspectorVisible(false)) { text = "×", tooltip = "Close passage details" });
             _inspector.Add(header);
 
             var titleProperty = passage.FindPropertyRelative("_title");

@@ -10,14 +10,22 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
         public abstract DialogueEditorTabId id { get; }
         public abstract string label { get; }
         protected virtual bool requiresProject => true;
+        protected virtual bool isWritingWorkspace => false;
 
         public VisualElement CreateContent(DialogueEditorTabContext context)
         {
             var root = new VisualElement();
 
-            var heading = new Label(label);
-            heading.AddToClassList(DialogueEditorStyleClasses.PanelTitle);
-            root.Add(heading);
+            if (isWritingWorkspace)
+            {
+                root.AddToClassList(DialogueEditorStyleClasses.WritingWorkspace);
+            }
+            else
+            {
+                var heading = new Label(label);
+                heading.AddToClassList(DialogueEditorStyleClasses.PanelTitle);
+                root.Add(heading);
+            }
 
             var panel = new VisualElement();
             panel.AddToClassList(DialogueEditorStyleClasses.Panel);

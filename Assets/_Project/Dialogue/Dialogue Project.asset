@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa924921cf61be4d926e093d1b58439, type: 3}
+  m_Name: Dialogue Project
+  m_EditorClassIdentifier: ToolForDialogue.Runtime::ToolForDialogue._Project.Dialogue.Runtime.Assets.DialogueProjectAsset
+  _schemaVersion: 1
+  _id:
+    _value: a87195c2e5c8450aa627c652db95be9a
+  _displayName: Dialogue Project
+  _yarnProject: {fileID: 7545569452688597077, guid: 531e947916a95bf4381cf2a79af891cb, type: 3}
+  _characters: []
+  _conversations: []
+  _variables: []
+  _generation:
+    _outputFolder: Assets/Generated/Dialogue
+    _generateOnSave: 0
+    _stopOnValidationErrors: 1
