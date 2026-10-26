@@ -49,7 +49,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 Action<string, int> deleteElement,
                 Action<string, int, int, int> moveChoiceOption,
                 Action<string, int, int> deleteChoiceOption,
-                Action<PortBinding> createTarget)
+                Action<PortBinding> createTarget,
+                Action<string, int> addVariable,
+                Func<string, int, VisualElement> createVariableEditor,
+                Func<string, int, int, VisualElement> createConditionEditor)
             {
                 passageId = passage.id.value;
                 _select = select;
@@ -122,7 +125,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     var element = passage.elements[elementIndex];
                     if (element is LineElement line)
                     {
-                        var previousLine = elementIndex > 0 ? passage.elements[elementIndex - 1] as LineElement : null;
+                        var previousIndex = elementIndex - 1;
+                        while (previousIndex >= 0 && passage.elements[previousIndex] is SetVariableElement) previousIndex--;
+                        var previousLine = previousIndex >= 0 ? passage.elements[previousIndex] as LineElement : null;
                         // An expression change starts a new group so its portrait remains visible.
                         var continuesSpeaker = line.speaker != null && previousLine?.speaker == line.speaker
                             && previousLine.expressionId == line.expressionId;
@@ -167,18 +172,15 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                             character => changeSpeaker(passageId, capturedElement, character));
                         speaker.AddToClassList(DialogueEditorStyleClasses.ConversationInlineSpeaker);
                         speaker.style.color = speakerColor;
-                        if (continuesSpeaker)
+                        speakerRow.Add(speaker);
+                        var addLineVariable = new Button(() => addVariable(passageId, capturedElement))
                         {
-                            speaker.text = string.IsNullOrWhiteSpace(line.speaker.displayName)
-                                ? "?" : line.speaker.displayName.Trim().Substring(0, 1).ToUpperInvariant();
-                            speaker.AddToClassList(DialogueEditorStyleClasses.ConversationInlineSpeakerGutter);
-                            lineCard.Add(speaker);
-                        }
-                        else
-                        {
-                            speakerRow.Add(speaker);
-                            lineBody.Add(speakerRow);
-                        }
+                            text = "+ Variable",
+                            tooltip = "Change a variable after this dialogue line"
+                        };
+                        addLineVariable.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariableButton);
+                        speakerRow.Add(addLineVariable);
+                        lineBody.Add(speakerRow);
 
                         var expressionNames = new List<string> { "Default" };
                         var expressionIds = new List<string> { string.Empty };
@@ -208,10 +210,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                                     : DropdownMenuAction.Status.Normal);
                         }
                         lineActions.menu.AppendSeparator();
+                        var nextLineIndex = LineGroupEnd(passage.elements, capturedElement);
                         AppendAction(lineActions, "Move up", () => moveElement(passageId, capturedElement, capturedElement - 1),
-                            capturedElement > 0 && passage.elements[capturedElement - 1] is LineElement);
+                            previousLine != null);
                         AppendAction(lineActions, "Move down", () => moveElement(passageId, capturedElement, capturedElement + 1),
-                            capturedElement + 1 < passage.elements.Count && passage.elements[capturedElement + 1] is LineElement);
+                            nextLineIndex < passage.elements.Count && passage.elements[nextLineIndex] is LineElement);
                         AppendAction(lineActions, "Duplicate line", () => duplicateElement(passageId, capturedElement));
                         lineActions.menu.AppendSeparator();
                         AppendAction(lineActions, "Delete line", () => deleteElement(passageId, capturedElement));
@@ -232,8 +235,21 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                         textRow.Add(text);
                         textRow.Add(lineActions);
                         lineBody.Add(textRow);
+                        if (capturedElement + 1 < nextLineIndex)
+                        {
+                            var assignments = new VisualElement();
+                            assignments.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariables);
+                            for (var assignmentIndex = capturedElement + 1; assignmentIndex < nextLineIndex; assignmentIndex++)
+                                assignments.Add(createVariableEditor(passageId, assignmentIndex));
+                            lineBody.Add(assignments);
+                        }
                         lineCard.Add(lineBody);
                         extensionContainer.Add(lineCard);
+                    }
+                    else if (element is SetVariableElement)
+                    {
+                        if (AssignmentOwner(passage.elements, capturedElement) < 0)
+                            extensionContainer.Add(createVariableEditor(passageId, capturedElement));
                     }
                     else if (element is ChoiceElement choice)
                     {
@@ -280,6 +296,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                             row.Add(port);
                             connectionPorts.Add(port);
                             choiceGroup.Add(row);
+                            choiceGroup.Add(createConditionEditor(passageId, capturedElement, capturedOption));
                         }
                         extensionContainer.Add(choiceGroup);
                     }
@@ -461,7 +478,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 Action<string, int, int> deleteChoiceOption,
                 Action<PortBinding> createTarget,
                 Action<PortBinding, string> connect,
-                Action<PortBinding> disconnect)
+                Action<PortBinding> disconnect,
+                Action<string, int> addVariable,
+                Func<string, int, VisualElement> createVariableEditor,
+                Func<string, int, int, VisualElement> createConditionEditor)
             {
                 _deletePassage = deletePassage;
                 focusable = true;
@@ -492,7 +512,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                         GetPassageWarnings(conversation, passage).Count > 0,
                         selectPassage, movePassage, renamePassage, changeSpeaker, changeExpression, changeLineText,
                         changeChoiceText, addLine, addChoice, endConversation, moveElement, duplicateElement, deleteElement,
-                        moveChoiceOption, deleteChoiceOption, createTarget);
+                        moveChoiceOption, deleteChoiceOption, createTarget, addVariable, createVariableEditor, createConditionEditor);
                     _nodes.Add(passage.id.value, node);
                     AddElement(node);
                 }

@@ -112,7 +112,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
             {
                 new ProjectTab(),
                 new ConversationsTab(),
-                new CharactersTab()
+                new CharactersTab(),
+                new VariablesTab()
             };
         }
 

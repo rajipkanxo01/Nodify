@@ -117,6 +117,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
                         foreach (var option in choice.options.Where(option => option != null))
                         {
+                            if (!Services.VariableYarnUtility.TryWriteCondition(option.availability, out _, out var conditionError))
+                                warnings.Add(conditionError);
                             if (string.IsNullOrWhiteSpace(option.text)) warnings.Add("A choice option has no text.");
                             if (!option.destinationPassageId.isValid
                                 || !passageIds.Contains(option.destinationPassageId.value))
@@ -127,6 +129,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
                         break;
                     }
+
+                    case SetVariableElement assignment:
+                        if (!Services.VariableYarnUtility.TryWriteAssignment(assignment, out _, out var assignmentError))
+                            warnings.Add(assignmentError);
+                        break;
 
                     case ConditionalElement:
                         warnings.Add("Conditional Yarn generation is not implemented yet.");
@@ -189,6 +196,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     EndElement => "End conversation",
                     ConditionalElement => "Conditional",
                     ActionElement => "Action",
+                    SetVariableElement => "Set variable",
                     _ => "Dialogue element"
                 };
             });
@@ -205,6 +213,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 EndElement => "End Conversation",
                 ConditionalElement => "Conditional",
                 ActionElement => "Action",
+                SetVariableElement => "Set Variable",
                 _ => "Unknown Element"
             };
         }

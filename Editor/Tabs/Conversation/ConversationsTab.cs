@@ -336,7 +336,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 DeleteInlineChoiceOption,
                 CreateAndConnectTarget,
                 ConnectPort,
-                DisconnectPort);
+                DisconnectPort,
+                AddInlineVariable,
+                CreateVariableEditor,
+                CreateChoiceConditionEditor);
 
             _graph.AddToClassList(DialogueEditorStyleClasses.ConversationGraph);
             _graphHost.Add(_graph);

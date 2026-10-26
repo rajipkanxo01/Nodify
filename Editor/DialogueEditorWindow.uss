@@ -1019,6 +1019,8 @@
     margin-bottom: 1px;
     flex-direction: row;
     align-items: center;
+    margin-right: 29px;
+    justify-content: space-between;
 }
 
 .dialogue-conversation-inline-avatar {
@@ -1044,11 +1046,12 @@
 }
 
 .dialogue-conversation-inline-speaker {
-    min-width: 90px;
+    min-width: 70px;
+    max-width: 160px;
     flex-shrink: 1;
-    flex-grow: 1;
+    flex-grow: 0;
     margin-right: 4px;
-    font-size: 12px;
+    font-size: 11px;
     -unity-font-style: bold;
     height: 22px;
     padding: 0 3px;
@@ -1328,4 +1331,133 @@
 
 .dialogue-conversation-structured-editor {
     margin-top: 2px;
+}
+
+/* Project variables: a compact table with type-specific starting values. */
+.dialogue-conversation-variable-block {
+    margin: 8px 16px;
+    padding: 10px;
+    border-left-width: 2px;
+    border-left-color: rgb(210, 168, 104);
+    background-color: rgb(46, 42, 35);
+    color: rgb(222, 203, 172);
+}
+
+.dialogue-conversation-line-variables {
+    margin-top: 6px;
+    margin-right: 29px;
+}
+
+.dialogue-conversation-line-variables > .dialogue-conversation-variable-block {
+    margin: 3px 0;
+}
+
+.dialogue-conversation-line-variable-button {
+    align-self: center;
+    height: 22px;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 6px;
+    padding: 0 6px;
+    border-width: 0;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(184, 169, 143);
+    font-size: 10px;
+}
+
+.dialogue-conversation-line-variable-button:hover,
+.dialogue-conversation-line-variable-button:focus {
+    color: rgb(239, 216, 179);
+    background-color: rgb(56, 51, 42);
+}
+
+.dialogue-conversation-choice-condition {
+    margin: 0 6px 8px 12px;
+    color: rgb(175, 190, 172);
+    font-size: 11px;
+}
+
+.dialogue-conversation-variable-block .unity-base-field__label,
+.dialogue-conversation-choice-condition .unity-base-field__label {
+    min-width: 90px;
+    width: 90px;
+}
+
+.dialogue-variables-workspace {
+    width: 100%;
+    max-width: 960px;
+    align-self: flex-start;
+}
+
+.dialogue-variables-toolbar {
+    min-height: 34px;
+    margin-bottom: 14px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dialogue-variables-search {
+    flex-grow: 1;
+    max-width: 320px;
+    margin-right: 16px;
+}
+
+.dialogue-variables-rows {
+    flex-grow: 1;
+    min-height: 180px;
+}
+
+.dialogue-variable-row {
+    min-height: 42px;
+    flex-direction: row;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(58, 54, 47);
+}
+
+.dialogue-variable-headings {
+    min-height: 30px;
+    color: rgb(177, 168, 153);
+    font-size: 11px;
+}
+
+.dialogue-variable-name {
+    flex-grow: 1;
+    flex-basis: 0;
+    min-width: 140px;
+    margin-right: 12px;
+}
+
+.dialogue-variable-type {
+    width: 130px;
+    min-width: 110px;
+    margin-right: 12px;
+}
+
+.dialogue-variable-default {
+    width: 180px;
+    min-width: 140px;
+    margin-right: 16px;
+}
+
+.dialogue-variable-delete {
+    width: 28px;
+    min-width: 28px;
+    margin-right: 2px;
+}
+
+.dialogue-variable-row > Button {
+    height: 24px;
+    padding: 0;
+    border-width: 0;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(177, 168, 153);
+}
+
+.dialogue-variable-row > Button:hover {
+    background-color: rgb(66, 45, 39);
+    color: rgb(243, 178, 159);
 }

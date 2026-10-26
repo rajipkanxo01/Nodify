@@ -159,7 +159,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
             if (instance is LineElement)
             {
-                BuildLineEditor(card, serializedConversation, element);
+                BuildLineEditor(card, serializedConversation, element, index);
             }
             else if (instance is JumpElement)
             {
@@ -172,6 +172,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             else if (instance is ChoiceElement)
             {
                 BuildChoiceEditor(card, serializedConversation, element, index);
+            }
+            else if (instance is SetVariableElement)
+            {
+                card.Add(CreateVariableEditor(_selectedPassageId, index));
             }
             else if (instance is EndElement)
             {
@@ -192,7 +196,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
         private void BuildLineEditor(
             VisualElement card,
             SerializedObject serializedConversation,
-            SerializedProperty element)
+            SerializedProperty element,
+            int elementIndex)
         {
             var speakerProperty = element.FindPropertyRelative("_speaker");
             var expressionProperty = element.FindPropertyRelative("_expressionId");
@@ -232,7 +237,15 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 RebuildInspector();
                 RebuildGraph();
             });
-            card.Add(speaker);
+            var speakerControls = new VisualElement();
+            speakerControls.style.flexDirection = FlexDirection.Row;
+            speaker.style.flexGrow = 1;
+            speakerControls.Add(speaker);
+            var addVariable = new Button(() => AddInlineVariable(_selectedPassageId, elementIndex))
+                { text = "+ Variable", tooltip = "Change a variable after this dialogue line" };
+            addVariable.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariableButton);
+            speakerControls.Add(addVariable);
+            card.Add(speakerControls);
 
             if (characters.Count == 0)
             {
@@ -344,6 +357,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     option.FindPropertyRelative("_destinationPassageId"),
                     serializedConversation,
                     RebuildGraph));
+                optionCard.Add(CreateChoiceConditionEditor(_selectedPassageId, elementIndex, capturedOption));
                 card.Add(optionCard);
             }
 

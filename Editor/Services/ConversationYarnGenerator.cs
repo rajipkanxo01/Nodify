@@ -31,6 +31,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
             EditorApplication.update += ProcessPending;
             EditorApplication.delayCall += () =>
             {
+                foreach (var guid in AssetDatabase.FindAssets("t:DialogueProjectAsset"))
+                    ScheduleAll(AssetDatabase.LoadAssetAtPath<DialogueProjectAsset>(AssetDatabase.GUIDToAssetPath(guid)), true);
                 foreach (var guid in AssetDatabase.FindAssets("t:ConversationAsset"))
                 {
                     Schedule(AssetDatabase.LoadAssetAtPath<ConversationAsset>(
@@ -42,6 +44,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
         public static void ScheduleAll(DialogueProjectAsset project, bool immediate = false)
         {
             if (project == null) return;
+            VariableYarnUtility.SyncDeclarations(project);
             foreach (var conversation in project.conversations) Schedule(conversation, immediate);
         }
 
@@ -208,6 +211,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
             {
                 var yarnPath = GetYarnPath(conversation);
                 if (string.IsNullOrEmpty(yarnPath)) return;
+                VariableYarnUtility.SyncOwners(conversation);
 
                 // Persist only this conversation. Avoiding SaveAssets keeps unrelated scenes and assets untouched.
                 AssetDatabase.SaveAssetIfDirty(conversation);
@@ -363,7 +367,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
                                 error = $"choice '{option.text}' has no valid destination.";
                                 return false;
                             }
-                            builder.Append("-> ").AppendLine(OneLine(option.text));
+                            if (!VariableYarnUtility.TryWriteCondition(option.availability, out var condition, out error)) return false;
+                            builder.Append("-> ").Append(OneLine(option.text));
+                            if (!string.IsNullOrEmpty(condition)) builder.Append(" <<if ").Append(condition).Append(">>");
+                            builder.AppendLine();
                             builder.Append("    <<jump ").Append(nodeNames[option.destinationPassageId.value])
                                 .AppendLine(">>");
                         }
@@ -379,6 +386,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
                             .AppendLine(">>");
                         break;
                     case EndElement:
+                        builder.AppendLine("<<stop>>");
+                        break;
+                    case SetVariableElement assignment:
+                        if (!VariableYarnUtility.TryWriteAssignment(assignment, out var command, out error)) return false;
+                        builder.AppendLine(command);
                         break;
                     case ConditionalElement:
                         error = "conditional generation is not implemented yet.";
@@ -448,6 +460,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
                 var conversation = AssetDatabase.LoadAssetAtPath<ConversationAsset>(path);
                 if (conversation != null) ConversationYarnGenerator.Schedule(conversation, true);
                 characterChanged |= AssetDatabase.LoadAssetAtPath<CharacterAsset>(path) != null;
+                var project = AssetDatabase.LoadAssetAtPath<DialogueProjectAsset>(path);
+                if (project != null) ConversationYarnGenerator.ScheduleAll(project, true);
             }
 
             if (characterChanged)

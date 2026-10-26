@@ -1,0 +1,665 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcb672cb9aaf8342b9396b47e96b6c9, type: 3}
+  m_Name: The Last Ferry
+  m_EditorClassIdentifier: ToolForDialogue.Runtime::ToolForDialogue._Project.Dialogue.Runtime.Assets.ConversationAsset
+  _schemaVersion: 1
+  _id:
+    _value: e436d9d0e0f24068b0880093961612e8
+  _displayName: The Last Ferry
+  _startPassageId:
+    _value: c03175d450d147af895734983b28afb1
+  _passages:
+  - _id:
+      _value: c03175d450d147af895734983b28afb1
+    _title: Arrival
+    _graphPosition: {x: 0, y: 400}
+    _elements:
+    - rid: 4120000000000000001
+    - rid: 4120000000000000002
+    - rid: 4120000000000000003
+    - rid: 4120000000000000004
+    - rid: 4120000000000000005
+    - rid: 4120000000000000006
+  - _id:
+      _value: 2aacfd54c9ec4ca686d5b7a71ac14f4b
+    _title: Dock Choices
+    _graphPosition: {x: 535.2726, y: 473.45456}
+    _elements:
+    - rid: 4120000000000000011
+    - rid: 4120000000000000012
+  - _id:
+      _value: c2f5aae97b95408d9544647065da7513
+    _title: Earn Fare
+    _graphPosition: {x: 1080, y: -700}
+    _elements:
+    - rid: 4120000000000000013
+    - rid: 4120000000000000014
+    - rid: 4120000000000000015
+    - rid: 4120000000000000016
+  - _id:
+      _value: 4d4c18ba90e549c0a951b0b8a6c3f3e2
+    _title: Get Pass
+    _graphPosition: {x: 1080, y: -200}
+    _elements:
+    - rid: 4120000000000000017
+    - rid: 4120000000000000018
+    - rid: 4120000000000000019
+    - rid: 4120000000000000020
+  - _id:
+      _value: 1caa42d65d2d4aeea7ce1ce57cf22a9f
+    _title: Pay Fare
+    _graphPosition: {x: 1080, y: 350}
+    _elements:
+    - rid: 4120000000000000021
+    - rid: 4120000000000000022
+    - rid: 4120000000000000023
+    - rid: 4120000000000000024
+  - _id:
+      _value: e993913bb7d74fef85e7568ced95ee76
+    _title: Show Pass
+    _graphPosition: {x: 1080, y: 850}
+    _elements:
+    - rid: 4120000000000000025
+    - rid: 4120000000000000026
+    - rid: 4120000000000000027
+    - rid: 4120000000000000028
+  - _id:
+      _value: 9b3c0de097864313bff1d997b5b690c4
+    _title: Sail Away
+    _graphPosition: {x: 1640, y: 650}
+    _elements:
+    - rid: 4120000000000000029
+    - rid: 4120000000000000030
+    - rid: 4120000000000000031
+  - _id:
+      _value: 584dbf5c74e1494e8baab608bc499260
+    _title: Walk Away
+    _graphPosition: {x: 1080, y: 1350}
+    _elements:
+    - rid: 4120000000000000032
+    - rid: 4120000000000000033
+    - rid: 4120000000000000034
+    - rid: 4120000000000000035
+  _editorState:
+    _defaultPan: {x: 0, y: 0}
+    _defaultZoom: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 4120000000000000001
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: a943ed1b62fb40b1bbacf8e338fd4c72
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: 0401c85b40a64f1585393959d2f7bb15
+        _text: Last ferry. Three coins, or show me a pass.
+        _tags:
+        - demo
+    - rid: 4120000000000000002
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 02a7da036afb46ac87b1ebca9e519e7f
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: Two coins and an impressive talent for bargaining. That is my offer.
+        _tags: []
+    - rid: 4120000000000000003
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 469a6746e6084107ac1f92a84a0e9040
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: ef0022dc31834a4290bce991fe769697
+        _operation: 0
+        _value:
+          _type: 1
+          _booleanValue: 0
+          _integerValue: 2
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 
+    - rid: 4120000000000000004
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 51e22c80d179489694c0293f17e2cff5
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 301ef20df612415b88e3678d314bbaa7
+        _operation: 0
+        _value:
+          _type: 0
+          _booleanValue: 0
+          _integerValue: 0
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 
+    - rid: 4120000000000000005
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 6c510149e8484e20a39820ab6accc82a
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: Surely one of those is useful.
+        _tags: []
+    - rid: 4120000000000000006
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: ba78170822be4dd3bb790f42a853a6dd
+        _enabled: 1
+        _destinationPassageId:
+          _value: 2aacfd54c9ec4ca686d5b7a71ac14f4b
+    - rid: 4120000000000000007
+      type: {class: ComparisonCondition, ns: ToolForDialogue._Project.Dialogue.Runtime.Conditions, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: b5e69024b6654f26b15cfc24fc6cee50
+        _left:
+          _kind: 1
+          _literal:
+            _type: 0
+            _booleanValue: 0
+            _integerValue: 0
+            _numberValue: 0
+            _stringValue: 
+            _enumTypeName: 
+            _enumValue: 
+            _objectReference: {fileID: 0}
+            _entityAssetReference: {fileID: 0}
+            _entityId:
+              _value: 
+            _sceneBindingKey: 
+          _variable:
+            _scope: 0
+            _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+            _conversation: {fileID: 0}
+            _variableId:
+              _value: ef0022dc31834a4290bce991fe769697
+        _comparison: 4
+        _right:
+          _kind: 0
+          _literal:
+            _type: 1
+            _booleanValue: 0
+            _integerValue: 3
+            _numberValue: 0
+            _stringValue: 
+            _enumTypeName: 
+            _enumValue: 
+            _objectReference: {fileID: 0}
+            _entityAssetReference: {fileID: 0}
+            _entityId:
+              _value: 
+            _sceneBindingKey: 
+          _variable:
+            _scope: 0
+            _project: {fileID: 0}
+            _conversation: {fileID: 0}
+            _variableId:
+              _value: 
+    - rid: 4120000000000000008
+      type: {class: BooleanVariableCondition, ns: ToolForDialogue._Project.Dialogue.Runtime.Conditions, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 4ed3f010570d43f78f4bcd83f12ce441
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 301ef20df612415b88e3678d314bbaa7
+        _expectedValue: 0
+    - rid: 4120000000000000009
+      type: {class: ComparisonCondition, ns: ToolForDialogue._Project.Dialogue.Runtime.Conditions, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: ee2f2a28771c49959f4d4b950f8e460c
+        _left:
+          _kind: 1
+          _literal:
+            _type: 0
+            _booleanValue: 0
+            _integerValue: 0
+            _numberValue: 0
+            _stringValue: 
+            _enumTypeName: 
+            _enumValue: 
+            _objectReference: {fileID: 0}
+            _entityAssetReference: {fileID: 0}
+            _entityId:
+              _value: 
+            _sceneBindingKey: 
+          _variable:
+            _scope: 0
+            _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+            _conversation: {fileID: 0}
+            _variableId:
+              _value: ef0022dc31834a4290bce991fe769697
+        _comparison: 3
+        _right:
+          _kind: 0
+          _literal:
+            _type: 1
+            _booleanValue: 0
+            _integerValue: 3
+            _numberValue: 0
+            _stringValue: 
+            _enumTypeName: 
+            _enumValue: 
+            _objectReference: {fileID: 0}
+            _entityAssetReference: {fileID: 0}
+            _entityId:
+              _value: 
+            _sceneBindingKey: 
+          _variable:
+            _scope: 0
+            _project: {fileID: 0}
+            _conversation: {fileID: 0}
+            _variableId:
+              _value: 
+    - rid: 4120000000000000010
+      type: {class: BooleanVariableCondition, ns: ToolForDialogue._Project.Dialogue.Runtime.Conditions, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 081f5256aa884cbea3bd6e7ab5f47ca0
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 301ef20df612415b88e3678d314bbaa7
+        _expectedValue: 1
+    - rid: 4120000000000000011
+      type: {class: ChoiceElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 8c78708a81c24b91b0a1c15577cd12df
+        _enabled: 1
+        _options:
+        - _id:
+            _value: f1705afb605142d98af0f47377564d4a
+          _text: Help tie the boat. (+2 coins)
+          _availability:
+            rid: 4120000000000000007
+          _unavailableBehavior: 0
+          _destinationPassageId:
+            _value: c2f5aae97b95408d9544647065da7513
+        - _id:
+            _value: 3caf837379ef434086f106c063d37bfd
+          _text: Ask about a ferry pass.
+          _availability:
+            rid: 4120000000000000008
+          _unavailableBehavior: 0
+          _destinationPassageId:
+            _value: 4d4c18ba90e549c0a951b0b8a6c3f3e2
+        - _id:
+            _value: 5e869d6d0b4246f29f891058d0fb43a7
+          _text: Pay three coins.
+          _availability:
+            rid: 4120000000000000009
+          _unavailableBehavior: 0
+          _destinationPassageId:
+            _value: 1caa42d65d2d4aeea7ce1ce57cf22a9f
+        - _id:
+            _value: 36952c4b2aab4842b00d72e25eb20086
+          _text: Show your ferry pass.
+          _availability:
+            rid: 4120000000000000010
+          _unavailableBehavior: 0
+          _destinationPassageId:
+            _value: e993913bb7d74fef85e7568ced95ee76
+        - _id:
+            _value: 739f4157ee7443c4b9c4ea72b49a0b2e
+          _text: Leave the dock.
+          _availability:
+            rid: -2
+          _unavailableBehavior: 0
+          _destinationPassageId:
+            _value: 584dbf5c74e1494e8baab608bc499260
+    - rid: 4120000000000000012
+      type: {class: EndElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 84426f0717b14ab68fffeafc2b07877c
+        _enabled: 1
+    - rid: 4120000000000000013
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: da1dbc3f8658484c8e91f79b77ce650b
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: b5351f8c80c7418fa3ed0c73a1cfac74
+        _text: There. A knot so good it deserves an audience.
+        _tags: []
+    - rid: 4120000000000000014
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: ab0342eae5884a639e7105d071d75e8a
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: f51d8b73cbb7470984bfbc61c81054e9
+        _text: It deserves two coins. Please spare me the audience.
+        _tags:
+        - reward
+    - rid: 4120000000000000015
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: c433b4951d41419c807c3f2a533454ec
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: ef0022dc31834a4290bce991fe769697
+        _operation: 1
+        _value:
+          _type: 1
+          _booleanValue: 0
+          _integerValue: 2
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 
+    - rid: 4120000000000000016
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 7f9486538e714368a6807cda962a5262
+        _enabled: 1
+        _destinationPassageId:
+          _value: 2aacfd54c9ec4ca686d5b7a71ac14f4b
+    - rid: 4120000000000000017
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 1fa99e5c0e1b45a2ba80bf63229a3e73
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: 98b8249288244db598dcd70eda0cf05d
+        _text: You found my missing oar yesterday. Take this pass.
+        _tags: []
+    - rid: 4120000000000000018
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 57be0b1136e24fb6b0ac181011b50f51
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 301ef20df612415b88e3678d314bbaa7
+        _operation: 0
+        _value:
+          _type: 0
+          _booleanValue: 1
+          _integerValue: 0
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 
+    - rid: 4120000000000000019
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 14a4426abe164be5a80b0bf98b1b1628
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: b5351f8c80c7418fa3ed0c73a1cfac74
+        _text: Finally, a reward that floats.
+        _tags: []
+    - rid: 4120000000000000020
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: ee390c0e90964c22b3099c5e017076bc
+        _enabled: 1
+        _destinationPassageId:
+          _value: 2aacfd54c9ec4ca686d5b7a71ac14f4b
+    - rid: 4120000000000000021
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: d2533d7dbaea49869c52ac46a3ffd775
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: Three coins. Try not to spend them all on pebbles.
+        _tags: []
+    - rid: 4120000000000000022
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: f3959a1f1fff44a1924111dec973834b
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: ef0022dc31834a4290bce991fe769697
+        _operation: 2
+        _value:
+          _type: 1
+          _booleanValue: 0
+          _integerValue: 3
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 
+    - rid: 4120000000000000023
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: f46fca6f74494c84b62df927b4d16592
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: 98b8249288244db598dcd70eda0cf05d
+        _text: A pleasure. Mind the gap.
+        _tags: []
+    - rid: 4120000000000000024
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: ac5d665e209e4c6fa34001608458ab13
+        _enabled: 1
+        _destinationPassageId:
+          _value: 9b3c0de097864313bff1d997b5b690c4
+    - rid: 4120000000000000025
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: d0e9a186dbbf4906b1a410accb560ff4
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: b5351f8c80c7418fa3ed0c73a1cfac74
+        _text: One ferry pass. I knew keeping this would pay off.
+        _tags: []
+    - rid: 4120000000000000026
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 648f90849a7448edbcb5c54a0a04fcd1
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 301ef20df612415b88e3678d314bbaa7
+        _operation: 0
+        _value:
+          _type: 0
+          _booleanValue: 0
+          _integerValue: 0
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 
+    - rid: 4120000000000000027
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: e102030e4cd24d29b7bb6e1d3787ac72
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: f51d8b73cbb7470984bfbc61c81054e9
+        _text: Valid. Unlike your knots.
+        _tags: []
+    - rid: 4120000000000000028
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 3a109630b32145c59a374a26bd3911b6
+        _enabled: 1
+        _destinationPassageId:
+          _value: 9b3c0de097864313bff1d997b5b690c4
+    - rid: 4120000000000000029
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 586944c23e4e4b518fa6886a88672bc5
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: 0401c85b40a64f1585393959d2f7bb15
+        _text: All aboard. The tide waits for nobody.
+        _tags: []
+    - rid: 4120000000000000030
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: f4b804f2084a4d6484ced0a71ad3a810
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: b5351f8c80c7418fa3ed0c73a1cfac74
+        _text: 'Then let us stop arguing with it.
+
+          Next stop: somewhere dry.'
+        _tags:
+        - ending
+        - sailed
+    - rid: 4120000000000000031
+      type: {class: EndElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 1c67aa8fa6404fd89ed68a0bfb5a8525
+        _enabled: 1
+    - rid: 4120000000000000032
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 51b607bf30694597bfa28e852d766b85
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: I will take the scenic route.
+        _tags: []
+    - rid: 4120000000000000033
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 56c01bc8c7af4762984dee2c19132f28
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: f51d8b73cbb7470984bfbc61c81054e9
+        _text: It is a river.
+        _tags: []
+    - rid: 4120000000000000034
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 8c1235b8737f43698f60921cd95d65c1
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: b5351f8c80c7418fa3ed0c73a1cfac74
+        _text: Then it will be very scenic.
+        _tags:
+        - ending
+        - walked
+    - rid: 4120000000000000035
+      type: {class: EndElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 8be65b05efe8418cb729b6dd0f010fd0
+        _enabled: 1

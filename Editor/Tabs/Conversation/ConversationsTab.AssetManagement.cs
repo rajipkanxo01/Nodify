@@ -192,26 +192,12 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
         private void MoveElement(int from, int to)
         {
-            var serialized = new SerializedObject(_selectedConversation);
-            var elements = GetSelectedElements(serialized);
-            if (to < 0 || to >= elements.arraySize) return;
-            Undo.RecordObject(_selectedConversation, "Reorder Dialogue Element");
-            elements.MoveArrayElement(from, to);
-            serialized.ApplyModifiedProperties();
-            MarkConversationChanged();
-            RebuildInspector();
+            MoveInlineElement(_selectedPassageId, from, to);
         }
 
         private void DeleteElement(int index)
         {
-            var serialized = new SerializedObject(_selectedConversation);
-            var elements = GetSelectedElements(serialized);
-            Undo.RecordObject(_selectedConversation, "Delete Dialogue Element");
-            elements.DeleteArrayElementAtIndex(index);
-            serialized.ApplyModifiedProperties();
-            MarkConversationChanged();
-            RebuildGraph();
-            RebuildInspector();
+            DeleteInlineElement(_selectedPassageId, index);
         }
 
         private void AddChoiceOption(int elementIndex)

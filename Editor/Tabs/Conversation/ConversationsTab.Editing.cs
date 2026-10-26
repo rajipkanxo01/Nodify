@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ToolForDialogue._Project.Dialogue.Runtime.Assets;
 using ToolForDialogue._Project.Dialogue.Runtime.Types;
 using UnityEditor;
@@ -13,7 +14,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             AddElementToPassage(_selectedPassageId, instance, "Add Dialogue Element");
         }
 
-        private int AddElementToPassage(string passageId, DialogueElement instance, string undoName)
+        private int AddElementToPassage(string passageId, DialogueElement instance, string undoName, int? afterLineIndex = null)
         {
             var serialized = new SerializedObject(_selectedConversation);
             var elements = GetPassageElements(serialized, passageId);
@@ -25,12 +26,21 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             {
                 insertionIndex--;
             }
-            if (instance is LineElement
+            if ((instance is LineElement || instance is SetVariableElement)
                 && insertionIndex > 0
                 && (elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is ChoiceElement
                     || elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is JumpElement))
             {
                 insertionIndex--;
+            }
+            if (afterLineIndex.HasValue)
+            {
+                var lineIndex = afterLineIndex.Value;
+                if (lineIndex < 0 || lineIndex >= elements.arraySize
+                    || !(elements.GetArrayElementAtIndex(lineIndex).managedReferenceValue is LineElement)) return -1;
+                insertionIndex = lineIndex + 1;
+                while (insertionIndex < elements.arraySize
+                    && elements.GetArrayElementAtIndex(insertionIndex).managedReferenceValue is SetVariableElement) insertionIndex++;
             }
             elements.InsertArrayElementAtIndex(insertionIndex);
             var newElement = elements.GetArrayElementAtIndex(insertionIndex);
@@ -47,6 +57,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     }
                 }
                 AssignDefaultSpeaker(newElement, previousSpeaker);
+            }
+            else if (instance is SetVariableElement)
+            {
+                var variable = EditableVariables().Count > 0 ? EditableVariables()[0] : null;
+                if (variable != null) InitializeAssignment(newElement, variable);
             }
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
@@ -127,13 +142,51 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             {
                 return;
             }
-            Undo.RecordObject(_selectedConversation, "Reorder Dialogue Line");
-            elements.MoveArrayElement(from, to);
+            var source = elements.GetArrayElementAtIndex(from).managedReferenceValue;
+            var focusIndex = to;
+            if (source is LineElement)
+            {
+                if (to > from)
+                {
+                    while (to < elements.arraySize && elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement) to++;
+                }
+                else
+                {
+                    while (to >= 0 && elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement) to--;
+                }
+                if (to < 0 || to >= elements.arraySize || !(elements.GetArrayElementAtIndex(to).managedReferenceValue is LineElement)) return;
+                var count = SerializedLineGroupEnd(elements, from) - from;
+                Undo.RecordObject(_selectedConversation, "Move Dialogue Line and Variables");
+                if (to < from)
+                {
+                    for (var offset = 0; offset < count; offset++) elements.MoveArrayElement(from + offset, to + offset);
+                    focusIndex = to;
+                }
+                else
+                {
+                    var targetEnd = SerializedLineGroupEnd(elements, to);
+                    for (var offset = 0; offset < count; offset++) elements.MoveArrayElement(from, targetEnd - 1);
+                    focusIndex = targetEnd - count;
+                }
+            }
+            else
+            {
+                if (source is SetVariableElement && !(elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement)) return;
+                Undo.RecordObject(_selectedConversation, "Reorder Dialogue Element");
+                elements.MoveArrayElement(from, to);
+            }
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
             RebuildGraph();
             if (_selectedPassageId == passageId) RebuildInspector();
-            _graph?.FocusLine(passageId, to);
+            _graph?.FocusLine(passageId, focusIndex);
+        }
+
+        private static int SerializedLineGroupEnd(SerializedProperty elements, int lineIndex)
+        {
+            var end = lineIndex + 1;
+            while (end < elements.arraySize && elements.GetArrayElementAtIndex(end).managedReferenceValue is SetVariableElement) end++;
+            return end;
         }
 
         private void DuplicateInlineElement(string passageId, int elementIndex)
@@ -142,17 +195,28 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             var elements = GetPassageElements(serialized, passageId);
             if (elements == null || elementIndex < 0 || elementIndex >= elements.arraySize) return;
             if (!(elements.GetArrayElementAtIndex(elementIndex).managedReferenceValue is DialogueElement source)) return;
-            var copy = Activator.CreateInstance(source.GetType()) as DialogueElement;
-            if (copy == null) return;
-            JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(source), copy);
+            var end = source is LineElement ? SerializedLineGroupEnd(elements, elementIndex) : elementIndex + 1;
+            var copies = new List<DialogueElement>();
+            for (var index = elementIndex; index < end; index++)
+            {
+                var original = elements.GetArrayElementAtIndex(index).managedReferenceValue as DialogueElement;
+                var copy = Activator.CreateInstance(original.GetType()) as DialogueElement;
+                JsonUtility.FromJsonOverwrite(JsonUtility.ToJson(original), copy);
+                copies.Add(copy);
+            }
             Undo.RecordObject(_selectedConversation, "Duplicate Dialogue Line");
-            elements.InsertArrayElementAtIndex(elementIndex + 1);
-            elements.GetArrayElementAtIndex(elementIndex + 1).managedReferenceValue = copy;
+            for (var offset = 0; offset < copies.Count; offset++)
+            {
+                elements.InsertArrayElementAtIndex(end + offset);
+                var inserted = elements.GetArrayElementAtIndex(end + offset);
+                inserted.managedReferenceValue = copies[offset];
+                SetGuidValue(inserted.FindPropertyRelative("_id"), Guid.NewGuid().ToString("N"));
+            }
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
             RebuildGraph();
             if (_selectedPassageId == passageId) RebuildInspector();
-            _graph?.FocusLine(passageId, elementIndex + 1);
+            _graph?.FocusLine(passageId, end);
         }
 
         private void DeleteInlineElement(string passageId, int elementIndex)
@@ -161,7 +225,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             var elements = GetPassageElements(serialized, passageId);
             if (elements == null || elementIndex < 0 || elementIndex >= elements.arraySize) return;
             Undo.RecordObject(_selectedConversation, "Delete Dialogue Line");
-            elements.DeleteArrayElementAtIndex(elementIndex);
+            var end = elements.GetArrayElementAtIndex(elementIndex).managedReferenceValue is LineElement
+                ? SerializedLineGroupEnd(elements, elementIndex) : elementIndex + 1;
+            for (var index = end - 1; index >= elementIndex; index--) elements.DeleteArrayElementAtIndex(index);
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
             RebuildGraph();

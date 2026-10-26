@@ -17,9 +17,49 @@ MonoBehaviour:
     _value: a87195c2e5c8450aa627c652db95be9a
   _displayName: Dialogue Project
   _yarnProject: {fileID: 7545569452688597077, guid: 531e947916a95bf4381cf2a79af891cb, type: 3}
-  _characters: []
-  _conversations: []
-  _variables: []
+  _characters:
+  - {fileID: 11400000, guid: 8b96b80b6980eb74f866039e32f404a4, type: 2}
+  - {fileID: 11400000, guid: 0aa02e782b4696b4cbd181a37e9101cd, type: 2}
+  - {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+  - {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+  _conversations:
+  - {fileID: 11400000, guid: d866a1836a1e29543ab7f942666436cd, type: 2}
+  - {fileID: 11400000, guid: 5f1403e0699149e4a507bec43d19f853, type: 2}
+  _variables:
+  - _id:
+      _value: 301ef20df612415b88e3678d314bbaa7
+    _displayName: TestBoolena
+    _type: 0
+    _defaultValue:
+      _type: 0
+      _booleanValue: 0
+      _integerValue: 0
+      _numberValue: 0
+      _stringValue: 
+      _enumTypeName: 
+      _enumValue: 
+      _objectReference: {fileID: 0}
+      _entityAssetReference: {fileID: 0}
+      _entityId:
+        _value: 
+      _sceneBindingKey: 
+  - _id:
+      _value: ef0022dc31834a4290bce991fe769697
+    _displayName: Test
+    _type: 1
+    _defaultValue:
+      _type: 1
+      _booleanValue: 0
+      _integerValue: 0
+      _numberValue: 0
+      _stringValue: 
+      _enumTypeName: 
+      _enumValue: 
+      _objectReference: {fileID: 0}
+      _entityAssetReference: {fileID: 0}
+      _entityId:
+        _value: 
+      _sceneBindingKey: 
   _generation:
     _outputFolder: Assets/Generated/Dialogue
     _generateOnSave: 0
