@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
+using ConversationsTab = ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation.ConversationsTab;
 
 namespace ToolForDialogue.Editor._Project.Scripts.Editor
 {
@@ -107,10 +108,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
             {
                 new ProjectTab(),
                 new ConversationsTab(),
-                new CharactersTab(),
-                new VariablesTab(),
-                new ValidationTab(),
-                new SettingsTab()
+                new CharactersTab()
             };
         }
 

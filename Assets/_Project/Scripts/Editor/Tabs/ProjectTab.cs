@@ -47,9 +47,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
             scrollView.Add(content);
 
             content.Add(CreateProjectDetails(project, issues));
-            content.Add(CreateSummary(project, issues.Count, context));
+            content.Add(CreateSummary(project, context));
             content.Add(CreateQuickActions(context));
-            content.Add(CreateProjectHealth(project, issues, context));
+            content.Add(CreateProjectHealth(project, issues));
             container.Add(scrollView);
         }
 
@@ -136,7 +136,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
 
         private static VisualElement CreateSummary(
             DialogueProjectAsset project,
-            int issueCount,
             DialogueEditorTabContext context)
         {
             var section = new VisualElement();
@@ -155,15 +154,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
                 "Characters",
                 project.characters.Count.ToString(),
                 () => context.SelectTab(DialogueEditorTabId.Characters)));
-            cards.Add(CreateStatCard(
-                "Variables",
-                project.variables.Count.ToString(),
-                () => context.SelectTab(DialogueEditorTabId.Variables)));
-            cards.Add(CreateStatCard(
-                "Validation",
-                issueCount == 0 ? "Clear" : issueCount.ToString(),
-                () => context.SelectTab(DialogueEditorTabId.Validation),
-                issueCount > 0));
             section.Add(cards);
             return section;
         }
@@ -200,20 +190,13 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
                 { text = "Open Conversations" });
             actions.Add(new Button(() => context.SelectTab(DialogueEditorTabId.Characters))
                 { text = "Open Characters" });
-            actions.Add(new Button(() => context.SelectTab(DialogueEditorTabId.Variables))
-                { text = "Review Variables" });
-            actions.Add(new Button(() => context.SelectTab(DialogueEditorTabId.Validation))
-                { text = "Review Validation" });
-            actions.Add(new Button(() => context.SelectTab(DialogueEditorTabId.Settings))
-                { text = "Generation Settings" });
             section.Add(actions);
             return section;
         }
 
         private static VisualElement CreateProjectHealth(
             DialogueProjectAsset project,
-            IReadOnlyList<ProjectIssue> issues,
-            DialogueEditorTabContext context)
+            IReadOnlyList<ProjectIssue> issues)
         {
             var section = new VisualElement();
             section.AddToClassList(DialogueEditorStyleClasses.ProjectSection);
@@ -222,11 +205,6 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
             var heading = new Label("Project Health");
             heading.AddToClassList(DialogueEditorStyleClasses.SectionTitle);
             header.Add(heading);
-            if (issues.Count > 0)
-            {
-                header.Add(new Button(() => context.SelectTab(DialogueEditorTabId.Validation))
-                    { text = "Review All" });
-            }
             section.Add(header);
 
             var healthList = new VisualElement();
@@ -249,7 +227,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
             }
             else
             {
-                foreach (var issue in issues.Take(4))
+                foreach (var issue in issues)
                 {
                     healthList.Add(CreateHealthRow(issue.isError ? "×" : "!", issue.message, true));
                 }

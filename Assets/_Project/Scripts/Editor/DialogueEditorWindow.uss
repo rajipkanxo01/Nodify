@@ -638,3 +638,552 @@
     -unity-font-style: bold;
     -unity-text-align: middle-center;
 }
+
+/* Conversations tab: list, passage graph, and inspector. */
+
+.dialogue-conversation-workspace {
+    min-height: 520px;
+    flex-grow: 1;
+    flex-direction: row;
+    border-top-width: 1px;
+    border-top-color: rgb(61, 61, 61);
+}
+
+.dialogue-conversation-sidebar {
+    width: 240px;
+    min-width: 200px;
+    padding-top: 10px;
+    padding-right: 10px;
+    border-right-width: 1px;
+    border-right-color: rgb(64, 64, 64);
+}
+
+.dialogue-conversation-sidebar-header,
+.dialogue-conversation-inspector-header,
+.dialogue-conversation-element-header,
+.dialogue-conversation-graph-toolbar {
+    min-height: 28px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dialogue-conversation-sidebar-header {
+    margin-bottom: 6px;
+}
+
+.dialogue-conversation-sidebar-header > Button {
+    width: 28px;
+    min-width: 28px;
+}
+
+.dialogue-conversation-search {
+    width: 100%;
+    max-width: 230px;
+    min-width: 0;
+    margin-bottom: 8px;
+    flex-shrink: 1;
+}
+
+.dialogue-conversation-list {
+    flex-grow: 1;
+}
+
+.dialogue-conversation-group {
+    margin-bottom: 5px;
+}
+
+.dialogue-conversation-group-header {
+    min-height: 34px;
+    padding: 5px 6px;
+    flex-direction: row;
+    align-items: center;
+    -unity-text-align: middle-left;
+    border-width: 1px;
+    border-color: rgb(57, 60, 65);
+    border-radius: 3px;
+    background-color: rgb(45, 47, 51);
+}
+
+.dialogue-conversation-group-header:hover {
+    background-color: rgb(52, 55, 60);
+}
+
+.dialogue-conversation-group-header > .dialogue-character-list-name {
+    flex-grow: 1;
+}
+
+.dialogue-conversation-group-chevron {
+    width: 17px;
+    min-width: 17px;
+    color: rgb(174, 180, 188);
+    -unity-text-align: middle-left;
+}
+
+.dialogue-conversation-group-count {
+    min-width: 21px;
+    margin-left: 5px;
+    padding: 1px 5px;
+    border-radius: 8px;
+    background-color: rgb(60, 63, 69);
+    color: rgb(170, 174, 181);
+    font-size: 10px;
+    -unity-text-align: middle-center;
+}
+
+.dialogue-conversation-passage-list {
+    margin-left: 10px;
+    padding-top: 2px;
+    padding-left: 5px;
+    border-left-width: 1px;
+    border-left-color: rgb(65, 68, 74);
+}
+
+.dialogue-conversation-passage-item {
+    min-height: 27px;
+    margin-top: 1px;
+    padding: 3px 6px;
+    flex-direction: row;
+    align-items: center;
+    -unity-text-align: middle-left;
+    border-width: 0;
+    border-radius: 3px;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(193, 196, 202);
+}
+
+.dialogue-conversation-passage-item:hover {
+    background-color: rgb(48, 51, 56);
+}
+
+.dialogue-conversation-passage-item--selected {
+    background-color: rgb(45, 66, 88);
+    color: rgb(222, 234, 247);
+}
+
+.dialogue-conversation-passage-icon {
+    width: 18px;
+    min-width: 18px;
+    margin-right: 2px;
+    color: rgb(126, 162, 200);
+    -unity-text-align: middle-center;
+}
+
+.dialogue-conversation-list-item {
+    min-height: 48px;
+    margin-bottom: 4px;
+    padding: 6px 8px;
+    flex-direction: row;
+    align-items: center;
+    -unity-text-align: middle-left;
+    border-width: 1px;
+    border-color: rgb(57, 57, 57);
+    border-radius: 3px;
+    background-color: rgb(47, 47, 47);
+}
+
+.dialogue-conversation-list-item:hover {
+    background-color: rgb(55, 55, 55);
+}
+
+.dialogue-conversation-list-item--selected {
+    border-color: rgb(79, 155, 235);
+    background-color: rgb(48, 63, 80);
+}
+
+.dialogue-conversation-graph-host {
+    min-width: 380px;
+    flex-grow: 1;
+}
+
+.dialogue-conversation-graph-toolbar {
+    height: 38px;
+    padding-left: 10px;
+    padding-right: 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(61, 61, 61);
+    background-color: rgb(43, 43, 43);
+}
+
+.dialogue-conversation-graph-toolbar Button {
+    margin-left: 4px;
+}
+
+.dialogue-conversation-title-field {
+    width: 240px;
+    max-width: 40%;
+    -unity-font-style: bold;
+}
+
+.dialogue-conversation-graph {
+    flex-grow: 1;
+    background-color: rgb(31, 31, 31);
+}
+
+.dialogue-conversation-node-preview {
+    max-width: 190px;
+    padding: 5px;
+    white-space: normal;
+    color: rgb(165, 165, 165);
+}
+
+.dialogue-conversation-inline-node {
+    min-width: 420px;
+    max-width: 420px;
+    border-radius: 7px;
+    border-color: rgb(67, 76, 88);
+    background-color: rgb(31, 33, 37);
+}
+
+.dialogue-conversation-inline-header {
+    min-height: 40px;
+    padding-left: 7px;
+    padding-right: 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(70, 81, 94);
+    background-color: rgb(47, 54, 63);
+}
+
+.dialogue-conversation-inline-content {
+    padding-top: 5px;
+    background-color: rgb(34, 36, 40);
+}
+
+.dialogue-conversation-inline-title {
+    min-width: 190px;
+    flex-grow: 1;
+    margin-left: 7px;
+    margin-right: 6px;
+    font-size: 13px;
+    padding: 1px 3px;
+    border-width: 1px;
+    border-color: rgb(67, 72, 80);
+    border-radius: 3px;
+    background-color: rgb(39, 42, 47);
+    -unity-font-style: bold;
+    -unity-text-align: middle-left;
+}
+
+.dialogue-conversation-inline-title .unity-text-input,
+.dialogue-conversation-inline-title .unity-text-field__input {
+    padding-left: 5px;
+    border-width: 0;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(232, 234, 238);
+    -unity-text-align: middle-left;
+}
+
+.dialogue-conversation-inline-start-badge {
+    margin-left: 4px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background-color: rgb(50, 112, 78);
+    color: rgb(205, 241, 218);
+    font-size: 9px;
+    -unity-font-style: bold;
+}
+
+.dialogue-conversation-inline-warning-badge {
+    width: 18px;
+    height: 18px;
+    margin-left: 3px;
+    border-radius: 9px;
+    background-color: rgb(142, 94, 35);
+    color: rgb(255, 226, 172);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.dialogue-conversation-inline-input {
+    margin-left: 1px;
+    margin-right: 3px;
+}
+
+.dialogue-conversation-inline-output {
+    margin-left: 3px;
+    margin-right: 1px;
+}
+
+.dialogue-conversation-inline-line {
+    margin: 3px 8px;
+    padding: 7px 8px;
+    flex-direction: row;
+    align-items: flex-start;
+    border-width: 1px;
+    border-color: rgb(57, 61, 68);
+    border-radius: 3px;
+    background-color: rgb(40, 42, 47);
+}
+
+.dialogue-conversation-inline-line:hover {
+    border-color: rgb(72, 82, 95);
+    background-color: rgb(44, 47, 53);
+}
+
+.dialogue-conversation-inline-line--active {
+    border-color: rgb(77, 137, 199);
+    background-color: rgb(42, 49, 58);
+}
+
+.dialogue-conversation-inline-line-actions {
+    display: none;
+    margin-left: 4px;
+    flex-direction: row;
+}
+
+.dialogue-conversation-inline-line:hover .dialogue-conversation-inline-line-actions,
+.dialogue-conversation-inline-line--active .dialogue-conversation-inline-line-actions {
+    display: flex;
+}
+
+.dialogue-conversation-inline-line-actions > Button {
+    width: 21px;
+    min-width: 21px;
+    height: 21px;
+    margin-left: 2px;
+    padding: 0;
+}
+
+.dialogue-conversation-inline-body {
+    min-width: 0;
+    flex-grow: 1;
+}
+
+.dialogue-conversation-inline-speaker-row {
+    min-height: 21px;
+    margin-bottom: 1px;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dialogue-conversation-inline-avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    margin-right: 8px;
+    border-width: 1px;
+    border-color: rgb(76, 83, 94);
+    border-radius: 4px;
+    background-color: rgb(52, 61, 73);
+    -unity-background-scale-mode: scale-and-crop;
+    overflow: hidden;
+}
+
+.dialogue-conversation-inline-avatar > Label {
+    flex-grow: 1;
+    color: rgb(193, 211, 233);
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.dialogue-conversation-inline-speaker {
+    min-width: 145px;
+    flex-grow: 1;
+    margin-right: 4px;
+    font-size: 11px;
+    -unity-font-style: bold;
+}
+
+.dialogue-conversation-inline-speaker .unity-base-popup-field__input,
+.dialogue-conversation-inline-speaker .unity-popup-field__input {
+    padding-left: 2px;
+    border-width: 0;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(235, 236, 239);
+}
+
+.dialogue-conversation-inline-expression {
+    width: 118px;
+    color: rgb(162, 166, 173);
+}
+
+.dialogue-conversation-inline-expression-group {
+    min-width: 30px;
+    align-items: flex-end;
+}
+
+.dialogue-conversation-inline-expression-toggle {
+    min-width: 28px;
+    height: 24px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: rgb(162, 177, 194);
+}
+
+.dialogue-conversation-inline-text {
+    min-height: 32px;
+    margin-top: 2px;
+    padding: 2px 4px;
+    border-width: 1px;
+    border-color: rgb(55, 59, 66);
+    border-radius: 3px;
+    background-color: rgb(35, 37, 41);
+    white-space: normal;
+}
+
+.dialogue-conversation-inline-text .unity-text-input,
+.dialogue-conversation-inline-text .unity-text-field__input {
+    padding: 2px;
+    border-width: 0;
+    background-image: none;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(218, 220, 224);
+    font-size: 12px;
+    white-space: normal;
+}
+
+.dialogue-conversation-inline-choice-group {
+    margin: 5px 8px;
+    border-width: 1px;
+    border-color: rgb(65, 104, 151);
+    border-radius: 4px;
+    background-color: rgb(37, 49, 64);
+    overflow: hidden;
+}
+
+.dialogue-conversation-inline-choice {
+    min-height: 34px;
+    margin: 0;
+    padding: 4px 1px 4px 6px;
+    flex-direction: row;
+    align-items: center;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(55, 80, 109);
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.dialogue-conversation-inline-choice:hover {
+    background-color: rgb(42, 59, 78);
+}
+
+.dialogue-conversation-inline-choice--last {
+    border-bottom-width: 0;
+}
+
+.dialogue-conversation-inline-choice > TextField {
+    flex-grow: 1;
+}
+
+.dialogue-conversation-inline-choice > TextField .unity-text-input {
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(213, 227, 244);
+}
+
+.dialogue-conversation-inline-choice-icon {
+    width: 20px;
+    min-width: 20px;
+    color: rgb(113, 174, 238);
+    font-size: 18px;
+    -unity-text-align: middle-center;
+    -unity-font-style: bold;
+}
+
+.dialogue-conversation-inline-choice > Button {
+    width: 25px;
+    min-width: 25px;
+    margin-left: 4px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.dialogue-conversation-inline-choice-actions {
+    margin-left: 3px;
+    flex-direction: row;
+}
+
+.dialogue-conversation-inline-choice-actions > Button {
+    width: 21px;
+    min-width: 21px;
+    height: 22px;
+    margin-left: 2px;
+    padding: 0;
+}
+
+.dialogue-conversation-inline-actions {
+    margin: 7px 8px 0 8px;
+    padding-top: 7px;
+    padding-bottom: 8px;
+    padding-right: 1px;
+    flex-direction: row;
+    justify-content: flex-end;
+    border-top-width: 1px;
+    border-top-color: rgb(57, 61, 68);
+    background-color: rgb(34, 36, 40);
+}
+
+.dialogue-conversation-inline-actions > Button {
+    margin-left: 4px;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.dialogue-conversation-inline-end-action {
+    margin-left: 0;
+    color: rgb(207, 169, 128);
+}
+
+.dialogue-conversation-inline-end-action:disabled {
+    color: rgb(133, 165, 143);
+}
+
+.dialogue-conversation-inspector {
+    width: 360px;
+    min-width: 300px;
+    padding: 12px;
+    border-left-width: 1px;
+    border-left-color: rgb(64, 64, 64);
+    background-color: rgb(39, 39, 39);
+}
+
+.dialogue-conversation-inspector-header {
+    margin-bottom: 10px;
+}
+
+.dialogue-conversation-inspector-divider {
+    height: 1px;
+    margin-top: 14px;
+    margin-bottom: 14px;
+    background-color: rgb(65, 65, 65);
+}
+
+.dialogue-conversation-element-card {
+    margin-bottom: 8px;
+    padding: 9px;
+    border-width: 1px;
+    border-color: rgb(64, 64, 64);
+    border-radius: 4px;
+    background-color: rgb(46, 46, 46);
+}
+
+.dialogue-conversation-element-header {
+    margin-bottom: 7px;
+}
+
+.dialogue-conversation-element-header Button {
+    width: 26px;
+    min-width: 26px;
+    margin-left: 3px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.dialogue-conversation-element-title {
+    -unity-font-style: bold;
+    color: rgb(215, 215, 215);
+}
+
+.dialogue-conversation-choice-option {
+    margin-bottom: 7px;
+    padding: 7px;
+    border-left-width: 2px;
+    border-left-color: rgb(79, 125, 175);
+    background-color: rgb(41, 41, 41);
+}
+
+.dialogue-conversation-structured-editor {
+    margin-top: 2px;
+}
