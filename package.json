@@ -1,0 +1,7 @@
+{
+  "name": "com.rajipkanxo01.dialogue-tool",
+  "version": "1.0.0",
+  "displayName": "Dialogue Tool",
+  "description": "A Yarn Spinner-based dialogue authoring tool for Unity.",
+  "unity": "6000.0"
+}
