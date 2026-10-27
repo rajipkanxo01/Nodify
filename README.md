@@ -14,9 +14,6 @@ view focused, press **E** to interact again. The same dialogue runner keeps its
 variables, so the next interaction plays the repeat greeting. Change the key on
 the scene's **Dialogue Replay (E)** component if needed.
 
-If you previously ran the junction-based preview setup, run `./Tools/Enable-LocalPreview.ps1`
-once in PowerShell to remove the old preview links before opening Unity.
-
 ## Install in another project
 
 First install Yarn Spinner v3.2.8 using **Window > Package Manager > Add package from git URL**:
