@@ -1,0 +1,27 @@
+title: TestBranching_Start
+---
+<<if $hasTalked>>
+<<jump TestBranching_HasTalked>>
+<<else>>
+<<jump TestBranching_HasNotTalked>>
+<<endif>>
+<<stop>>
+===
+
+title: TestBranching_HasNotTalked
+---
+Knud: We have not talked before.
+Jorgen: Lets set has talked variable to true.
+<<set $hasTalked = true>>
+Knud: ok. lets do that
+<<stop>>
+===
+
+title: TestBranching_HasTalked
+---
+Knud: Have we talked already?
+Jorgen: Yes! has talked variable is set to true.
+Knud: nice!
+<<stop>>
+===
+

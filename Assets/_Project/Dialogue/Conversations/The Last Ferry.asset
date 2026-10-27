@@ -22,7 +22,7 @@ MonoBehaviour:
   - _id:
       _value: c03175d450d147af895734983b28afb1
     _title: Arrival
-    _graphPosition: {x: 0, y: 400}
+    _graphPosition: {x: -466.45, y: 366.1501}
     _elements:
     - rid: 4120000000000000001
     - rid: 4120000000000000002
@@ -33,7 +33,7 @@ MonoBehaviour:
   - _id:
       _value: 2aacfd54c9ec4ca686d5b7a71ac14f4b
     _title: Dock Choices
-    _graphPosition: {x: 559.2726, y: 389.81818}
+    _graphPosition: {x: 473.831, y: 525.35785}
     _elements:
     - rid: 4120000000000000011
     - rid: 4120000000000000012

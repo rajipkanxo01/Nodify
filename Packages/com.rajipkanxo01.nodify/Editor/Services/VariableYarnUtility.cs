@@ -97,7 +97,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
         public static string BuildDeclarations(DialogueProjectAsset project)
         {
             var builder = new StringBuilder();
-            builder.Append("title: Variables_").AppendLine(project.id.value).AppendLine("---");
+            builder.Append("title: ").Append(VariableName(project.displayName)).AppendLine("_Variables");
+            builder.AppendLine("---");
+            builder.AppendLine("// Project variables and their default values.");
+            builder.AppendLine();
             var seen = new HashSet<string>();
             foreach (var variable in project.variables.Where(IsSupported))
             {
@@ -105,9 +108,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
                 var literal = variable.type == VariableValueType.Boolean
                     ? (variable.defaultValue.booleanValue ? "true" : "false")
                     : variable.defaultValue.integerValue.ToString(CultureInfo.InvariantCulture);
-                builder.Append("// ").AppendLine((variable.displayName ?? string.Empty).Replace('\r', ' ').Replace('\n', ' '));
+                builder.Append("// ").Append((variable.displayName ?? string.Empty).Replace('\r', ' ').Replace('\n', ' '))
+                    .Append(" (").Append(variable.type).AppendLine(")");
                 builder.Append("// variable-id: ").AppendLine(variable.id.value);
                 builder.Append("<<declare ").Append(Symbol(project, variable)).Append(" = ").Append(literal).AppendLine(">>");
+                builder.AppendLine();
             }
             builder.AppendLine("===");
             return builder.ToString();

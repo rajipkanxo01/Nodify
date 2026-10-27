@@ -339,7 +339,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 DisconnectPort,
                 AddInlineVariable,
                 CreateVariableEditor,
-                CreateChoiceConditionEditor);
+                CreateChoiceConditionEditor,
+                AddConditional,
+                CreateConditionalEditor);
 
             _graph.AddToClassList(DialogueEditorStyleClasses.ConversationGraph);
             _graphHost.Add(_graph);

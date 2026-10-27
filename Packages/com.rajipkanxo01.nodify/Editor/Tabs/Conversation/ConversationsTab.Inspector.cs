@@ -116,6 +116,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             {
                 var menu = new GenericMenu();
                 menu.AddItem(new GUIContent("Player Choice"), false, () => AddElement(new ChoiceElement()));
+                menu.AddItem(new GUIContent("Automatic Branch (If / Else)"), false, () => AddConditional(_selectedPassageId));
                 menu.AddItem(new GUIContent("Jump"), false, () => AddElement(new JumpElement()));
                 menu.AddItem(new GUIContent("End Conversation"), false, () => AddElement(new EndElement()));
                 menu.ShowAsContext();
@@ -172,6 +173,10 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             else if (instance is ChoiceElement)
             {
                 BuildChoiceEditor(card, serializedConversation, element, index);
+            }
+            else if (instance is ConditionalElement)
+            {
+                card.Add(CreateConditionalEditor(_selectedPassageId, index));
             }
             else if (instance is SetVariableElement)
             {

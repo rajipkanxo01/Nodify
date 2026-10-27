@@ -26,10 +26,11 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             {
                 insertionIndex--;
             }
-            if ((instance is LineElement || instance is SetVariableElement)
+            if ((instance is LineElement || instance is SetVariableElement || instance is ConditionalElement)
                 && insertionIndex > 0
                 && (elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is ChoiceElement
-                    || elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is JumpElement))
+                    || elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is JumpElement
+                    || elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is ConditionalElement))
             {
                 insertionIndex--;
             }
@@ -224,7 +225,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             var serialized = new SerializedObject(_selectedConversation);
             var elements = GetPassageElements(serialized, passageId);
             if (elements == null || elementIndex < 0 || elementIndex >= elements.arraySize) return;
-            Undo.RecordObject(_selectedConversation, "Delete Dialogue Line");
+            Undo.RecordObject(_selectedConversation, "Delete Dialogue Element");
             var end = elements.GetArrayElementAtIndex(elementIndex).managedReferenceValue is LineElement
                 ? SerializedLineGroupEnd(elements, elementIndex) : elementIndex + 1;
             for (var index = end - 1; index >= elementIndex; index--) elements.DeleteArrayElementAtIndex(index);
@@ -329,21 +330,22 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             if (elements == null) return;
 
             var terminalStart = elements.arraySize;
-            var removesChoices = false;
+            var removesRoutes = false;
             for (var index = elements.arraySize - 1; index >= 0; index--)
             {
                 var terminal = elements.GetArrayElementAtIndex(index).managedReferenceValue;
-                if (!(terminal is EndElement) && !(terminal is JumpElement) && !(terminal is ChoiceElement))
+                if (!(terminal is EndElement) && !(terminal is JumpElement) && !(terminal is ChoiceElement)
+                    && !(terminal is ConditionalElement))
                 {
                     break;
                 }
-                removesChoices |= terminal is ChoiceElement;
+                removesRoutes |= terminal is ChoiceElement || terminal is ConditionalElement;
                 terminalStart = index;
             }
 
-            if (removesChoices && !EditorUtility.DisplayDialog(
+            if (removesRoutes && !EditorUtility.DisplayDialog(
                     "End Conversation Here",
-                    "Ending this passage will remove its player choices and their connections.",
+                    "Ending this passage will remove its choices, automatic branches, and their connections.",
                     "End Conversation",
                     "Cancel"))
             {
@@ -397,7 +399,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             SetPortDestination(serialized, binding, destinationId);
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
-            if (binding.isTerminal) RefreshTerminalUiLater();
+            if (binding.isTerminal || binding.branchIndex != -1) RefreshTerminalUiLater();
         }
 
         private void DisconnectPort(PortBinding binding)
@@ -408,7 +410,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             SetPortDestination(serialized, binding, string.Empty);
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
-            if (binding.isTerminal) RefreshTerminalUiLater();
+            if (binding.isTerminal || binding.branchIndex != -1) RefreshTerminalUiLater();
         }
 
         private void RefreshTerminalUiLater()
@@ -440,7 +442,13 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 }
             }
             if (element == null) return;
-            if (binding.optionIndex >= 0)
+            if (binding.branchIndex != -1)
+            {
+                var nested = RouteElements(element, binding.branchIndex);
+                if (nested.arraySize != 1 || !(nested.GetArrayElementAtIndex(0).managedReferenceValue is JumpElement)) return;
+                SetGuidValue(nested.GetArrayElementAtIndex(0).FindPropertyRelative("_destinationPassageId"), destinationId);
+            }
+            else if (binding.optionIndex >= 0)
             {
                 var options = element.FindPropertyRelative("_options");
                 if (binding.optionIndex >= options.arraySize) return;

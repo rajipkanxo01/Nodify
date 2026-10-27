@@ -89,7 +89,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             var passageIds = new HashSet<string>(conversation.passages
                 .Where(candidate => candidate != null)
                 .Select(candidate => candidate.id.value));
-            foreach (var element in passage.elements)
+            foreach (var element in EnumerateEnabledElements(passage.elements))
             {
                 if (element is LineElement line && string.IsNullOrWhiteSpace(line.text))
                 {
@@ -135,8 +135,15 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                             warnings.Add(assignmentError);
                         break;
 
-                    case ConditionalElement:
-                        warnings.Add("Conditional Yarn generation is not implemented yet.");
+                    case ConditionalElement conditional:
+                        if (conditional.branches.Count == 0) warnings.Add("A conditional has no branches.");
+                        foreach (var branch in conditional.branches)
+                        {
+                            if (branch == null || branch.condition == null)
+                                warnings.Add("A conditional branch has no condition. Choose a variable or use Else.");
+                            else if (!Services.VariableYarnUtility.TryWriteCondition(branch.condition, out _, out var branchError))
+                                warnings.Add(branchError);
+                        }
                         break;
 
                     case ActionElement:
@@ -145,7 +152,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 }
             }
 
-            var last = passage.elements.LastOrDefault();
+            var last = passage.elements.LastOrDefault(element => element != null && element.enabled);
             if (!(last is JumpElement) && !(last is ChoiceElement) && !(last is EndElement)
                 && !(last is ConditionalElement))
             {
@@ -157,7 +164,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
         private static IEnumerable<string> GetDestinations(IReadOnlyList<DialogueElement> elements)
         {
-            foreach (var element in elements)
+            foreach (var element in EnumerateEnabledElements(elements))
             {
                 if (element is JumpElement jump && jump.destinationPassageId.isValid)
                 {
@@ -173,13 +180,18 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                     }
                 }
 
-                if (element is ConditionalElement conditional)
-                {
-                    foreach (var branch in conditional.branches)
-                    foreach (var destination in GetDestinations(branch.elements))
-                        yield return destination;
-                    foreach (var destination in GetDestinations(conditional.elseElements)) yield return destination;
-                }
+            }
+        }
+
+        private static IEnumerable<DialogueElement> EnumerateEnabledElements(IReadOnlyList<DialogueElement> elements)
+        {
+            foreach (var element in elements.Where(item => item != null && item.enabled))
+            {
+                yield return element;
+                if (!(element is ConditionalElement conditional)) continue;
+                foreach (var branch in conditional.branches.Where(item => item != null))
+                foreach (var child in EnumerateEnabledElements(branch.elements)) yield return child;
+                foreach (var child in EnumerateEnabledElements(conditional.elseElements)) yield return child;
             }
         }
 
