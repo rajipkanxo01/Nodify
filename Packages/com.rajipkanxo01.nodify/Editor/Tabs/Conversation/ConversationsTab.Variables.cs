@@ -222,7 +222,15 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             var choice = _selectedConversation.passages[FindPassageIndex(passageId)].elements[elementIndex] as ChoiceElement;
             var option = choice.options[optionIndex];
             var key = _selectedConversation.id.value + option.id.value;
-            var foldout = new Foldout { text = "Condition · " + ConditionSummary(option.availability), value = _expandedChoiceConditions.Contains(key) };
+            return CreateConditionEditor(passageId, elementIndex, key, option.availability,
+                element => element.FindPropertyRelative("_options").GetArrayElementAtIndex(optionIndex).FindPropertyRelative("_availability"));
+        }
+
+        private VisualElement CreateConditionEditor(string passageId, int elementIndex, string key,
+            ConditionExpression condition, Func<SerializedProperty, SerializedProperty> getCondition, bool required = false)
+        {
+            string Summary(ConditionExpression value) => required && value == null ? "Choose variable" : ConditionSummary(value);
+            var foldout = new Foldout { text = "Condition · " + Summary(condition), value = required || _expandedChoiceConditions.Contains(key) };
             foldout.AddToClassList(DialogueEditorStyleClasses.ConversationChoiceCondition);
             foldout.RegisterValueChangedCallback(evt =>
             {
@@ -232,18 +240,18 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             });
             void EditCondition(Action<SerializedProperty> edit, bool rebuild = false)
             {
-                EditVariableElement(passageId, elementIndex, "Change Choice Condition", element =>
-                    edit(element.FindPropertyRelative("_options").GetArrayElementAtIndex(optionIndex).FindPropertyRelative("_availability")), rebuild);
-                var updated = (_selectedConversation.passages[FindPassageIndex(passageId)].elements[elementIndex] as ChoiceElement).options[optionIndex];
-                foldout.text = "Condition · " + ConditionSummary(updated.availability);
+                EditVariableElement(passageId, elementIndex, "Change Dialogue Condition", element =>
+                    edit(getCondition(element)), rebuild);
+                var serialized = new SerializedObject(_selectedConversation);
+                foldout.text = "Condition · " + Summary(getCondition(GetElement(serialized, passageId, elementIndex)).managedReferenceValue as ConditionExpression);
             }
             var variables = EditableVariables();
-            var current = VariableYarnUtility.Resolve(ConditionReference(option.availability));
+            var current = VariableYarnUtility.Resolve(ConditionReference(condition));
             var names = UniqueVariableNames(variables);
-            names.Insert(0, "Always");
-            var selected = option.availability == null ? 0 : variables.IndexOf(current) + 1;
-            if (option.availability != null && selected == 0) { selected = names.Count; names.Add("Missing or unsupported variable"); }
-            var picker = new PopupField<string>("Available when", names, selected);
+            names.Insert(0, required ? "Choose variable" : "Always");
+            var selected = condition == null ? 0 : variables.IndexOf(current) + 1;
+            if (condition != null && selected == 0) { selected = names.Count; names.Add("Missing or unsupported variable"); }
+            var picker = new PopupField<string>(required ? "When" : "Available when", names, selected);
             picker.RegisterValueChangedCallback(evt =>
             {
                 var index = names.IndexOf(evt.newValue) - 1;
@@ -251,14 +259,16 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 EditCondition(property => InitializeChoiceCondition(property, index < 0 ? null : variables[index]), true);
             });
             foldout.Add(picker);
-            if (option.availability is BooleanVariableCondition boolean && current?.type == VariableValueType.Boolean)
+            if (required && condition == null)
+                foldout.Add(new HelpBox("Choose a variable for this branch. Use Else for the fallback route.", HelpBoxMessageType.Warning));
+            if (condition is BooleanVariableCondition boolean && current?.type == VariableValueType.Boolean)
             {
                 var expected = new PopupField<string>("Is", new List<string> { "True", "False" }, boolean.expectedValue ? 0 : 1);
                 expected.RegisterValueChangedCallback(evt => EditCondition(property =>
                     property.FindPropertyRelative("_expectedValue").boolValue = evt.newValue == "True"));
                 foldout.Add(expected);
             }
-            else if (option.availability is ComparisonCondition comparison && current?.type == VariableValueType.Integer)
+            else if (condition is ComparisonCondition comparison && current?.type == VariableValueType.Integer)
             {
                 var operation = new PopupField<string>("Comparison", ComparisonLabels, Math.Max(0, Math.Min(5, (int)comparison.comparison)));
                 operation.RegisterValueChangedCallback(evt => EditCondition(property =>
@@ -267,7 +277,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 AddLiteralEditor(foldout, VariableValueType.Integer, comparison.right.literal,
                     edit => EditCondition(property => edit(property.FindPropertyRelative("_right").FindPropertyRelative("_literal"))));
             }
-            if (!VariableYarnUtility.TryWriteCondition(option.availability, out _, out var error))
+            if (!VariableYarnUtility.TryWriteCondition(condition, out _, out var error))
             {
                 foldout.Add(new HelpBox(error, HelpBoxMessageType.Warning));
                 if (VariableYarnUtility.IsSupported(current))
@@ -275,6 +285,127 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                         { text = "Reset condition to current variable type" });
             }
             return foldout;
+        }
+
+        private void AddConditional(string passageId)
+        {
+            var index = AddElementToPassage(passageId, new ConditionalElement(), "Add Conditional Branch");
+            if (index < 0) return;
+            EditVariableElement(passageId, index, "Initialize Conditional Branch", element =>
+            {
+                var branches = element.FindPropertyRelative("_branches");
+                branches.arraySize = 1;
+                InitializeConditionalBranch(branches.GetArrayElementAtIndex(0));
+                var otherwise = element.FindPropertyRelative("_elseElements");
+                otherwise.arraySize = 1;
+                otherwise.GetArrayElementAtIndex(0).managedReferenceValue = new JumpElement();
+            }, true);
+        }
+
+        private void InitializeConditionalBranch(SerializedProperty branch)
+        {
+            SetGuidValue(branch.FindPropertyRelative("_id"), Guid.NewGuid().ToString("N"));
+            InitializeChoiceCondition(branch.FindPropertyRelative("_condition"), EditableVariables().FirstOrDefault());
+            var elements = branch.FindPropertyRelative("_elements");
+            elements.arraySize = 1;
+            elements.GetArrayElementAtIndex(0).managedReferenceValue = new JumpElement();
+        }
+
+        private VisualElement CreateConditionalEditor(string passageId, int elementIndex)
+        {
+            var conditional = (ConditionalElement)_selectedConversation.passages[FindPassageIndex(passageId)].elements[elementIndex];
+            var card = new VisualElement();
+            card.AddToClassList(DialogueEditorStyleClasses.ConversationElementCard);
+            card.Add(new Label("Automatic Branch · first matching condition wins"));
+            if (EditableVariables().Count == 0)
+                card.Add(new HelpBox("Create a Boolean or Integer in the Variables tab first.", HelpBoxMessageType.Info));
+            for (var index = 0; index < conditional.branches.Count; index++)
+            {
+                var captured = index;
+                var branch = conditional.branches[index];
+                var branchHeader = new VisualElement();
+                branchHeader.style.flexDirection = FlexDirection.Row;
+                var branchTitle = new Label(index == 0 ? "If" : "Else If");
+                branchTitle.style.flexGrow = 1;
+                branchHeader.Add(branchTitle);
+                branchHeader.Add(new Button(() =>
+                {
+                    if (conditional.branches.Count == 1)
+                        DeleteInlineElement(passageId, elementIndex);
+                    else
+                        EditVariableElement(passageId, elementIndex, "Delete Conditional Branch",
+                            element => element.FindPropertyRelative("_branches").DeleteArrayElementAtIndex(captured), true);
+                }) { text = "×", tooltip = conditional.branches.Count == 1
+                    ? "Delete automatic branch" : "Delete this condition branch" });
+                card.Add(branchHeader);
+                card.Add(CreateConditionEditor(passageId, elementIndex, _selectedConversation.id.value + branch.id.value,
+                    branch.condition, element => element.FindPropertyRelative("_branches").GetArrayElementAtIndex(captured)
+                        .FindPropertyRelative("_condition"), true));
+                AddRouteDestination(card, passageId, elementIndex, index, branch.elements);
+            }
+            card.Add(new Button(() => EditVariableElement(passageId, elementIndex, "Add Else If Branch", element =>
+            {
+                var branches = element.FindPropertyRelative("_branches");
+                branches.arraySize++;
+                InitializeConditionalBranch(branches.GetArrayElementAtIndex(branches.arraySize - 1));
+            }, true)) { text = "+ Else If" });
+            if (conditional.elseElements.Count > 0)
+            {
+                var elseHeader = new VisualElement();
+                elseHeader.style.flexDirection = FlexDirection.Row;
+                var elseTitle = new Label("Else");
+                elseTitle.style.flexGrow = 1;
+                elseHeader.Add(elseTitle);
+                elseHeader.Add(new Button(() => EditVariableElement(passageId, elementIndex, "Delete Else Branch",
+                    element => element.FindPropertyRelative("_elseElements").ClearArray(), true))
+                    { text = "×", tooltip = "Delete Else branch" });
+                card.Add(elseHeader);
+                AddRouteDestination(card, passageId, elementIndex, -2, conditional.elseElements);
+            }
+            else
+            {
+                card.Add(new Button(() => EditVariableElement(passageId, elementIndex, "Add Else Branch", element =>
+                {
+                    var otherwise = element.FindPropertyRelative("_elseElements");
+                    otherwise.arraySize = 1;
+                    otherwise.GetArrayElementAtIndex(0).managedReferenceValue = new JumpElement();
+                }, true)) { text = "+ Else" });
+            }
+            card.Add(new Button(() => DeleteInlineElement(passageId, elementIndex)) { text = "Delete automatic branch" });
+            return card;
+        }
+
+        private static SerializedProperty RouteElements(SerializedProperty element, int branchIndex) => branchIndex == -2
+            ? element.FindPropertyRelative("_elseElements")
+            : element.FindPropertyRelative("_branches").GetArrayElementAtIndex(branchIndex).FindPropertyRelative("_elements");
+
+        private void AddRouteDestination(VisualElement card, string passageId, int elementIndex, int branchIndex,
+            IReadOnlyList<DialogueElement> elements)
+        {
+            // The visual routing editor owns a single jump. Preserve richer authored branch content.
+            if (elements.Count != 0 && !(elements.Count == 1 && elements[0] is JumpElement))
+            {
+                card.Add(new HelpBox("This branch contains structured dialogue content.", HelpBoxMessageType.Info));
+                return;
+            }
+            var jump = elements.FirstOrDefault() as JumpElement;
+            var names = new List<string> { "None" };
+            var ids = new List<string> { string.Empty };
+            foreach (var passage in _selectedConversation.passages.Where(item => item != null))
+            {
+                names.Add(CreateUniqueChoiceName(names, passage.title));
+                ids.Add(passage.id.value);
+            }
+            var picker = new PopupField<string>("Destination", names, Math.Max(0, ids.IndexOf(jump?.destinationPassageId.value ?? string.Empty)));
+            picker.RegisterValueChangedCallback(evt => EditVariableElement(passageId, elementIndex, "Change Branch Destination", element =>
+            {
+                var nested = RouteElements(element, branchIndex);
+                nested.arraySize = 1;
+                if (!(nested.GetArrayElementAtIndex(0).managedReferenceValue is JumpElement))
+                    nested.GetArrayElementAtIndex(0).managedReferenceValue = new JumpElement();
+                SetGuidValue(nested.GetArrayElementAtIndex(0).FindPropertyRelative("_destinationPassageId"), ids[names.IndexOf(evt.newValue)]);
+            }, true));
+            card.Add(picker);
         }
     }
 }

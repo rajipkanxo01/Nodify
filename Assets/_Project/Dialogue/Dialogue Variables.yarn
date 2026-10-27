@@ -1,9 +1,17 @@
-title: Variables_a87195c2e5c8450aa627c652db95be9a
+title: Dialogue_Project_Variables
 ---
-// TestBoolena
+// Project variables and their default values.
+
+// TestBoolena (Boolean)
 // variable-id: 301ef20df612415b88e3678d314bbaa7
 <<declare $TestBoolena = false>>
-// Test
+
+// Test (Integer)
 // variable-id: ef0022dc31834a4290bce991fe769697
 <<declare $Test = 0>>
+
+// hasTalked (Boolean)
+// variable-id: 399fc4b31e0047d3b25e2de730c6182d
+<<declare $hasTalked = false>>
+
 ===

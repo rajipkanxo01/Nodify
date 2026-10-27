@@ -1,0 +1,206 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dcb672cb9aaf8342b9396b47e96b6c9, type: 3}
+  m_Name: TestBranching
+  m_EditorClassIdentifier: ToolForDialogue.Runtime::ToolForDialogue._Project.Dialogue.Runtime.Assets.ConversationAsset
+  _schemaVersion: 1
+  _id:
+    _value: 1a5cd6ecb6ac4c959fcc0d178fb39960
+  _displayName: TestBranching
+  _startPassageId:
+    _value: 30fcbd2b4cd2486481a25ba65305eb12
+  _passages:
+  - _id:
+      _value: 30fcbd2b4cd2486481a25ba65305eb12
+    _title: Start
+    _graphPosition: {x: -264.54544, y: -90.00003}
+    _elements:
+    - rid: 8101024172514476143
+    - rid: 8101024172514476129
+  - _id:
+      _value: 4e121fe1cb2e43d3b423032cf72aee8b
+    _title: HasNotTalked
+    _graphPosition: {x: 344.00003, y: -455.45453}
+    _elements:
+    - rid: 8101024172514476135
+    - rid: 8101024172514476148
+    - rid: 8101024172514476152
+    - rid: 8101024172514476149
+    - rid: 8101024172514476136
+  - _id:
+      _value: c4d0fe58e02e4c8ab205027ca03effc0
+    _title: HasTalked
+    _graphPosition: {x: 344, y: 106}
+    _elements:
+    - rid: 8101024172514476137
+    - rid: 8101024172514476150
+    - rid: 8101024172514476151
+    - rid: 8101024172514476138
+  _editorState:
+    _defaultPan: {x: 0, y: 0}
+    _defaultZoom: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 8101024172514476129
+      type: {class: EndElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: be5c5524f22548f1875bea4e60b99a54
+        _enabled: 1
+    - rid: 8101024172514476135
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: a1d14c88ec9b42c6b39e67e4f4cfff3c
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: We have not talked before.
+        _tags: []
+    - rid: 8101024172514476136
+      type: {class: EndElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 5c1f9af2beb04ccca5100aaf23efe215
+        _enabled: 1
+    - rid: 8101024172514476137
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 39f08d4e95e24b0ebc262f3afa9439e3
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: Have we talked already?
+        _tags: []
+    - rid: 8101024172514476138
+      type: {class: EndElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 5066200fd4414b7c94c4a28afa494490
+        _enabled: 1
+    - rid: 8101024172514476143
+      type: {class: ConditionalElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: c2e3f4cd20d44b248d66f0182cbb0bab
+        _enabled: 1
+        _branches:
+        - _id:
+            _value: ba7ee60aeaac4fc18a6f22a98dd1d5a6
+          _condition:
+            rid: 8101024172514476147
+          _elements:
+          - rid: 8101024172514476145
+        _elseElements:
+        - rid: 8101024172514476146
+    - rid: 8101024172514476145
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: fc9994d6c82441178b864fa4393c2f0c
+        _enabled: 1
+        _destinationPassageId:
+          _value: c4d0fe58e02e4c8ab205027ca03effc0
+    - rid: 8101024172514476146
+      type: {class: JumpElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: ca5be622883e4ff3bd9f52347452ba02
+        _enabled: 1
+        _destinationPassageId:
+          _value: 4e121fe1cb2e43d3b423032cf72aee8b
+    - rid: 8101024172514476147
+      type: {class: BooleanVariableCondition, ns: ToolForDialogue._Project.Dialogue.Runtime.Conditions, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 03325c4a1ffc45e0a3a182112d2231b7
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 399fc4b31e0047d3b25e2de730c6182d
+        _expectedValue: 1
+    - rid: 8101024172514476148
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 405f153783984505be9b2c9b802afec2
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: 0401c85b40a64f1585393959d2f7bb15
+        _text: Lets set has talked variable to true.
+        _tags: []
+    - rid: 8101024172514476149
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: d982674776e94bcf9068feb5a0435938
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: ok. lets do that
+        _tags: []
+    - rid: 8101024172514476150
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 6a5abc79d5a3484bb66d4013fe48926e
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: de15f324de324e69a7681db645c372dc, type: 2}
+        _expressionId:
+          _value: 0401c85b40a64f1585393959d2f7bb15
+        _text: Yes! has talked variable is set to true.
+        _tags: []
+    - rid: 8101024172514476151
+      type: {class: LineElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: bb3330fabb364149a61f466df7f92e1e
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: eb88cf8980bd4317818112737648f84d, type: 2}
+        _expressionId:
+          _value: 9859484e31c34654bd74e534abd9e7cf
+        _text: nice!
+        _tags: []
+    - rid: 8101024172514476152
+      type: {class: SetVariableElement, ns: ToolForDialogue._Project.Dialogue.Runtime.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 46d3e023f3e8468db7a8fa82e5896d93
+        _enabled: 1
+        _variable:
+          _scope: 0
+          _project: {fileID: 11400000, guid: 87ed4123854f7764db6b12b9d668de3b, type: 2}
+          _conversation: {fileID: 0}
+          _variableId:
+            _value: 399fc4b31e0047d3b25e2de730c6182d
+        _operation: 0
+        _value:
+          _type: 0
+          _booleanValue: 1
+          _integerValue: 0
+          _numberValue: 0
+          _stringValue: 
+          _enumTypeName: 
+          _enumValue: 
+          _objectReference: {fileID: 0}
+          _entityAssetReference: {fileID: 0}
+          _entityId:
+            _value: 
+          _sceneBindingKey: 

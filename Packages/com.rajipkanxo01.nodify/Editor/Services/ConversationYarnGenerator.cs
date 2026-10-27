@@ -331,7 +331,17 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
             error = string.Empty;
             builder.Append("title: ").AppendLine(nodeNames[passage.id.value]);
             builder.AppendLine("---");
-            foreach (var element in passage.elements.Where(element => element != null && element.enabled))
+            if (!TryWriteElements(builder, passage.elements, passageIds, nodeNames, out error)) return false;
+            builder.AppendLine("===");
+            builder.AppendLine();
+            return true;
+        }
+
+        private static bool TryWriteElements(StringBuilder builder, IReadOnlyList<DialogueElement> elements,
+            HashSet<string> passageIds, IReadOnlyDictionary<string, string> nodeNames, out string error)
+        {
+            error = string.Empty;
+            foreach (var element in elements.Where(element => element != null && element.enabled))
             {
                 switch (element)
                 {
@@ -392,16 +402,36 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
                         if (!VariableYarnUtility.TryWriteAssignment(assignment, out var command, out error)) return false;
                         builder.AppendLine(command);
                         break;
-                    case ConditionalElement:
-                        error = "conditional generation is not implemented yet.";
-                        return false;
+                    case ConditionalElement conditional:
+                        if (conditional.branches.Count == 0)
+                        {
+                            error = "a conditional has no branches.";
+                            return false;
+                        }
+                        for (var index = 0; index < conditional.branches.Count; index++)
+                        {
+                            var branch = conditional.branches[index];
+                            if (branch == null || branch.condition == null)
+                            {
+                                error = "a conditional branch has no condition. Choose a variable or use Else.";
+                                return false;
+                            }
+                            if (!VariableYarnUtility.TryWriteCondition(branch.condition, out var expression, out error)) return false;
+                            builder.Append(index == 0 ? "<<if " : "<<elseif ").Append(expression).AppendLine(">>");
+                            if (!TryWriteElements(builder, branch.elements, passageIds, nodeNames, out error)) return false;
+                        }
+                        if (conditional.elseElements.Any(child => child != null && child.enabled))
+                        {
+                            builder.AppendLine("<<else>>");
+                            if (!TryWriteElements(builder, conditional.elseElements, passageIds, nodeNames, out error)) return false;
+                        }
+                        builder.AppendLine("<<endif>>");
+                        break;
                     case ActionElement:
                         error = "action generation is not implemented yet.";
                         return false;
                 }
             }
-            builder.AppendLine("===");
-            builder.AppendLine();
             return true;
         }
 

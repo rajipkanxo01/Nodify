@@ -9,6 +9,11 @@ The editor is an embedded package in `Packages/com.rajipkanxo01.nodify/`.
 Edit its `Editor/` and `Runtime/` sources directly. No setup is needed for a fresh checkout.
 The development project's scenes, assets and third-party tools stay outside the distributable package.
 
+In `SampleScene`, enter Play mode and finish the `Test` conversation. With the Game
+view focused, press **E** to interact again. The same dialogue runner keeps its
+variables, so the next interaction plays the repeat greeting. Change the key on
+the scene's **Dialogue Replay (E)** component if needed.
+
 If you previously ran the junction-based preview setup, run `./Tools/Enable-LocalPreview.ps1`
 once in PowerShell to remove the old preview links before opening Unity.
 

@@ -17,6 +17,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
             public string passageId;
             public int elementIndex;
             public int optionIndex = -1;
+            public int branchIndex = -1;
             public string destinationId;
             public bool isTerminal;
         }
@@ -52,7 +53,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 Action<PortBinding> createTarget,
                 Action<string, int> addVariable,
                 Func<string, int, VisualElement> createVariableEditor,
-                Func<string, int, int, VisualElement> createConditionEditor)
+                Func<string, int, int, VisualElement> createConditionEditor,
+                Action<string> addConditional,
+                Func<string, int, VisualElement> createConditionalEditor)
             {
                 passageId = passage.id.value;
                 _select = select;
@@ -90,15 +93,16 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
 
                 var terminalIndex = passage.elements.Count - 1;
                 var terminalElement = terminalIndex >= 0 ? passage.elements[terminalIndex] : null;
-                var choiceTerminatesPassage = terminalElement is EndElement
+                var routingTerminatesPassage = terminalElement is EndElement
                     && terminalIndex > 0
-                    && passage.elements[terminalIndex - 1] is ChoiceElement;
-                var endsConversation = terminalElement is EndElement && !choiceTerminatesPassage;
+                    && (passage.elements[terminalIndex - 1] is ChoiceElement || passage.elements[terminalIndex - 1] is ConditionalElement);
+                var endsConversation = terminalElement is EndElement && !routingTerminatesPassage;
                 var passageMenu = CreateActionsMenu("Passage actions");
                 AppendAction(passageMenu, "Add choice", () => addChoice(passageId));
+                AppendAction(passageMenu, "Add automatic branch", () => addConditional(passageId));
                 AppendAction(passageMenu, "End conversation", () => endConversation(passageId), !endsConversation);
                 titleContainer.Add(passageMenu);
-                if (!choiceTerminatesPassage && !(terminalElement is ChoiceElement))
+                if (!routingTerminatesPassage && !(terminalElement is ChoiceElement) && !(terminalElement is ConditionalElement))
                 {
                     var continuationBinding = new PortBinding
                     {
@@ -251,6 +255,30 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                         if (AssignmentOwner(passage.elements, capturedElement) < 0)
                             extensionContainer.Add(createVariableEditor(passageId, capturedElement));
                     }
+                    else if (element is ConditionalElement conditional)
+                    {
+                        extensionContainer.Add(createConditionalEditor(passageId, capturedElement));
+                        for (var branchIndex = 0; branchIndex <= conditional.branches.Count; branchIndex++)
+                        {
+                            var otherwise = branchIndex == conditional.branches.Count;
+                            var nested = otherwise ? conditional.elseElements : conditional.branches[branchIndex].elements;
+                            if (nested.Count != 1 || !(nested[0] is JumpElement jump)) continue;
+                            var binding = new PortBinding
+                            {
+                                passageId = passageId, elementIndex = capturedElement,
+                                branchIndex = otherwise ? -2 : branchIndex,
+                                destinationId = jump.destinationPassageId.value
+                            };
+                            var row = new VisualElement();
+                            row.style.flexDirection = FlexDirection.Row;
+                            row.Add(new Label(otherwise ? "Else" : branchIndex == 0 ? "If" : "Else If " + branchIndex));
+                            row.Add(new Button(() => createTarget(binding)) { text = "+", tooltip = "Create and connect a passage" });
+                            var port = CreateOutputPort(binding);
+                            row.Add(port);
+                            connectionPorts.Add(port);
+                            extensionContainer.Add(row);
+                        }
+                    }
                     else if (element is ChoiceElement choice)
                     {
                         var choiceGroup = new VisualElement();
@@ -315,6 +343,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 addRow.Add(actionSpacer);
                 addRow.Add(new Button(() => addLine(passageId)) { text = "+ Line" });
                 addRow.Add(new Button(() => addChoice(passageId)) { text = "+ Choice" });
+                addRow.Add(new Button(() => addConditional(passageId)) { text = "+ Branch" });
                 extensionContainer.Add(addRow);
 
                 RefreshExpandedState();
@@ -481,7 +510,9 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 Action<PortBinding> disconnect,
                 Action<string, int> addVariable,
                 Func<string, int, VisualElement> createVariableEditor,
-                Func<string, int, int, VisualElement> createConditionEditor)
+                Func<string, int, int, VisualElement> createConditionEditor,
+                Action<string> addConditional,
+                Func<string, int, VisualElement> createConditionalEditor)
             {
                 _deletePassage = deletePassage;
                 focusable = true;
@@ -512,7 +543,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                         GetPassageWarnings(conversation, passage).Count > 0,
                         selectPassage, movePassage, renamePassage, changeSpeaker, changeExpression, changeLineText,
                         changeChoiceText, addLine, addChoice, endConversation, moveElement, duplicateElement, deleteElement,
-                        moveChoiceOption, deleteChoiceOption, createTarget, addVariable, createVariableEditor, createConditionEditor);
+                        moveChoiceOption, deleteChoiceOption, createTarget, addVariable, createVariableEditor, createConditionEditor,
+                        addConditional, createConditionalEditor);
                     _nodes.Add(passage.id.value, node);
                     AddElement(node);
                 }
