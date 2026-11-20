@@ -340,7 +340,9 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                 CreateVariableEditor,
                 CreateChoiceConditionEditor,
                 AddConditional,
-                CreateConditionalEditor);
+                CreateConditionalEditor,
+                AddInlineCommand,
+                CreateCommandEditor);
 
             _graph.AddToClassList(DialogueEditorStyleClasses.ConversationGraph);
             _graphHost.Add(_graph);

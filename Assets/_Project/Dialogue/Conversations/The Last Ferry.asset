@@ -22,7 +22,7 @@ MonoBehaviour:
   - _id:
       _value: c03175d450d147af895734983b28afb1
     _title: Arrival
-    _graphPosition: {x: -466.45, y: 366.1501}
+    _graphPosition: {x: -583.29987, y: -54.899994}
     _elements:
     - rid: 4120000000000000001
     - rid: 4120000000000000002
@@ -37,6 +37,7 @@ MonoBehaviour:
     _elements:
     - rid: 4120000000000000011
     - rid: 4120000000000000012
+    - rid: 4857974887320387655
   - _id:
       _value: c2f5aae97b95408d9544647065da7513
     _title: Earn Fare
@@ -58,7 +59,7 @@ MonoBehaviour:
   - _id:
       _value: 1caa42d65d2d4aeea7ce1ce57cf22a9f
     _title: Pay Fare
-    _graphPosition: {x: 1080, y: 350}
+    _graphPosition: {x: 929.0909, y: 350}
     _elements:
     - rid: 4120000000000000021
     - rid: 4120000000000000022
@@ -663,3 +664,14 @@ MonoBehaviour:
         _id:
           _value: 8be65b05efe8418cb729b6dd0f010fd0
         _enabled: 1
+    - rid: 4857974887320387655
+      type: {class: LineElement, ns: ToolForDialogue.Types, asm: ToolForDialogue.Runtime}
+      data:
+        _id:
+          _value: 04ed60b60ca04da69592881818aead60
+        _enabled: 1
+        _speaker: {fileID: 11400000, guid: 8b96b80b6980eb74f866039e32f404a4, type: 2}
+        _expressionId:
+          _value: 
+        _text: 
+        _tags: []

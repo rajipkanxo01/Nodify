@@ -39,14 +39,14 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
         private static int LineGroupEnd(IReadOnlyList<DialogueElement> elements, int lineIndex)
         {
             var end = lineIndex + 1;
-            while (end < elements.Count && elements[end] is SetVariableElement) end++;
+            while (end < elements.Count && elements[end] is SetVariableElement or ActionElement) end++;
             return end;
         }
 
         private static int AssignmentOwner(IReadOnlyList<DialogueElement> elements, int assignmentIndex)
         {
             var index = assignmentIndex - 1;
-            while (index >= 0 && elements[index] is SetVariableElement) index--;
+            while (index >= 0 && elements[index] is SetVariableElement or ActionElement) index--;
             return index >= 0 && elements[index] is LineElement ? index : -1;
         }
 
@@ -87,11 +87,11 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             var actions = new ToolbarMenu { text = "···", tooltip = "Variable assignment actions" };
             actions.AddToClassList(DialogueEditorStyleClasses.ConversationInlineMenu);
             actions.menu.AppendAction("Move up", _ => MoveInlineElement(passageId, elementIndex, elementIndex - 1),
-                _ => elementIndex > 0 && passage.elements[elementIndex - 1] is SetVariableElement
+                _ => elementIndex > 0 && passage.elements[elementIndex - 1] is SetVariableElement or ActionElement
                     ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
             actions.menu.AppendAction("Move down", _ => MoveInlineElement(passageId, elementIndex, elementIndex + 1),
                 _ => elementIndex + 1 < passage.elements.Count
-                    && passage.elements[elementIndex + 1] is SetVariableElement
+                    && passage.elements[elementIndex + 1] is SetVariableElement or ActionElement
                     ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
             actions.menu.AppendAction("Delete assignment", _ => DeleteInlineElement(passageId, elementIndex));
             heading.Add(actions);

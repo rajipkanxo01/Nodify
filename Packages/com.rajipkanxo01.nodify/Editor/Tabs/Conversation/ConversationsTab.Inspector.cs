@@ -115,6 +115,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             return new Button(() =>
             {
                 var menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Command"), false, () => AddElement(new ActionElement()));
                 menu.AddItem(new GUIContent("Player Choice"), false, () => AddElement(new ChoiceElement()));
                 menu.AddItem(new GUIContent("Automatic Branch (If / Else)"), false, () => AddConditional(_selectedPassageId));
                 menu.AddItem(new GUIContent("Jump"), false, () => AddElement(new JumpElement()));
@@ -177,6 +178,10 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             else if (instance is ConditionalElement)
             {
                 card.Add(CreateConditionalEditor(_selectedPassageId, index));
+            }
+            else if (instance is ActionElement)
+            {
+                card.Add(CreateCommandEditor(_selectedPassageId, index));
             }
             else if (instance is SetVariableElement)
             {
@@ -250,6 +255,10 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                 { text = "+ Variable", tooltip = "Change a variable after this dialogue line" };
             addVariable.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariableButton);
             speakerControls.Add(addVariable);
+            var addCommand = new Button(() => AddInlineCommand(_selectedPassageId, elementIndex))
+                { text = "+ Command", tooltip = "Run a command after this dialogue line" };
+            addCommand.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariableButton);
+            speakerControls.Add(addCommand);
             card.Add(speakerControls);
 
             if (characters.Count == 0)

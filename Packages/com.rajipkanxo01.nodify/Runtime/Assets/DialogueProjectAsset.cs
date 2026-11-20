@@ -16,6 +16,7 @@ namespace ToolForDialogue.Assets
         [SerializeField] private List<CharacterAsset> _characters = new();
         [SerializeField] private List<ConversationAsset> _conversations = new();
         [SerializeField] private List<VariableDefinition> _variables = new();
+        [SerializeField] private List<CommandDefinition> _commands = new();
         [SerializeField] private DialogueGenerationSettings _generation = new();
 
         public string displayName => _displayName;
@@ -23,6 +24,7 @@ namespace ToolForDialogue.Assets
         public IReadOnlyList<CharacterAsset> characters => _characters;
         public IReadOnlyList<ConversationAsset> conversations => _conversations;
         public IReadOnlyList<VariableDefinition> variables => _variables;
+        public IReadOnlyList<CommandDefinition> commands => _commands;
         public DialogueGenerationSettings generation => _generation;
 
         /// <summary>

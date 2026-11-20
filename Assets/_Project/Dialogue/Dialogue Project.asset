@@ -78,6 +78,15 @@ MonoBehaviour:
       _entityId:
         _value: 
       _sceneBindingKey: 
+  _commands:
+  - _id:
+      _value: 9ac443fecd814dba8c0837e16924964a
+    _name: new_command
+    _parameters:
+    - _id:
+        _value: dee4524c241e4b76b66cf205ee0706ba
+      _name: argument
+      _type: 3
   _generation:
     _outputFolder: Assets/Generated/Dialogue
     _generateOnSave: 0

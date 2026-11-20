@@ -1,0 +1,8 @@
+{
+  "name": "ToolForDialogue.Command.Tests",
+  "references": ["ToolForDialogue.Editor", "ToolForDialogue.Runtime", "YarnSpinner.Unity"],
+  "includePlatforms": ["Editor"],
+  "overrideReferences": true,
+  "precompiledReferences": ["nunit.framework.dll", "YarnSpinner.dll", "YarnSpinner.Compiler.dll"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}
