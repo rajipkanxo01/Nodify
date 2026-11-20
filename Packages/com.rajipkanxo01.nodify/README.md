@@ -57,6 +57,24 @@ The old project-ID variables filename is migrated automatically.
 
 Use Yarn Spinner's Dialogue Runner and presenters to play the generated dialogue in your game.
 
+### Consumer-defined commands
+
+Open **Commands**, add a command such as `play_song_and_wait`, and add a String
+parameter named `song`. Parameters support String, Boolean, Integer and Number;
+their order must match the consuming game's handler.
+
+In a conversation, click **+ Command** on a dialogue line, select the command and
+enter its arguments. It runs after that line and before the next line. Use
+**Passage Details > More > Command** to add a command without a preceding line.
+Commands and variable assignments stay with their line when it is moved,
+duplicated or deleted. Command cards can be reordered within that line's actions.
+
+Nodify generates Yarn syntax such as `<<play_song_and_wait "evening_theme">>`.
+The consuming project registers the matching handler on its Dialogue Runner;
+defining a command here does not implement its behavior. A handler returning
+`IEnumerator` pauses dialogue until its coroutine finishes. See the
+[song playback example and command contract](Documentation~/commands.md).
+
 ## Character editor extensions
 
 Projects can add UI Toolkit sections between Character Details and Expressions by

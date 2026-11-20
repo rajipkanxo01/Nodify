@@ -26,7 +26,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             {
                 insertionIndex--;
             }
-            if ((instance is LineElement || instance is SetVariableElement || instance is ConditionalElement)
+            if ((instance is LineElement or SetVariableElement or ActionElement or ConditionalElement)
                 && insertionIndex > 0
                 && (elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is ChoiceElement
                     || elements.GetArrayElementAtIndex(insertionIndex - 1).managedReferenceValue is JumpElement
@@ -41,7 +41,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                     || !(elements.GetArrayElementAtIndex(lineIndex).managedReferenceValue is LineElement)) return -1;
                 insertionIndex = lineIndex + 1;
                 while (insertionIndex < elements.arraySize
-                    && elements.GetArrayElementAtIndex(insertionIndex).managedReferenceValue is SetVariableElement) insertionIndex++;
+                    && elements.GetArrayElementAtIndex(insertionIndex).managedReferenceValue is SetVariableElement or ActionElement) insertionIndex++;
             }
             elements.InsertArrayElementAtIndex(insertionIndex);
             var newElement = elements.GetArrayElementAtIndex(insertionIndex);
@@ -63,6 +63,10 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             {
                 var variable = EditableVariables().Count > 0 ? EditableVariables()[0] : null;
                 if (variable != null) InitializeAssignment(newElement, variable);
+            }
+            else if (instance is ActionElement)
+            {
+                InitializeCommand(newElement, _project.commands.Count > 0 ? _project.commands[0] : null);
             }
             serialized.ApplyModifiedProperties();
             MarkConversationChanged();
@@ -149,11 +153,11 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             {
                 if (to > from)
                 {
-                    while (to < elements.arraySize && elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement) to++;
+                    while (to < elements.arraySize && elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement or ActionElement) to++;
                 }
                 else
                 {
-                    while (to >= 0 && elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement) to--;
+                    while (to >= 0 && elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement or ActionElement) to--;
                 }
                 if (to < 0 || to >= elements.arraySize || !(elements.GetArrayElementAtIndex(to).managedReferenceValue is LineElement)) return;
                 var count = SerializedLineGroupEnd(elements, from) - from;
@@ -172,7 +176,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
             }
             else
             {
-                if (source is SetVariableElement && !(elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement)) return;
+                if (source is SetVariableElement or ActionElement && !(elements.GetArrayElementAtIndex(to).managedReferenceValue is SetVariableElement or ActionElement)) return;
                 Undo.RecordObject(_selectedConversation, "Reorder Dialogue Element");
                 elements.MoveArrayElement(from, to);
             }
@@ -186,7 +190,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
         private static int SerializedLineGroupEnd(SerializedProperty elements, int lineIndex)
         {
             var end = lineIndex + 1;
-            while (end < elements.arraySize && elements.GetArrayElementAtIndex(end).managedReferenceValue is SetVariableElement) end++;
+            while (end < elements.arraySize && elements.GetArrayElementAtIndex(end).managedReferenceValue is SetVariableElement or ActionElement) end++;
             return end;
         }
 

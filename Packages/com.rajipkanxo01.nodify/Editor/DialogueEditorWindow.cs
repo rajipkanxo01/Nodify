@@ -114,7 +114,8 @@ namespace ToolForDialogue.Editor.Editor
                 new ProjectTab(),
                 new ConversationsTab(),
                 new CharactersTab(),
-                new VariablesTab()
+                new VariablesTab(),
+                new CommandsTab()
             };
         }
 

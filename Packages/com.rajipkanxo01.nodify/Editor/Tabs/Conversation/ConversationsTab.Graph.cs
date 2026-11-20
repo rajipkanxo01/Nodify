@@ -55,7 +55,9 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                 Func<string, int, VisualElement> createVariableEditor,
                 Func<string, int, int, VisualElement> createConditionEditor,
                 Action<string> addConditional,
-                Func<string, int, VisualElement> createConditionalEditor)
+                Func<string, int, VisualElement> createConditionalEditor,
+                Action<string, int> addCommand,
+                Func<string, int, VisualElement> createCommandEditor)
             {
                 passageId = passage.id.value;
                 _select = select;
@@ -130,7 +132,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                     if (element is LineElement line)
                     {
                         var previousIndex = elementIndex - 1;
-                        while (previousIndex >= 0 && passage.elements[previousIndex] is SetVariableElement) previousIndex--;
+                        while (previousIndex >= 0 && passage.elements[previousIndex] is SetVariableElement or ActionElement) previousIndex--;
                         var previousLine = previousIndex >= 0 ? passage.elements[previousIndex] as LineElement : null;
                         // An expression change starts a new group so its portrait remains visible.
                         var continuesSpeaker = line.speaker != null && previousLine?.speaker == line.speaker
@@ -184,6 +186,10 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                         };
                         addLineVariable.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariableButton);
                         speakerRow.Add(addLineVariable);
+                        var addLineCommand = new Button(() => addCommand(passageId, capturedElement))
+                            { text = "+ Command", tooltip = "Run a command after this dialogue line" };
+                        addLineCommand.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariableButton);
+                        speakerRow.Add(addLineCommand);
                         lineBody.Add(speakerRow);
 
                         var expressionNames = new List<string> { "Default" };
@@ -244,16 +250,18 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                             var assignments = new VisualElement();
                             assignments.AddToClassList(DialogueEditorStyleClasses.ConversationLineVariables);
                             for (var assignmentIndex = capturedElement + 1; assignmentIndex < nextLineIndex; assignmentIndex++)
-                                assignments.Add(createVariableEditor(passageId, assignmentIndex));
+                                assignments.Add(passage.elements[assignmentIndex] is ActionElement
+                                    ? createCommandEditor(passageId, assignmentIndex) : createVariableEditor(passageId, assignmentIndex));
                             lineBody.Add(assignments);
                         }
                         lineCard.Add(lineBody);
                         extensionContainer.Add(lineCard);
                     }
-                    else if (element is SetVariableElement)
+                    else if (element is SetVariableElement or ActionElement)
                     {
                         if (AssignmentOwner(passage.elements, capturedElement) < 0)
-                            extensionContainer.Add(createVariableEditor(passageId, capturedElement));
+                            extensionContainer.Add(element is ActionElement
+                                ? createCommandEditor(passageId, capturedElement) : createVariableEditor(passageId, capturedElement));
                     }
                     else if (element is ConditionalElement conditional)
                     {
@@ -512,7 +520,9 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                 Func<string, int, VisualElement> createVariableEditor,
                 Func<string, int, int, VisualElement> createConditionEditor,
                 Action<string> addConditional,
-                Func<string, int, VisualElement> createConditionalEditor)
+                Func<string, int, VisualElement> createConditionalEditor,
+                Action<string, int> addCommand,
+                Func<string, int, VisualElement> createCommandEditor)
             {
                 _deletePassage = deletePassage;
                 focusable = true;
@@ -544,7 +554,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                         selectPassage, movePassage, renamePassage, changeSpeaker, changeExpression, changeLineText,
                         changeChoiceText, addLine, addChoice, endConversation, moveElement, duplicateElement, deleteElement,
                         moveChoiceOption, deleteChoiceOption, createTarget, addVariable, createVariableEditor, createConditionEditor,
-                        addConditional, createConditionalEditor);
+                        addConditional, createConditionalEditor, addCommand, createCommandEditor);
                     _nodes.Add(passage.id.value, node);
                     AddElement(node);
                 }

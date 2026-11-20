@@ -10,6 +10,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs
         Characters,
         Variables,
         Validation,
-        Settings
+        Settings,
+        Commands
     }
 }

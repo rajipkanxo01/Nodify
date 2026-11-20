@@ -146,8 +146,9 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                         }
                         break;
 
-                    case ActionElement:
-                        warnings.Add("Action Yarn generation is not implemented yet.");
+                    case ActionElement action:
+                        if (!Services.CommandYarnUtility.TryWrite(action, out _, out var commandError))
+                            warnings.Add(commandError);
                         break;
                 }
             }
@@ -207,7 +208,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                     JumpElement => "Jump",
                     EndElement => "End conversation",
                     ConditionalElement => "Conditional",
-                    ActionElement => "Action",
+                    ActionElement => "Command",
                     SetVariableElement => "Set variable",
                     _ => "Dialogue element"
                 };
@@ -224,7 +225,7 @@ namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
                 JumpElement => "Jump",
                 EndElement => "End Conversation",
                 ConditionalElement => "Conditional",
-                ActionElement => "Action",
+                ActionElement => "Command",
                 SetVariableElement => "Set Variable",
                 _ => "Unknown Element"
             };

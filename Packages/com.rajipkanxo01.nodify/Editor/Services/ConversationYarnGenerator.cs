@@ -427,9 +427,10 @@ namespace ToolForDialogue.Editor.Editor.Services
                         }
                         builder.AppendLine("<<endif>>");
                         break;
-                    case ActionElement:
-                        error = "action generation is not implemented yet.";
-                        return false;
+                    case ActionElement action:
+                        if (!CommandYarnUtility.TryWrite(action, out var actionSource, out error)) return false;
+                        builder.AppendLine(actionSource);
+                        break;
                 }
             }
             return true;
