@@ -115,7 +115,8 @@ namespace ToolForDialogue.Editor.Editor.Services
                 builder.AppendLine();
             }
             builder.AppendLine("===");
-            return builder.ToString();
+            // Normalize before SyncDeclarations compares or saves the generated source.
+            return builder.ToString().Replace("\r\n", "\n").Replace('\r', '\n');
         }
 
         public static void SyncDeclarations(DialogueProjectAsset project)
