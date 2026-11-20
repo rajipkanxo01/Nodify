@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue.Editor._Project.Scripts.Editor.Services;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Editor.Editor.Services;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
+namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
 {
     /// <summary>
     /// Owns conversation creation, selection, and passage-graph authoring controls.
@@ -19,7 +19,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
         private ConversationAsset _selectedConversation;
         private string _selectedPassageId;
         private string _searchQuery = string.Empty;
-        private readonly HashSet<string> _expandedConversations = new HashSet<string>();
+        private readonly HashSet<string> _expandedConversations = new();
         private VisualElement _conversationList;
         private VisualElement _graphHost;
         private VisualElement _inspector;
@@ -29,8 +29,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
         private ConversationAsset _graphConversation;
         private bool _terminalRefreshScheduled;
         private HelpBox _passageWarning;
-        private readonly Dictionary<ConversationAsset, Label> _conversationWarningBadges =
-            new Dictionary<ConversationAsset, Label>();
+        private readonly Dictionary<ConversationAsset, Label> _conversationWarningBadges = new();
 
         private void MarkConversationChanged()
         {

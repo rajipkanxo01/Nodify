@@ -1,7 +1,7 @@
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
+using ToolForDialogue.Core;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
+namespace ToolForDialogue.Assets
 {
     /// <summary>
     /// Provides schema versioning and stable identity for every top-level dialogue asset.

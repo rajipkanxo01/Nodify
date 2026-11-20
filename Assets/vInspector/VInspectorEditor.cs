@@ -1,22 +1,21 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.UIElements;
+using UnityEngine;
+using UnityEngine.UIElements;
 using Type = System.Type;
 using Attribute = System.Attribute;
-using static VInspector.VInspector;
-using static VInspector.VInspectorState;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using static vInspector.VInspector;
+using static vInspector.VInspectorState;
+using static vInspector.VUtils;
+using static vInspector.VGUI;
 // using static VTools.VDebug;
 
 
-namespace VInspector
+namespace vInspector
 {
     class VInspectorEditor
     {

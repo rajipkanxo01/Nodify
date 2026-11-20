@@ -1,18 +1,14 @@
 #if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Experimental.Rendering;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Linq;
-using UnityEngine.UIElements;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using UnityEditor;
+using UnityEngine;
 using Type = System.Type;
-using static VInspector.Libs.VUtils;
+using static vInspector.VUtils;
 
 
 #if UNITY_6000_3_OR_NEWER
@@ -25,7 +21,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VInspector.Libs
+namespace vInspector
 {
     public static class VUtils
     {

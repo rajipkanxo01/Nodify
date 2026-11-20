@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-
-
-namespace VInspector
+namespace vInspector
 {
     [System.Serializable]
     public class SerializedDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver

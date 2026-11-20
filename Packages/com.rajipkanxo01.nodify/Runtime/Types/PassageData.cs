@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
+using ToolForDialogue.Core;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Represents one graph node and its ordered sequence of dialogue elements.
@@ -14,7 +14,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Types
         [SerializeField, HideInInspector] private SerializableGuid _id = SerializableGuid.NewGuid();
         [SerializeField] private string _title = "Passage";
         [SerializeField] private Vector2 _graphPosition;
-        [SerializeReference] private List<DialogueElement> _elements = new List<DialogueElement>();
+        [SerializeReference] private List<DialogueElement> _elements = new();
 
         public SerializableGuid id => _id;
         public string title => _title;

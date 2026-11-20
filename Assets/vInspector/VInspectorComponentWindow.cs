@@ -1,19 +1,12 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
+using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using Type = System.Type;
-using static VInspector.VInspector;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using UnityEngine;
+using static vInspector.VInspector;
+using static vInspector.VUtils;
+using static vInspector.VGUI;
 // using static VTools.VDebug;
 
 
@@ -28,7 +21,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VInspector
+namespace vInspector
 {
     public class VInspectorComponentWindow : EditorWindow
     {

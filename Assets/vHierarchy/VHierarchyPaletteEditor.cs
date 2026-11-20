@@ -1,23 +1,16 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
-using UnityEditorInternal;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
-using static VHierarchy.Libs.VUtils;
-using static VHierarchy.Libs.VGUI;
+using UnityEngine;
+using static vHierarchy.VUtils;
+using static vHierarchy.VGUI;
 // using static VTools.VDebug;
-using static VHierarchy.VHierarchyPalette;
+using static vHierarchy.VHierarchyPalette;
 
 
-namespace VHierarchy
+namespace vHierarchy
 {
     [CustomEditor(typeof(VHierarchyPalette))]
     class VHierarchyPaletteEditor : Editor

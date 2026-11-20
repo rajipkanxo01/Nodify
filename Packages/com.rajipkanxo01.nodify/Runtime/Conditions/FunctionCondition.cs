@@ -1,8 +1,8 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Types;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
+namespace ToolForDialogue.Conditions
 {
     /// <summary>
     /// Evaluates a discovered Yarn function as a Boolean condition.
@@ -10,7 +10,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
     [Serializable]
     public sealed class FunctionCondition : ConditionExpression
     {
-        [SerializeField] private FunctionCall _function = new FunctionCall();
+        [SerializeField] private FunctionCall _function = new();
         [SerializeField] private bool _expectedValue = true;
 
         public FunctionCall function => _function;

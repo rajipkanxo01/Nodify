@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
+namespace ToolForDialogue.Conditions
 {
     /// <summary>
     /// Inverts the result of its child condition.

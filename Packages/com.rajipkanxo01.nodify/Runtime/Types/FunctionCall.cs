@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Stores a reference to a discovered Yarn function and its authored arguments.
@@ -11,7 +11,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Types
     public sealed class FunctionCall
     {
         [SerializeField] private string _functionId;
-        [SerializeField] private List<CommandArgument> _arguments = new List<CommandArgument>();
+        [SerializeField] private List<CommandArgument> _arguments = new();
 
         public string functionId => _functionId;
         public IReadOnlyList<CommandArgument> arguments => _arguments;

@@ -1,17 +1,14 @@
 #if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Linq;
-using UnityEngine.UIElements;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using UnityEditor;
+using UnityEngine;
 using Type = System.Type;
-using static VFavorites.Libs.VUtils;
+using static vFavorites.VUtils;
 
 
 #if UNITY_6000_3_OR_NEWER
@@ -28,7 +25,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VFavorites.Libs
+namespace vFavorites
 {
     public static class VUtils
     {
@@ -279,7 +276,7 @@ namespace VFavorites.Libs
             return fieldInfoCache[type][fieldName] = null;
 
         }
-        static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoCache = new Dictionary<Type, Dictionary<string, FieldInfo>>();
+        static Dictionary<Type, Dictionary<string, FieldInfo>> fieldInfoCache = new();
 
         static PropertyInfo GetPropertyInfo(this Type type, string propertyName)
         {
@@ -299,7 +296,7 @@ namespace VFavorites.Libs
             return propertyInfoCache[type][propertyName] = null;
 
         }
-        static Dictionary<Type, Dictionary<string, PropertyInfo>> propertyInfoCache = new Dictionary<Type, Dictionary<string, PropertyInfo>>();
+        static Dictionary<Type, Dictionary<string, PropertyInfo>> propertyInfoCache = new();
 
         static MethodInfo GetMethodInfo(this Type type, string methodName, params Type[] argumentTypes)
         {
@@ -328,7 +325,7 @@ namespace VFavorites.Libs
             return methodInfoCache[type][methodHash] = null;
 
         }
-        static Dictionary<Type, Dictionary<int, MethodInfo>> methodInfoCache = new Dictionary<Type, Dictionary<int, MethodInfo>>();
+        static Dictionary<Type, Dictionary<int, MethodInfo>> methodInfoCache = new();
 
 
 
@@ -379,8 +376,8 @@ namespace VFavorites.Libs
         public static float Clamp(this float f, float f0, float f1) => Mathf.Clamp(f, f0, f1);
         public static int Clamp(this int f, int f0, int f1) => Mathf.Clamp(f, f0, f1);
         public static float Clamp01(this float f) => Mathf.Clamp(f, 0, 1);
-        public static Vector2 Clamp01(this Vector2 f) => new Vector2(f.x.Clamp01(), f.y.Clamp01());
-        public static Vector3 Clamp01(this Vector3 f) => new Vector3(f.x.Clamp01(), f.y.Clamp01(), f.z.Clamp01());
+        public static Vector2 Clamp01(this Vector2 f) => new(f.x.Clamp01(), f.y.Clamp01());
+        public static Vector3 Clamp01(this Vector3 f) => new(f.x.Clamp01(), f.y.Clamp01(), f.z.Clamp01());
 
 
         public static float Pow(this float f, float pow) => Mathf.Pow(f, pow);
@@ -600,7 +597,7 @@ namespace VFavorites.Libs
 
 
 
-        public static Color Greyscale(float brightness, float alpha = 1) => new Color(brightness, brightness, brightness, alpha);
+        public static Color Greyscale(float brightness, float alpha = 1) => new(brightness, brightness, brightness, alpha);
 
         public static Color SetAlpha(this Color color, float alpha) { color.a = alpha; return color; }
 
@@ -667,12 +664,12 @@ namespace VFavorites.Libs
         #region Vectors
 
 
-        public static Vector2 AddX(this Vector2 v, float f) => new Vector2(v.x + f, v.y + 0);
-        public static Vector2 AddY(this Vector2 v, float f) => new Vector2(v.x + 0, v.y + f);
+        public static Vector2 AddX(this Vector2 v, float f) => new(v.x + f, v.y + 0);
+        public static Vector2 AddY(this Vector2 v, float f) => new(v.x + 0, v.y + f);
 
-        public static Vector3 AddX(this Vector3 v, float f) => new Vector3(v.x + f, v.y + 0, v.z + 0);
-        public static Vector3 AddY(this Vector3 v, float f) => new Vector3(v.x + 0, v.y + f, v.z + 0);
-        public static Vector3 AddZ(this Vector3 v, float f) => new Vector3(v.x + 0, v.y + 0, v.z + f);
+        public static Vector3 AddX(this Vector3 v, float f) => new(v.x + f, v.y + 0, v.z + 0);
+        public static Vector3 AddY(this Vector3 v, float f) => new(v.x + 0, v.y + f, v.z + 0);
+        public static Vector3 AddZ(this Vector3 v, float f) => new(v.x + 0, v.y + 0, v.z + f);
 
         public static Vector2 xx(this Vector3 v) { return new Vector2(v.x, v.x); }
         public static Vector2 xy(this Vector3 v) { return new Vector2(v.x, v.y); }
@@ -1013,8 +1010,8 @@ namespace VFavorites.Libs
         [System.Serializable]
         public class SerializableDictionary<TKey, TValue> : Dictionary<TKey, TValue>, ISerializationCallbackReceiver
         {
-            [SerializeField] List<TKey> keys = new List<TKey>();
-            [SerializeField] List<TValue> values = new List<TValue>();
+            [SerializeField] List<TKey> keys = new();
+            [SerializeField] List<TValue> values = new();
 
             public void OnBeforeSerialize()
             {
@@ -1567,7 +1564,7 @@ namespace VFavorites.Libs
 
             EditorGUIUtility.labelWidth = _indentLabelWidthStack.Pop();
         }
-        static Stack<float> _indentLabelWidthStack = new Stack<float>();
+        static Stack<float> _indentLabelWidthStack = new();
 
 
 
@@ -1643,7 +1640,7 @@ namespace VFavorites.Libs
 
         }
         public static Rect DrawWithRoundedCorners(this Rect rect, Color color, float cornerRadius) => rect.DrawWithRoundedCorners(color, cornerRadius.RoundToInt());
-        static Dictionary<int, GUIStyle> _roundedStylesByCornerRadius = new Dictionary<int, GUIStyle>();
+        static Dictionary<int, GUIStyle> _roundedStylesByCornerRadius = new();
 
 
         public static Rect DrawBlurred(this Rect rect, Color color, int blurRadius)
@@ -1722,7 +1719,7 @@ namespace VFavorites.Libs
 
         }
         public static Rect DrawBlurred(this Rect rect, Color color, float blurRadius) => rect.DrawBlurred(color, blurRadius.RoundToInt());
-        static Dictionary<(int, int), GUIStyle> _blurredStylesByTextureSize = new Dictionary<(int, int), GUIStyle>();
+        static Dictionary<(int, int), GUIStyle> _blurredStylesByTextureSize = new();
 
 
         static void DrawCurtain(this Rect rect, Color color, int dir)
@@ -1823,7 +1820,7 @@ namespace VFavorites.Libs
 
             }
 
-            static Dictionary<string, Texture2D> icons_byName = new Dictionary<string, Texture2D>();
+            static Dictionary<string, Texture2D> icons_byName = new();
         }
 
 

@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Yarn.Unity;
 
-namespace ToolForDialogue.Testing
+namespace _Project.Scripts.Testing
 {
     /// <summary>Starts another interaction without resetting the runner's variable storage.</summary>
     public sealed class DialogueReplayOnKey : MonoBehaviour

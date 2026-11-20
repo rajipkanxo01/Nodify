@@ -1,15 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
+// using static VTools.VDebug;
 using System;
 using UnityEngine;
-// using static VTools.VDebug;
-#if UNITY_EDITOR
-using static VInspector.Libs.VUtils;
-#endif
 
 
-namespace VInspector
+namespace vInspector
 {
 
     public class FoldoutAttribute : Attribute

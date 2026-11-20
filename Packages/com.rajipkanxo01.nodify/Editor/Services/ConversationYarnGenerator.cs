@@ -4,21 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Types;
 using UnityEditor;
 using UnityEngine;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
+namespace ToolForDialogue.Editor.Editor.Services
 {
     /// <summary>Produces the Yarn source owned by a conversation asset.</summary>
     [InitializeOnLoad]
     internal static class ConversationYarnGenerator
     {
         private const double GenerationDelaySeconds = 0.75d;
-        private static readonly Dictionary<EntityId, PendingGeneration> Pending =
-            new Dictionary<EntityId, PendingGeneration>();
-        private static readonly HashSet<EntityId> Generating = new HashSet<EntityId>();
+        private static readonly Dictionary<EntityId, PendingGeneration> Pending = new();
+        private static readonly HashSet<EntityId> Generating = new();
 
         private sealed class PendingGeneration
         {

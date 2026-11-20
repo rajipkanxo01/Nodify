@@ -1,15 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue.Editor._Project.Scripts.Editor.Services;
-using ToolForDialogue.Editor._Project.Scripts.Editor.Tabs;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Editor.Editor.Services;
+using ToolForDialogue.Editor.Editor.Tabs;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
-using ConversationsTab = ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation.ConversationsTab;
+using ConversationsTab = ToolForDialogue.Editor.Editor.Tabs.Conversation.ConversationsTab;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor
+namespace ToolForDialogue.Editor.Editor
 {
     /// <summary>
     /// Owns the dialogue editor window lifecycle, project selection, and tab navigation.
@@ -23,7 +23,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor
         [SerializeField] private DialogueProjectAsset _selectedProject;
         [SerializeField] private DialogueEditorTabId _selectedTabId;
 
-        private readonly Dictionary<DialogueEditorTabId, Button> _tabButtons = new Dictionary<DialogueEditorTabId, Button>();
+        private readonly Dictionary<DialogueEditorTabId, Button> _tabButtons = new();
 
         private IReadOnlyList<IDialogueEditorTab> _tabs;
         private VisualElement _content;

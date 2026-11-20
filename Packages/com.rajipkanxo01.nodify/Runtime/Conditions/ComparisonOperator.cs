@@ -1,4 +1,4 @@
-namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
+namespace ToolForDialogue.Conditions
 {
     /// <summary>
     /// Lists the comparison operations supported by visual conditions.

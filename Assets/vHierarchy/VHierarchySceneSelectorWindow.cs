@@ -1,26 +1,18 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
-using System.Diagnostics;
-using Type = System.Type;
-using Delegate = System.Delegate;
-using Action = System.Action;
-using static VHierarchy.VHierarchy;
-using static VHierarchy.Libs.VUtils;
-using static VHierarchy.Libs.VGUI;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using static vHierarchy.VHierarchy;
+using static vHierarchy.VUtils;
+using static vHierarchy.VGUI;
 // using static VTools.VDebug;
 
 
-namespace VHierarchy
+namespace vHierarchy
 {
     public class VHierarchySceneSelectorWindow : EditorWindow
     {

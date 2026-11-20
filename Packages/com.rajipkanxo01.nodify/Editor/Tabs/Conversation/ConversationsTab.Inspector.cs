@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Types;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
+namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
 {
     internal sealed partial class ConversationsTab
     {

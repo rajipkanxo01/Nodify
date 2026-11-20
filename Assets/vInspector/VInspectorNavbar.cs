@@ -1,21 +1,18 @@
 #if UNITY_EDITOR
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using System.Reflection;
-using System.Linq;
-using Type = System.Type;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using UnityEngine;
+using static vInspector.VUtils;
+using static vInspector.VGUI;
 // using static VTools.VDebug;
-using static VInspector.VInspector;
-using static VInspector.VInspectorData;
+using static vInspector.VInspector;
+using static vInspector.VInspectorData;
 
 
 
-namespace VInspector
+namespace vInspector
 {
     public class VInspectorNavbar
     {

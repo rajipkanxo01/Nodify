@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     public enum VariableAssignmentOperation { Set, Add, Subtract }
 
@@ -9,9 +9,9 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Types
     [Serializable]
     public sealed class SetVariableElement : DialogueElement
     {
-        [SerializeField] private VariableReference _variable = new VariableReference();
+        [SerializeField] private VariableReference _variable = new();
         [SerializeField] private VariableAssignmentOperation _operation;
-        [SerializeField] private SerializedValue _value = new SerializedValue();
+        [SerializeField] private SerializedValue _value = new();
 
         public VariableReference variable => _variable;
         public VariableAssignmentOperation operation => _operation;

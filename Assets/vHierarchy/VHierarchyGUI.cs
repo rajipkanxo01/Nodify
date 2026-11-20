@@ -1,27 +1,17 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
-using UnityEditor.IMGUI.Controls;
-using Type = System.Type;
-using static VHierarchy.Libs.VUtils;
-using static VHierarchy.Libs.VGUI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using static vHierarchy.VUtils;
+using static vHierarchy.VGUI;
 // using static VTools.VDebug;
-using static VHierarchy.VHierarchy;
-using static VHierarchy.VHierarchyData;
-using static VHierarchy.VHierarchyCache;
+using static vHierarchy.VHierarchy;
 
 #if UNITY_6000_3_OR_NEWER
 using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<UnityEngine.EntityId>;
-using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<UnityEngine.EntityId>;
 #elif UNITY_6000_2_OR_NEWER
 using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<int>;
 using TreeViewState = UnityEditor.IMGUI.Controls.TreeViewState<int>;
@@ -43,7 +33,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VHierarchy
+namespace vHierarchy
 {
     public class VHierarchyGUI
     {

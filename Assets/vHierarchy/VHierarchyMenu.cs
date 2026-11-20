@@ -1,14 +1,12 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using static VHierarchy.Libs.VUtils;
-using static VHierarchy.Libs.VGUI;
+using UnityEngine;
+using static vHierarchy.VUtils;
+
 // using static VTools.VDebug;
 
 
-namespace VHierarchy
+namespace vHierarchy
 {
     class VHierarchyMenu
     {

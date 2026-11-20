@@ -1,11 +1,11 @@
 using System.IO;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
+using ToolForDialogue.Assets;
 using UnityEditor;
 using UnityEngine;
 using Yarn.Unity;
 using Yarn.Unity.Editor;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
+namespace ToolForDialogue.Editor.Editor.Services
 {
     /// <summary>
     /// Creates and persists dialogue project assets and their directly referenced assets.

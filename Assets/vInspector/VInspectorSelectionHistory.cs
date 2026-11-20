@@ -1,20 +1,13 @@
 #if UNITY_EDITOR
-using UnityEngine;
-using UnityEngine.UIElements;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Type = System.Type;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using UnityEditor;
+using UnityEngine;
+using static vInspector.VGUI;
 // using static VTools.VDebug;
 
 
-namespace VInspector
+namespace vInspector
 {
     public class VInspectorSelectionHistory : ScriptableSingleton<VInspectorSelectionHistory>
     {

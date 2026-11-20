@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Core
+namespace ToolForDialogue.Core
 {
     /// <summary>
     /// A Unity-serializable, rename-safe identifier for authored dialogue data.

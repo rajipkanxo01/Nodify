@@ -1,9 +1,9 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Core;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// References a project- or conversation-scoped variable by owner and stable ID.

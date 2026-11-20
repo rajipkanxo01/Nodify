@@ -1,4 +1,4 @@
-namespace ToolForDialogue.Editor._Project.Scripts.Editor
+namespace ToolForDialogue.Editor.Editor
 {
     /// <summary>
     /// Centralizes USS class names used by the dialogue editor window and its tabs.

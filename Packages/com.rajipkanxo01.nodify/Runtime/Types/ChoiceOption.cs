@@ -1,9 +1,9 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Conditions;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
+using ToolForDialogue.Conditions;
+using ToolForDialogue.Core;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Defines one choice label, availability condition, display behavior, and destination.

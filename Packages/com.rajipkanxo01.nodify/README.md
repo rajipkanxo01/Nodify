@@ -56,3 +56,11 @@ variable identities are retained internally; generated Yarn uses readable variab
 The old project-ID variables filename is migrated automatically.
 
 Use Yarn Spinner's Dialogue Runner and presenters to play the generated dialogue in your game.
+
+## Character editor extensions
+
+Projects can add UI Toolkit sections between Character Details and Expressions by
+deriving from the public, Editor-only `CharacterEditorExtension` API. Extensions
+receive the selected character and dialogue project and are discovered automatically.
+See [the API and consuming-project example](Documentation~/character-editor-extensions.md)
+for ordering, lifecycle, failure handling, and a project-owned Biography profile with Undo.

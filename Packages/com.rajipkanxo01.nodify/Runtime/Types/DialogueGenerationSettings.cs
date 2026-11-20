@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Stores project-level options controlling validation and generated Yarn output.

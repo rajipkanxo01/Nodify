@@ -2,14 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Editor.Editor.Services;
+using ToolForDialogue.Types;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Owns character, portrait, and expression management controls.
@@ -295,6 +296,8 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
                 expressionsProperty,
                 defaultExpressionProperty));
             _editorPane.Add(detailsPanel);
+
+            CharacterEditorExtensionService.AddSections(_editorPane, _selectedCharacter, _project);
 
             var expressionHeading = new VisualElement();
             expressionHeading.AddToClassList(DialogueEditorStyleClasses.ExpressionHeading);

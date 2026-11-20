@@ -1,4 +1,4 @@
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Identifies the active field in a SerializedValue instance.

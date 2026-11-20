@@ -1,18 +1,6 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using Type = System.Type;
-using static VHierarchy.VHierarchyData;
-using static VHierarchy.Libs.VUtils;
-using static VHierarchy.Libs.VGUI;
+using static vHierarchy.VUtils;
 // using static VTools.VDebug;
 
 
@@ -27,7 +15,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VHierarchy
+namespace vHierarchy
 {
     [FilePath("Library/vHierarchy Cache.asset", FilePathAttribute.Location.ProjectFolder)]
     public class VHierarchyCache : ScriptableSingleton<VHierarchyCache>
@@ -39,7 +27,7 @@ namespace VHierarchy
         public SerializableDictionary<string, SceneIdMap> sceneIdMaps_bySceneGuid = new();
 
         // used for fetching icons set inside prefab instances in playmode (when prefabs produce invalid GlobalIDs)
-        public SerializableDictionary<ObjectID, GlobalID> prefabInstanceGlobalIds_byObjectIds = new SerializableDictionary<ObjectID, GlobalID>();
+        public SerializableDictionary<ObjectID, GlobalID> prefabInstanceGlobalIds_byObjectIds = new();
 
 
 

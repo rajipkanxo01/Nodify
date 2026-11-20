@@ -5,12 +5,12 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Conditions;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Conditions;
+using ToolForDialogue.Types;
 using UnityEditor;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Services
+namespace ToolForDialogue.Editor.Editor.Services
 {
     /// <summary>Resolves stable variable references and translates typed values into Yarn.</summary>
     internal static class VariableYarnUtility

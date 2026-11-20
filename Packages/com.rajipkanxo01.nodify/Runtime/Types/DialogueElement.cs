@@ -1,8 +1,8 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
+using ToolForDialogue.Core;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Base type for every polymorphic item stored in a passage content sequence.

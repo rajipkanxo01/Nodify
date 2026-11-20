@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Types;
 using UnityEngine;
 using Yarn.Unity;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
+namespace ToolForDialogue.Assets
 {
     /// <summary>
     /// Acts as the root asset that collects conversations, characters, variables, and generation settings.
@@ -13,10 +13,10 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
     {
         [SerializeField] private string _displayName = "Dialogue Project";
         [SerializeField] private YarnProject _yarnProject;
-        [SerializeField] private List<CharacterAsset> _characters = new List<CharacterAsset>();
-        [SerializeField] private List<ConversationAsset> _conversations = new List<ConversationAsset>();
-        [SerializeField] private List<VariableDefinition> _variables = new List<VariableDefinition>();
-        [SerializeField] private DialogueGenerationSettings _generation = new DialogueGenerationSettings();
+        [SerializeField] private List<CharacterAsset> _characters = new();
+        [SerializeField] private List<ConversationAsset> _conversations = new();
+        [SerializeField] private List<VariableDefinition> _variables = new();
+        [SerializeField] private DialogueGenerationSettings _generation = new();
 
         public string displayName => _displayName;
         public YarnProject yarnProject => _yarnProject;

@@ -1,6 +1,6 @@
 using System;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Marks an explicit end to dialogue execution in a passage.

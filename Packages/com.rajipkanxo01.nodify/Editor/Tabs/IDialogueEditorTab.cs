@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Defines the metadata and content factory required by every dialogue editor tab.
