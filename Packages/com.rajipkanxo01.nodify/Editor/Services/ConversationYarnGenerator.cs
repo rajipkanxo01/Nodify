@@ -304,7 +304,8 @@ namespace ToolForDialogue.Editor.Editor.Services
                 error = $"{passage.title}: {error}";
                 return false;
             }
-            source = builder.ToString();
+            // AppendLine uses platform line endings; generated Yarn must use LF on every platform.
+            source = builder.ToString().Replace("\r\n", "\n").Replace('\r', '\n');
             return true;
         }
 
