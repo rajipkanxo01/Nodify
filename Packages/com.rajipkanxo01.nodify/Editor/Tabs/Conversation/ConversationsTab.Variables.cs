@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Conditions;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
-using ToolForDialogue.Editor._Project.Scripts.Editor.Services;
+using ToolForDialogue.Conditions;
+using ToolForDialogue.Editor.Editor.Services;
+using ToolForDialogue.Types;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
+namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
 {
     internal sealed partial class ConversationsTab
     {
-        private readonly HashSet<string> _expandedChoiceConditions = new HashSet<string>();
-        private static readonly List<string> ComparisonLabels = new List<string> { "=", "≠", ">", "≥", "<", "≤" };
+        private readonly HashSet<string> _expandedChoiceConditions = new();
+        private static readonly List<string> ComparisonLabels = new() { "=", "≠", ">", "≥", "<", "≤" };
 
         private List<VariableDefinition> EditableVariables() => _project.variables.Where(VariableYarnUtility.IsSupported).ToList();
 

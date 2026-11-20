@@ -1,8 +1,8 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Types;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
+namespace ToolForDialogue.Conditions
 {
     /// <summary>
     /// Stores one side of a comparison as either a literal value or variable reference.
@@ -11,8 +11,8 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
     public sealed class ValueOperand
     {
         [SerializeField] private ValueOperandKind _kind;
-        [SerializeField] private SerializedValue _literal = new SerializedValue();
-        [SerializeField] private VariableReference _variable = new VariableReference();
+        [SerializeField] private SerializedValue _literal = new();
+        [SerializeField] private VariableReference _variable = new();
 
         public ValueOperandKind kind => _kind;
         public SerializedValue literal => _literal;

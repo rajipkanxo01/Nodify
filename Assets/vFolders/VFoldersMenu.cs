@@ -1,14 +1,12 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using static VFolders.Libs.VUtils;
-using static VFolders.Libs.VGUI;
+using UnityEngine;
+using static vFolders.VUtils;
+
 // using static VTools.VDebug;
 
 
-namespace VFolders
+namespace vFolders
 {
     class VFoldersMenu
     {

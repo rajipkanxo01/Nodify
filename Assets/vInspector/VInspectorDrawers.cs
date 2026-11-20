@@ -1,22 +1,17 @@
 #if UNITY_EDITOR
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEditor.UIElements;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEditorInternal;
-using Type = System.Type;
-using Attribute = System.Attribute;
-using static VInspector.VInspectorState;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using UnityEngine;
+using static vInspector.VUtils;
+using static vInspector.VGUI;
 // using static VTools.VDebug;
 
 
-namespace VInspector
+namespace vInspector
 {
     [CustomPropertyDrawer(typeof(SerializedDictionary<,>), true)]
     public class SerializedDictionaryDrawer : PropertyDrawer

@@ -1,23 +1,15 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using Type = System.Type;
-using static VInspector.VInspectorState;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using static vInspector.VUtils;
+using static vInspector.VGUI;
 // using static VTools.VDebug;
 
 
-namespace VInspector
+namespace vInspector
 {
     public class VInspectorData : ScriptableObject
     {

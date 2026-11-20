@@ -1,21 +1,14 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using UnityEditorInternal;
-using static VFolders.Libs.VUtils;
-using static VFolders.Libs.VGUI;
+using UnityEditor;
+using UnityEngine;
+using static vFolders.VUtils;
+using static vFolders.VGUI;
 // using static VTools.VDebug;
 
 
-namespace VFolders
+namespace vFolders
 {
     public class VFoldersPalette : ScriptableObject
     {

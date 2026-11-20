@@ -1,8 +1,8 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
+using ToolForDialogue.Core;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Conditions
+namespace ToolForDialogue.Conditions
 {
     /// <summary>
     /// Base type for polymorphic condition nodes authored through the visual editor.

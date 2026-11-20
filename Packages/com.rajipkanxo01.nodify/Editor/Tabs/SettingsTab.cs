@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Presents output and editor preferences that do not require a selected project.

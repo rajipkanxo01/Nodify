@@ -1,15 +1,10 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
 using UnityEditor;
-using static VFavorites.Libs.VUtils;
-using static VFavorites.Libs.VGUI;
+using UnityEngine;
+using static vFavorites.VUtils;
 
 
-
-namespace VFavorites
+namespace vFavorites
 {
     public class VFavoritesMenu
     {

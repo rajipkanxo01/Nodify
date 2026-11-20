@@ -1,12 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
+using ToolForDialogue.Assets;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Presents project-level information and links to the assets owned by the selected project.

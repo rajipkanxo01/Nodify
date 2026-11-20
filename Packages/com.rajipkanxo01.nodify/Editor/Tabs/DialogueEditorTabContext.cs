@@ -1,7 +1,7 @@
 using System;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
+using ToolForDialogue.Assets;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Supplies shared window state to a tab without coupling the tab to the editor window.

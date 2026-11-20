@@ -1,30 +1,18 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using Type = System.Type;
-using static VFavorites.Libs.VUtils;
-using static VFavorites.Libs.VGUI;
+using static vFavorites.VUtils;
 
 
-namespace VFavorites
+namespace vFavorites
 {
     [FilePath("Library/vFavorites State.asset", FilePathAttribute.Location.ProjectFolder)]
     public class VFavoritesState : ScriptableSingleton<VFavoritesState>
     {
         public int curPageIndex;
 
-        public SerializableDictionary<int, PageState> pageStates_byPageId = new SerializableDictionary<int, PageState>();
+        public SerializableDictionary<int, PageState> pageStates_byPageId = new();
 
-        public SerializableDictionary<int, ItemState> itemStates_byItemId = new SerializableDictionary<int, ItemState>();
+        public SerializableDictionary<int, ItemState> itemStates_byItemId = new();
 
 
         [System.Serializable]

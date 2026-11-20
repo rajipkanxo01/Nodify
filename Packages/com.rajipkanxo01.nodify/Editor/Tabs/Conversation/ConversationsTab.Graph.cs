@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Types;
 using UnityEditor.Experimental.GraphView;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
+namespace ToolForDialogue.Editor.Editor.Tabs.Conversation
 {
     internal sealed partial class ConversationsTab
     {
@@ -26,7 +26,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
         {
             private readonly Action<string> _select;
             private readonly Action<string, Vector2> _move;
-            private readonly Dictionary<int, TextField> _lineEditors = new Dictionary<int, TextField>();
+            private readonly Dictionary<int, TextField> _lineEditors = new();
             private bool _ready;
             private readonly Label _warningBadge;
 
@@ -396,7 +396,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 _warningBadge.style.display = warnings.Count > 0 ? DisplayStyle.Flex : DisplayStyle.None;
             }
             public Port input { get; }
-            public List<Port> connectionPorts { get; } = new List<Port>();
+            public List<Port> connectionPorts { get; } = new();
 
             public void FocusLine(int elementIndex)
             {
@@ -477,7 +477,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs.Conversation
                 }
             }
 
-            private readonly Dictionary<string, PassageNode> _nodes = new Dictionary<string, PassageNode>();
+            private readonly Dictionary<string, PassageNode> _nodes = new();
             private readonly Action<string> _deletePassage;
             private bool _spaceHeld;
             private bool _spacePanning;

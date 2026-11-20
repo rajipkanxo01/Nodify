@@ -1,0 +1,6 @@
+{
+  "name": "ToolForDialogue.CharacterExtensions.Tests",
+  "references": ["ToolForDialogue.Editor", "ToolForDialogue.Runtime"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}

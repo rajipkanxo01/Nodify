@@ -1,23 +1,12 @@
 #if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using UnityEditor.IMGUI.Controls;
-using Type = System.Type;
-using static VFolders.Libs.VUtils;
-using static VFolders.Libs.VGUI;
+using UnityEngine;
+using static vFolders.VUtils;
+using static vFolders.VGUI;
 // using static VTools.VDebug;
-using static VFolders.VFolders;
-using static VFolders.VFoldersData;
-using static VFolders.VFoldersCache;
 
 #if UNITY_6000_3_OR_NEWER
 using TreeViewItem = UnityEditor.IMGUI.Controls.TreeViewItem<UnityEngine.EntityId>;
@@ -36,7 +25,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VFolders
+namespace vFolders
 {
     public class VFoldersController
     {

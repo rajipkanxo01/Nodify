@@ -1,22 +1,11 @@
 #if UNITY_EDITOR
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using Type = System.Type;
-using static VInspector.Libs.VUtils;
-using static VInspector.Libs.VGUI;
+using static vInspector.VUtils;
+
 // using static VTools.VDebug;
 
 
-namespace VInspector
+namespace vInspector
 {
     [FilePath("Library/vInspector State.asset", FilePathAttribute.Location.ProjectFolder)]
     public class VInspectorState : ScriptableSingleton<VInspectorState>

@@ -1,4 +1,4 @@
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Lists the value types supported by authored dialogue variables in version one.

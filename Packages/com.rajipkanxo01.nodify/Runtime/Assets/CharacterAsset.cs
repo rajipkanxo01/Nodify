@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Core;
+using ToolForDialogue.Types;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
+namespace ToolForDialogue.Assets
 {
     /// <summary>
     /// Defines a reusable dialogue character and the portrait expressions available to it.
@@ -13,7 +13,7 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
     {
         [SerializeField] private string _displayName = "Character";
         [SerializeField] private SerializableGuid _defaultExpressionId;
-        [SerializeField] private List<ExpressionData> _expressions = new List<ExpressionData>();
+        [SerializeField] private List<ExpressionData> _expressions = new();
 
         public SerializableGuid characterId => id;
         public string displayName => _displayName;

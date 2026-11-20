@@ -3,17 +3,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Reflection;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.Experimental.Rendering;
+using System.Reflection;
+using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 using Type = System.Type;
-using static VFolders.Libs.VUtils;
-using static VFolders.Libs.VGUI;
+using static vFolders.VUtils;
 
 
 #if UNITY_6000_3_OR_NEWER
@@ -25,7 +22,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VFolders.Libs
+namespace vFolders
 {
     public static class VUtils
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Stores collaboration-safe default graph layout state for a conversation.

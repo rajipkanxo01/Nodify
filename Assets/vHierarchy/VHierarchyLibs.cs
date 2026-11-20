@@ -1,17 +1,14 @@
 #if UNITY_EDITOR
-using Type = System.Type;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using UnityEditor;
 using System.Linq;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
 using System.Reflection;
-using UnityEngine.Experimental.Rendering;
-using static VHierarchy.Libs.VUtils;
-using static VHierarchy.Libs.VGUI;
+using System.Text.RegularExpressions;
+using UnityEditor;
+using UnityEngine;
+using Type = System.Type;
+using static vHierarchy.VUtils;
 
 
 #if UNITY_6000_3_OR_NEWER
@@ -23,7 +20,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VHierarchy.Libs
+namespace vHierarchy
 {
     public static class VUtils
     {

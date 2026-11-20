@@ -1,23 +1,16 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
-using UnityEditorInternal;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
+using UnityEditor;
 using UnityEditor.IMGUI.Controls;
-using static VFolders.Libs.VUtils;
-using static VFolders.Libs.VGUI;
+using UnityEngine;
+using static vFolders.VUtils;
+using static vFolders.VGUI;
 // using static VTools.VDebug;
-using static VFolders.VFoldersPalette;
+using static vFolders.VFoldersPalette;
 
 
-namespace VFolders
+namespace vFolders
 {
     [CustomEditor(typeof(VFoldersPalette))]
     class VFoldersPaletteEditor : Editor

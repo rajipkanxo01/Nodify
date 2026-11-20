@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using ToolForDialogue._Project.Dialogue.Runtime.Core;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
+using ToolForDialogue.Core;
+using ToolForDialogue.Types;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
+namespace ToolForDialogue.Assets
 {
     /// <summary>
     /// Stores one independently versionable conversation graph and its local variables.
@@ -13,8 +13,8 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Assets
     {
         [SerializeField] private string _displayName = "Conversation";
         [SerializeField] private SerializableGuid _startPassageId;
-        [SerializeField] private List<PassageData> _passages = new List<PassageData>();
-        [SerializeField] private ConversationEditorState _editorState = new ConversationEditorState();
+        [SerializeField] private List<PassageData> _passages = new();
+        [SerializeField] private ConversationEditorState _editorState = new();
 
         public string displayName => _displayName;
         public SerializableGuid startPassageId => _startPassageId;

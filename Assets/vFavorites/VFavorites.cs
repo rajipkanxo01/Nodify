@@ -1,22 +1,19 @@
 #if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
 using System.Linq;
-using UnityEngine.UIElements;
+using System.Reflection;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
 using Type = System.Type;
-using static VFavorites.Libs.VUtils;
-using static VFavorites.Libs.VGUI;
-using static VFavorites.VFavoritesData;
+using static vFavorites.VUtils;
+using static vFavorites.VGUI;
+using static vFavorites.VFavoritesData;
 
 
 #if UNITY_6000_3_OR_NEWER
-using ObjectID = UnityEngine.EntityId;
+
 #else
 using ObjectID = System.Int32;
 #endif
@@ -29,7 +26,7 @@ using ObjectID = System.Int32;
 
 
 
-namespace VFavorites
+namespace vFavorites
 {
     public static class VFavorites
     {

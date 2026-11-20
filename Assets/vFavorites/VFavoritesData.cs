@@ -1,27 +1,18 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
+using UnityEngine;
 using Type = System.Type;
-using static VFavorites.VFavoritesState;
-using static VFavorites.Libs.VUtils;
-using static VFavorites.Libs.VGUI;
+using static vFavorites.VFavoritesState;
+using static vFavorites.VUtils;
 
 
-
-namespace VFavorites
+namespace vFavorites
 {
     public class VFavoritesData : ScriptableObject
     {
-        public List<Page> pages = new List<Page>();
+        public List<Page> pages = new();
 
         public Page curPage
         {
@@ -43,7 +34,7 @@ namespace VFavorites
         [System.Serializable]
         public class Page
         {
-            public List<Item> items = new List<Item>();
+            public List<Item> items = new();
 
             public string name = "";
 
@@ -53,7 +44,7 @@ namespace VFavorites
 
 
             [System.NonSerialized]
-            public List<float> _rowGaps = new List<float>();
+            public List<float> _rowGaps = new();
             public List<float> rowGaps
             {
                 get

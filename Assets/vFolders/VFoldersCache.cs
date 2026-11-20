@@ -1,19 +1,12 @@
 #if UNITY_EDITOR
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.ShortcutManagement;
-using System.Reflection;
-using System.Linq;
-using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
-using static VFolders.Libs.VUtils;
-using static VFolders.Libs.VGUI;
+using UnityEngine;
+using static vFolders.VUtils;
+
 // using static VTools.VDebug;
 
-namespace VFolders
+namespace vFolders
 {
     [FilePath("Library/vFolders Cache.asset", FilePathAttribute.Location.ProjectFolder)]
     public class VFoldersCache : ScriptableSingleton<VFoldersCache>

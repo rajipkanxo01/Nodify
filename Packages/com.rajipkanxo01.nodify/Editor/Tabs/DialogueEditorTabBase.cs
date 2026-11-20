@@ -1,6 +1,6 @@
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Builds the shared tab layout and delegates tab-specific controls to derived classes.

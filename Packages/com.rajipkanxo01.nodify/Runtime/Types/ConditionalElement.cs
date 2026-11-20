@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ToolForDialogue._Project.Dialogue.Runtime.Types
+namespace ToolForDialogue.Types
 {
     /// <summary>
     /// Selects one nested content sequence by evaluating ordered conditional branches.
@@ -10,8 +10,8 @@ namespace ToolForDialogue._Project.Dialogue.Runtime.Types
     [Serializable]
     public sealed class ConditionalElement : DialogueElement
     {
-        [SerializeField] private List<ConditionalBranch> _branches = new List<ConditionalBranch>();
-        [SerializeReference] private List<DialogueElement> _elseElements = new List<DialogueElement>();
+        [SerializeField] private List<ConditionalBranch> _branches = new();
+        [SerializeReference] private List<DialogueElement> _elseElements = new();
 
         public IReadOnlyList<ConditionalBranch> branches => _branches;
         public IReadOnlyList<DialogueElement> elseElements => _elseElements;

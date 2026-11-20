@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ToolForDialogue._Project.Dialogue.Runtime.Assets;
-using ToolForDialogue._Project.Dialogue.Runtime.Types;
-using ToolForDialogue.Editor._Project.Scripts.Editor.Services;
+using ToolForDialogue.Assets;
+using ToolForDialogue.Editor.Editor.Services;
+using ToolForDialogue.Types;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 
-namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
+namespace ToolForDialogue.Editor.Editor.Tabs
 {
     /// <summary>
     /// Authors project variables with boolean and integer defaults.
@@ -18,7 +18,7 @@ namespace ToolForDialogue.Editor._Project.Scripts.Editor.Tabs
         private DialogueProjectAsset _project;
         private ScrollView _rows;
         private string _searchQuery = string.Empty;
-        private static readonly List<string> TypeNames = new List<string> { "Boolean", "Integer" };
+        private static readonly List<string> TypeNames = new() { "Boolean", "Integer" };
 
         public override DialogueEditorTabId id => DialogueEditorTabId.Variables;
         public override string label => "Variables";
